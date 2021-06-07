@@ -6,12 +6,19 @@ const DBConnection = require("./src/repository/DBConnection");
 
 const app = express();
 
+const paper_route = require('./src/controller/controller-researchpaper')
+
+const cors = require('cors')
+
 //enable environment varbiables file
 env.config();
 
 //app middlewares
 app.use(express.json());
 app.use(cors());
+
+//route middle ware 
+app.use('/api/paper', paper_route)
 
 //create DB connection
 DBConnection();

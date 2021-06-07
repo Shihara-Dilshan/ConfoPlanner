@@ -1,6 +1,8 @@
 const User = require("./../model/User");
 const hashPassword = require("./../util/HashPassword");
 const joiUserSchema = require("./../util/AuthValidations");
+const comparePassword = require("./../util/ComparePassword");
+const generateToken = require("./../util/GeneareteToken");
 
 const singup = (userData) => {
   return new Promise(async (resolve, reject) => {
@@ -49,4 +51,36 @@ const singup = (userData) => {
   });
 };
 
+const login = (userData) => {
+  return new Promise(async (resolve, reject) => {
+    const email = userData.email;
+    const password = userData.password;
+
+    try {
+      const emailExists = await User.find({ email: email });
+
+      if (emailExists.length === 0) {
+        reject("Email does not exists");
+      } else {
+        const currentPassword = emailExists[0].password;
+        const isPasswordMatch = await comparePassword(
+          password,
+          currentPassword
+        );
+
+        if (isPasswordMatch) {
+          const token = generateToken(emailExists[0]._id, emailExists[0].email);
+          resolve(token);
+        } else {
+          reject("Invalid password");
+        }
+      }
+    } catch (err) {
+        console.log(err)
+      reject(err);
+    }
+  });
+};
+
 module.exports.singup = singup;
+module.exports.login = login;

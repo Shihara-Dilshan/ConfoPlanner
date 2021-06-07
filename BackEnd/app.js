@@ -14,8 +14,6 @@ const app = express();
 
 const paper_route = require('./src/controller/controller-researchpaper')
 
-const cors = require('cors')
-
 //enable environment varbiables file
 env.config();
 

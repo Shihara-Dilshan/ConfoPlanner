@@ -2,7 +2,13 @@
 
 const express = require('express');
 const env = require('dotenv');
+const cors = require('cors');
 const DBConnection = require("./src/repository/DBConnection");
+
+//import routes
+const userRoutes = require("./src/controller/UserController");
+const authRoutes = require("./src/controller/AuthController");
+
 
 const app = express();
 
@@ -18,10 +24,10 @@ DBConnection();
 
 const PORT = process.env.PORT || 5000;
 
-app.get("/", (req, res) => {
-    res.send("sdsdd");
-})
+//import routes
+app.use("/api/user/", userRoutes);
+app.use("/api/auth/", authRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
-})
+});

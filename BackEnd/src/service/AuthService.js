@@ -69,7 +69,7 @@ const login = (userData) => {
         );
 
         if (isPasswordMatch) {
-          const token = generateToken(emailExists[0]._id, emailExists[0].email);
+          const token = generateToken(emailExists[0]._id, emailExists[0].email, emailExists[0].role);
           resolve(token);
         } else {
           reject("Invalid password");

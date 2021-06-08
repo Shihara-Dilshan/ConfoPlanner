@@ -16,6 +16,7 @@ exports.validateToken = async (req,res,next) => {
                 res.status(403).json({"err": err})
             }else {
                 req.user = decoded
+                console.log(decoded)
                 next()
             }
         })
@@ -47,7 +48,7 @@ exports.isResearcher = (req,res,next) => {
 }
 
 exports.isAdmin = (req,res,next) => {
-    if(req.profile.role!=='admin'||req.user.role!=='admin') {
+    if(req.user.role!=='admin') {
         return res.status(403).json({
             'error': 'Access denied! Admin Resource'
         })
@@ -57,9 +58,9 @@ exports.isAdmin = (req,res,next) => {
 }
 
 exports.isAdminOrEditor = (req,res,next) => {
-    if(req.profile.role!=='admin'||req.user.role!=='admin'||req.profile.role!=='editor'||req.user.role!=='editor') {
+    if(req.user.role!=='admin') {
         return res.status(403).json({
-            'error': 'Access denied! Admin Resource'
+            'error': 'Access denied! Admin or Editor Resource'
         })
     }else {
         next()

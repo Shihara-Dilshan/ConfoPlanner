@@ -82,7 +82,6 @@ exports.deleteResearchPaper = (paper) => {
 exports.updateResearchPaper = (paper, body) => {
     return new Promise(async(resolve,reject) =>{
         paper.url = body.url
-        paper.ownerRef = body.ownerRef
         paper.title = body.title
         paper.thumbnail = body.thumbnail
         paper.dateOfConference = body.dateOfConference

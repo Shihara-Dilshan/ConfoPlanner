@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { findUserById } = require('../util/AuthRouteController')
+const { findUserById } = require('../util/SecurityConfig')
 const { getAllUsers } = require("../service/UserService")
 
 router.get("/", (req, res) => {

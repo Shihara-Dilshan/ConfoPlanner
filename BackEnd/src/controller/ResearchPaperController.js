@@ -2,7 +2,7 @@ const express = require('express')
 
 const router = express.Router()
 const { creteResearchPaper, getAllResearchPaper, getSingleResearchPaper, deleteResearchPaper, updateResearchPaper, getSingleRearchPaperByOwnerId } = require('../service/ServiceResearchpaper')
-const { findUserById, validateToken, isAuth, isResearcher, isAdmin, isAdminOrEditor } = require('../util/AuthRouteController')
+const { findUserById, validateToken, isAuth, isResearcher, isAdmin, isAdminOrEditor } = require('../util/SecurityConfig')
 
 //create paper by user
 router.post("/create/:userId", validateToken, isAuth, isResearcher, async(req,res) => {

@@ -1,18 +1,25 @@
 'use strict'
 
 const Paper = require('../model/model-reasearchpaper')
+const { validatePaper } = require('../validations/researchPaperValidations')
 
 exports.creteResearchPaper = (paper_item) => {
-    return new Promise((resolve,reject) => {
-        const paper = new Paper(paper_item)
+    return new Promise(async(resolve,reject) => {
+        
+        const validate = validatePaper(paper_item)
 
-        paper.save((err,saved_paper) => {
-            if(err) {
+         if(validate.error !== undefined) {
+             reject(validate.error.details[0].message)
+         }else {
+            try {
+                const paper = new Paper(paper_item)
+                const savedPaper = await paper.save()
+                resolve(savedPaper)
+            } catch (err) {
+                console.log(err)
                 reject(err)
-            }else {
-                resolve(saved_paper)
             }
-        })
+         }
         
     });
 }
@@ -61,16 +68,28 @@ exports.deleteResearchPaper = (paper) => {
 }
 
 exports.updateResearchPaper = (paper, body) => {
-    return new Promise((resolve,reject) =>{
-        paper.paper = body.paper
+    return new Promise(async(resolve,reject) =>{
+        paper.url = body.url
         paper.ownerRef = body.ownerRef
-        paper.name = body.name
-        paper.save((err,paper) => {
-            if(err) {
+        paper.title = body.title
+        paper.thumbnail = body.thumbnail
+        paper.dateOfConference = body.dateOfConference
+
+        const validate = validatePaper(paper)
+
+        if(validate.error !== undefined) {
+            reject(validate.error.details[0].message)
+        } else {
+            try {
+                const updatedPaper = await paper.save()
+                resolve(updatedPaper)               
+            } catch (err) {
+                console.log(err)
                 reject(err)
-            }else {
-                resolve(paper)
             }
-        })
+        }
+
+        
+
     })
 }

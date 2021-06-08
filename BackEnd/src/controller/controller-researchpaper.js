@@ -2,11 +2,13 @@ const express = require('express')
 
 const router = express.Router()
 const { creteResearchPaper, getAllResearchPaper, getSingleResearchPaper, deleteResearchPaper, updateResearchPaper } = require('../service/service-researchpaper')
+const { findUserById } = require('../util/AuthRouteController')
 
 
-router.post("/create",async(req,res) => {
+router.post("/create/:userId",async(req,res) => {
     try{
         let paper = req.body;
+        paper.ownerRef = req.profile
         const result = await creteResearchPaper(paper)
         res.status(200).json({result})
 
@@ -23,6 +25,11 @@ router.get("/getall", async(req,res) => {
         res.status(400).json({err})
     }
 })
+
+router.get("/get/:paperId", (req,res) => {
+    res.status(200).json(req.paper)
+})
+
 
 router.get("/get/:paperId", (req,res) => {
     res.status(200).json(req.paper)
@@ -60,6 +67,7 @@ router.param("paperId", async(req,res,next,id) => {
     }
 })
 
+router.param("userId", findUserById)
 
 
 module.exports = router

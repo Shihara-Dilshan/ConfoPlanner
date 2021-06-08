@@ -69,7 +69,7 @@ const login = (userData) => {
         );
 
         if (isPasswordMatch) {
-          const token = generateToken(emailExists[0]._id, emailExists[0].email);
+          const token = generateToken(emailExists[0]._id, emailExists[0].email, emailExists[0].role);
           resolve(token);
         } else {
           reject("Invalid password");
@@ -82,5 +82,18 @@ const login = (userData) => {
   });
 };
 
+const findUserByIdService = (id) => {
+  return new Promise(async(resolve,reject) => {
+    try {
+      const findUser = await User.findById(id)
+      resolve(findUser) 
+      
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
 module.exports.singup = singup;
 module.exports.login = login;
+module.exports.findUserByIdService = findUserByIdService;

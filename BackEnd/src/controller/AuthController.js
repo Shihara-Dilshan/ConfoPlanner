@@ -3,11 +3,15 @@ const router = express.Router();
 const { singup, login } = require("./../service/AuthService");
 
 router.post("/signup", async (req, res) => {
-  try {
-    await singup(req.body);
-    res.status(201).json({ message: "succesfully signed up" });
-  } catch (err) {
-    res.status(400).json({ error: "error while signup", details: err });
+  if(req.body.role === 'admin') {
+    res.status(400).json({error: 'error while signup'})
+  }else {
+    try {
+      await singup(req.body);
+      res.status(201).json({ message: "succesfully signed up" });
+    } catch (err) {
+      res.status(400).json({ error: "error while signup", details: err });
+    }
   }
 });
 

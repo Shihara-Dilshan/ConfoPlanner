@@ -1,15 +1,22 @@
 const mongoose = require('mongoose')
 
 const ReseachPaperSchema =  mongoose.Schema({
-    paper: {
+    url: {
         type: String,
         required: true
     },
     ownerRef: {
         type: String
     },
-    name : {
-        type: String
+    title : {
+        type: String,
+        required: true
+    },
+    thumbnail: {
+        type : String
+    },
+    dateOfConference: {
+        type: Date
     }
 }, {timestamps: true})
 

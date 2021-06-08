@@ -1,6 +1,6 @@
 'use strict'
 
-const Paper = require('../model/model-reasearchpaper')
+const Paper = require('../model/ResearchPaper')
 const { validatePaper } = require('../validations/researchPaperValidations')
 
 const mongoose = require('mongoose')

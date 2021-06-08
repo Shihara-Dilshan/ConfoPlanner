@@ -1,11 +1,11 @@
 const express = require('express')
 
 const router = express.Router()
-const { creteResearchPaper, getAllResearchPaper, getSingleResearchPaper, deleteResearchPaper, updateResearchPaper, getSingleRearchPaperByOwnerId } = require('../service/service-researchpaper')
-const { findUserById } = require('../util/AuthRouteController')
+const { creteResearchPaper, getAllResearchPaper, getSingleResearchPaper, deleteResearchPaper, updateResearchPaper, getSingleRearchPaperByOwnerId } = require('../service/ServiceResearchpaper')
+const { findUserById, validateToken, isAuth, isResearcher, isAdmin, isAdminOrEditor } = require('../util/AuthRouteController')
 
 //create paper by user
-router.post("/create/:userId",async(req,res) => {
+router.post("/create/:userId", validateToken, isAuth, isResearcher, async(req,res) => {
     try{
         let paper = req.body;
         paper.ownerRef = req.profile._id
@@ -34,7 +34,7 @@ router.get("/get/:paperId", (req,res) => {
 
 
 //get paper base on user
-router.get("/getall/:userId", async(req,res) => {
+router.get("/getall/:userId", validateToken, isAuth, async(req,res) => {
     try {
         let ownerId = req.profile._id
         console.log(req.profile)
@@ -45,8 +45,8 @@ router.get("/getall/:userId", async(req,res) => {
     }
 })
 
-//delete paper by admin
-router.delete("/delete/:paperId", async(req,res) => {
+//delete paper by admin or editor
+router.delete("/delete/:paperId", validateToken, isAdminOrEditor, async(req,res) => {
     try {
         const result = await deleteResearchPaper(req.paper)
         res.status(200).json({result})
@@ -56,7 +56,7 @@ router.delete("/delete/:paperId", async(req,res) => {
 })
 
 //delete paper by paper owner
-router.delete("/delete/:paperId/:userId", async(req,res) => {
+router.delete("/delete/:paperId/:userId", validateToken, isAuth, isResearcher, async(req,res) => {
     try {
         const result = await deleteResearchPaper(req.paper)
         res.status(200).json({result})
@@ -65,8 +65,8 @@ router.delete("/delete/:paperId/:userId", async(req,res) => {
     }
 })
 
-//update paper admin
-router.put("/update/:paperId", async(req,res) => {
+//update paper admin or editor
+router.put("/update/:paperId", validateToken, isAdminOrEditor, async(req,res) => {
     try {
         
         const result = await updateResearchPaper(req.paper, req.body)
@@ -77,8 +77,8 @@ router.put("/update/:paperId", async(req,res) => {
     }
 })
 
-//update paper by owner
-router.put("/update/:paperId/:userId", async(req,res) => {
+//update paper by paper owner
+router.put("/update/:paperId/:userId", validateToken, isAuth, isResearcher, async(req,res) => {
     try {
         
         const result = await updateResearchPaper(req.paper, req.body)

@@ -1,24 +1,34 @@
 'use strict'
 
 const env = require('dotenv');
-
-const expressJwt = require('express-jwt')
+const jwt = require('jsonwebtoken')
 const { findUserByIdService } = require('../service/AuthService')
 
 env.config()
 
-exports.requireSignIn = expressJwt({
-    secret: process.env.TOKENSCRET,
-    algorithms: ['sha1', 'RS256', 'HS256'],
-    userProperty: "auth"
-})
+exports.validateToken = async (req,res,next) => {
+    const token = req.headers.token
+    if(!token) {
+        res.status(403).send("Token is not provided")
+    }else {
+        jwt.verify(token, process.env.TOKENSCRET, function(err, decoded) {
+            if(err) {
+                res.status(403).json({"err": err})
+            }else {
+                req.user = decoded
+                next()
+            }
+        })
+    }
+
+}
 
 exports.isAuth = (req,res,next) => {
-    let user = req.profile && req.auth && req.profile._id == req.auth._id
+    let user = req.profile && req.user && req.profile._id == req.user._id
 
     if(!user) {
         return res.status(403).json({
-            error: "Access Denied"
+            error: "Access Denied! Not Your Resource"
         })
     }else {
         next()
@@ -27,7 +37,7 @@ exports.isAuth = (req,res,next) => {
 }
 
 exports.isResearcher = (req,res,next) => {
-    if(req.profile.role!=='reseacher') {
+    if(req.profile.role!=='researcher') {
         return res.status(403).json({
             'error': 'Access denied! Researcher Resource'
         })
@@ -37,7 +47,17 @@ exports.isResearcher = (req,res,next) => {
 }
 
 exports.isAdmin = (req,res,next) => {
-    if(req.profile.role!=='admin') {
+    if(req.profile.role!=='admin'||req.user.role!=='admin') {
+        return res.status(403).json({
+            'error': 'Access denied! Admin Resource'
+        })
+    }else {
+        next()
+    }
+}
+
+exports.isAdminOrEditor = (req,res,next) => {
+    if(req.profile.role!=='admin'||req.user.role!=='admin'||req.profile.role!=='editor'||req.user.role!=='editor') {
         return res.status(403).json({
             'error': 'Access denied! Admin Resource'
         })

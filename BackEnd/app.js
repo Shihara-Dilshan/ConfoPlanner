@@ -12,7 +12,7 @@ env.config();
 //import routes
 const userRoutes = require("./src/controller/UserController");
 const authRoutes = require("./src/controller/AuthController");
-const paper_route = require('./src/controller/controller-researchpaper')
+const paper_route = require('./src/controller/ResearchPaperController')
 
 
 const app = express();

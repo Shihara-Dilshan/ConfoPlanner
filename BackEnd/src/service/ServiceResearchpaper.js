@@ -3,7 +3,6 @@
 const Paper = require('../model/ResearchPaper')
 const { validatePaper } = require('../validations/researchPaperValidations')
 
-const mongoose = require('mongoose')
 
 exports.creteResearchPaper = (paper_item) => {
     return new Promise(async(resolve,reject) => {

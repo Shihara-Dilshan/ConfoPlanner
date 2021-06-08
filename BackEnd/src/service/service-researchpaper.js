@@ -3,6 +3,8 @@
 const Paper = require('../model/model-reasearchpaper')
 const { validatePaper } = require('../validations/researchPaperValidations')
 
+const mongoose = require('mongoose')
+
 exports.creteResearchPaper = (paper_item) => {
     return new Promise(async(resolve,reject) => {
         
@@ -53,6 +55,17 @@ exports.getSingleResearchPaper = (id) => {
             }
         })
     })
+}
+
+exports.getSingleRearchPaperByOwnerId = (ownerId) => {
+    return new Promise((resolve,reject) => [
+        Paper.aggregate([{ $match: { ownerRef: ownerId  } }]).then((result) => {
+            console.log(result)
+            resolve(result)
+        }).catch((err) => {
+            reject(err)
+        })
+    ])
 }
 
 exports.deleteResearchPaper = (paper) => {

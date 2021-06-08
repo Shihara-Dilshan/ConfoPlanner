@@ -21,6 +21,7 @@
     "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
-    "mongoose": "^5.12.12"
+    "mongoose": "^5.12.12",
+    "morgan": "^1.10.0"
   }
 }

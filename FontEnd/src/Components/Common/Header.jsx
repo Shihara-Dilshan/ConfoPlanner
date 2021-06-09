@@ -59,7 +59,9 @@ const Header = ({history}) => {
                 >
                     ConfoPlanner
                 </Typography>
-                <Button variant="outlined" size="small">Sign Up</Button>
+                <Button variant="outlined" size="small">
+                    <Link to="/login">Sign In</Link>
+                </Button>
             </Toolbar>
             <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
                 {navItems.map((item) => (
@@ -68,7 +70,7 @@ const Header = ({history}) => {
                     noWrap
                     key={item.title}
                     variant="body2"
-                    href={item.path}
+                    to={item.path}
                     className={classes.toolbarLink}
                   >
                     {item.title}

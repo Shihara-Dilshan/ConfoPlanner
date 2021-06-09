@@ -1,4 +1,5 @@
 import React from 'react'
+import Layout from '../Common/Layout'
 import Carousel from './Carousel'
 
 const Home = () => {
@@ -6,9 +7,9 @@ const Home = () => {
     const img = "https://source.unsplash.com/random"
 
     return (
-        <div>
+        <Layout>
             <Carousel img={img} />
-        </div>
+        </Layout>
     )
 }
 

@@ -1,8 +1,8 @@
 const User = require("./../model/User");
 const hashPassword = require("./../util/HashPassword");
-const joiUserSchema = require("./../util/AuthValidations");
 const comparePassword = require("./../util/ComparePassword");
 const generateToken = require("./../util/GeneareteToken");
+const joiUserSchema = require("./../validations/AuthValidations");
 
 const singup = (userData) => {
   return new Promise(async (resolve, reject) => {

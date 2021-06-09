@@ -6,7 +6,8 @@ const ReseachPaperSchema =  mongoose.Schema({
         required: true
     },
     ownerRef: {
-        type: String
+        type: String,
+        required: true
     },
     title : {
         type: String,
@@ -17,6 +18,10 @@ const ReseachPaperSchema =  mongoose.Schema({
     },
     dateOfConference: {
         type: Date
+    },
+    status: {
+        type: String,
+        required: true
     }
 }, {timestamps: true})
 

@@ -13,6 +13,7 @@ env.config();
 const userRoutes = require("./src/controller/UserController");
 const authRoutes = require("./src/controller/AuthController");
 const paper_route = require('./src/controller/ResearchPaperController')
+const workshopRoutes = require('./src/controller/WorkshopController')
 
 
 const app = express();
@@ -33,6 +34,7 @@ app.use(Morgan())
 app.use('/api/paper', paper_route)
 app.use("/api/user/", userRoutes);
 app.use("/api/auth/", authRoutes);
+app.use("/api/workshop/", workshopRoutes);
 
 
 app.listen(PORT, () => {

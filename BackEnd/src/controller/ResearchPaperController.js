@@ -15,7 +15,7 @@ router.post("/create/:userId", validateToken, isAuth, isResearcher, async(req,re
     }catch(err) {
         res.status(400).json({'eror': err})
     }
-})
+});
 
 //get all papers
 router.get("/getall", async(req,res) => {

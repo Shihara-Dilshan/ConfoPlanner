@@ -66,7 +66,7 @@ router.delete("/delete/:paperId/:userId", validateToken, isAuth, isResearcher, a
 })
 
 //update paper admin or editor
-router.put("/update/:paperId", async(req,res) => {
+router.put("/update/:paperId", validateToken, isAdminOrEditor, async(req,res) => {
     try {
         
         const result = await updateResearchPaper(req.paper, req.body)

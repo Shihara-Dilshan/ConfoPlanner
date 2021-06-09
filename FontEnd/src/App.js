@@ -3,8 +3,8 @@ import "App.css";
 
 import Nav from "./Nav";
 import Header from "./Components/Common/Header";
-import Home from "./Components/Home/Home";
 import Footer from "./Components/Common/Footer";
+import Home from './Components/Home/Home'
 
 import {BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom'
 import { Container } from "@material-ui/core";
@@ -19,13 +19,15 @@ const App = () => (
     <Container maxWidth="lg">
       <Header />
 
-      <Switch>
-        <Route exact path="/" component={Home} />
-      </Switch>
-
+      <main>
+        <Switch>
+          <Route exact path="/" component={Home} />
+        </Switch>
+      </main>
+      
       <Footer />
+
     </Container>
-   
   </Router>
 );
 

@@ -28,6 +28,11 @@ const WorkshopSchema = mongoose.Schema({
     estimatedDuration: {
         type: Number,
         required: true
+    }, 
+    conferenceRef: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'Conference'
     }
 });
 

@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require("joi-oid"); //changed to joi-oid
 
 const joiWorkshopSchema = Joi.object({
   PresenterRef: Joi.string().min(4).max(256).required(),
@@ -10,6 +10,8 @@ const joiWorkshopSchema = Joi.object({
   presentationFileURL: Joi.string().min(4).max(256).required(),
 
   estimatedDuration: Joi.number().required(),
+
+  conferenceRef: Joi.objectId().required()
 });
 
 module.exports = joiWorkshopSchema;

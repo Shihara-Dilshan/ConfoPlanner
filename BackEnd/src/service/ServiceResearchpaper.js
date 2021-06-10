@@ -84,8 +84,9 @@ exports.updateResearchPaper = (paper, body) => {
         paper.url = body.url
         paper.title = body.title
         paper.thumbnail = body.thumbnail
-        paper.dateOfConference = body.dateOfConference
+        //paper.dateOfConference = body.dateOfConference
         paper.status = body.status
+        paper.conferenceRef = body.conferenceRef
 
         const validate = validatePaper(paper)
 

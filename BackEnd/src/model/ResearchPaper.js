@@ -16,12 +16,15 @@ const ReseachPaperSchema =  mongoose.Schema({
     thumbnail: {
         type : String
     },
-    dateOfConference: {
-        type: Date
-    },
+    // removed dateOfConference
     status: {
         type: String,
         required: true
+    },
+    conferenceRef: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'Conference'
     }
 }, {timestamps: true})
 

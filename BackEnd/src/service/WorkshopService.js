@@ -81,6 +81,7 @@ const updateById = (id, workshopData) => {
               description: workshopData.description,
               presentationFileURL: workshopData.presentationFileURL,
               estimatedDuration: workshopData.estimatedDuration,
+              conferenceRef: workshopData.conferenceRef
             },
           }
         );

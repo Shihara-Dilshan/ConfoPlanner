@@ -14,6 +14,7 @@ const userRoutes = require("./src/controller/UserController");
 const authRoutes = require("./src/controller/AuthController");
 const paper_route = require('./src/controller/ResearchPaperController')
 const workshopRoutes = require('./src/controller/WorkshopController')
+const conferenceRoutes = require('./src/controller/ConferenceController');
 
 
 const app = express();
@@ -35,7 +36,7 @@ app.use('/api/paper', paper_route)
 app.use("/api/user/", userRoutes);
 app.use("/api/auth/", authRoutes);
 app.use("/api/workshop/", workshopRoutes);
-
+app.use("/api/conferences/", conferenceRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);

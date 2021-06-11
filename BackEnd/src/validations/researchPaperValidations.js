@@ -1,6 +1,6 @@
 'use strict'
 
-const Joi = require('joi')
+const Joi = require('joi-oid') //changed to joi-oid
 
 const url_pattern = 'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)'
 
@@ -10,8 +10,9 @@ exports.validatePaper = (paper) => {
         ownerRef: Joi.string().required(),
         title: Joi.string().required(),
         thumbnail: Joi.string().regex(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/).required(),
-        dateOfConference: Joi.date().required(),
-        status: Joi.string().required()
+        //dateOfConference: Joi.date().required(),
+        status: Joi.string().required(),
+        conferenceRef: Joi.objectId().required()
     })
 
     return schema.validate({
@@ -19,7 +20,8 @@ exports.validatePaper = (paper) => {
         ownerRef: paper.ownerRef,
         title: paper.title,
         thumbnail: paper.thumbnail,
-        dateOfConference: paper.dateOfConference,
+        //dateOfConference: paper.dateOfConference,
         status: paper.status,
+        conferenceRef: paper.conferenceRef
     })
 } 

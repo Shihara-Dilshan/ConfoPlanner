@@ -1,0 +1,19 @@
+import React, {useState, useEffect} from 'react'
+//import app from './base'
+
+export const AuthContext = React.createContext();
+
+export const AuthProvider = ({children}) => {
+    const [currentUser, setCurrentUser] = useState(null);
+
+    useEffect(() => {
+        //app.auth().onAuthStateChanged(setCurrentUser);
+        setCurrentUser(localStorage.getItem('logindata'))
+    },[])
+
+    return (
+        <AuthContext.Provider value={[currentUser, setCurrentUser]}>
+            {children}
+        </AuthContext.Provider>
+    )
+}

@@ -19,6 +19,7 @@
     "babel-loader": "^8.1.0",
     "css-loader": "^4.2.0",
     "file-loader": "^6.0.0",
+    "firebase": "^8.6.5",
     "html-webpack-plugin": "^4.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

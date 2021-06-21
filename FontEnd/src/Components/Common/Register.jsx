@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
       }
 }))
 
-const Login = () => {
+const Register = () => {
 
     const classes = useStyles()
 
@@ -48,12 +48,24 @@ const Login = () => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign In
+                    Sign Up
                 </Typography>
                 <form className={classes.form}>
                     <TextField
                         variant="outlined"
-                        type="email"
+                        type="text"
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Name"
+                        id="name"
+                        name="name"
+                        autoComplete="name"
+                        autoFocus
+                    />
+                    <TextField
+                        variant="outlined"
+                        type="text"
                         margin="normal"
                         required
                         fullWidth
@@ -75,6 +87,18 @@ const Login = () => {
                         autoComplete="password"
                         autoFocus
                     />
+                      <TextField
+                        variant="outlined"
+                        type="password"
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Confirm Password"
+                        id="repassword"
+                        name="repassword"
+                        autoComplete="repassword"
+                        autoFocus
+                    />
                     {/* <FormControlLabel control={<Checkbox value="remember" color="primary"/>}
                      label="Remember Me" /> */}
                      <Button 
@@ -86,11 +110,8 @@ const Login = () => {
                          Sign In
                      </Button>
                      <Grid container>
-                        <Grid item xs>
-                            <Link className={classes.link} href="#">Forgot Password</Link>
-                        </Grid>
                         <Grid item>
-                            <Link className={classes.link} to="/register">Don't have account? Sign Up Now</Link>
+                            <Link className={classes.link} to="/login">Already have account? Sign In Now</Link>
                         </Grid>
                      </Grid>
                 </form>
@@ -99,4 +120,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Register

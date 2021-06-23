@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const { createWorkshop, viewAllWorkshops, viewSpecificUserWokshops, viewSpecificById, deleteById, updateById } = require('../service/WorkshopService')
+const { isAuth, validateToken, isAdmin, isAdminOrEditor, isEditor, isPresenter, isResearcher, isReviewer } = require('../util/SecurityConfig')
 
 router.post("/create/", async(req,res) => {
     try{

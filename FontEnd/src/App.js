@@ -11,6 +11,10 @@ import { Container } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles'
 import Download from "./Components/Home/Download";
 import Login from "./Components/Common/Login";
+import Register from "./Components/Common/Register"
+import Profile from "./Components/Profile/Profile";
+import AddPaper from "./Components/Profile/AddPaper";
+import General from "./Components/Profile/General";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -25,6 +29,10 @@ const App = () => (
           <Route path="/"  exact component={Home} />
           <Route path="/download" exact component={Download} />
           <Route path="/login" exact component={Login} />
+          <Route path="/register" exact component={Register} />
+          <Route path="/profile" exact component={Profile} />
+          <Route path="/general" exact component={General} />
+          <Route path="/addpaper" exact component={AddPaper} />
         </Switch>
       </main>
 

@@ -36,7 +36,12 @@ const userScheama = mongoose.Schema({
         required: true,
         min:4, 
         max:20
-    }
+    },
+    notifications: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Notification',
+        required: false
+    }]
 });
 
 module.exports = mongoose.model("User", userScheama);

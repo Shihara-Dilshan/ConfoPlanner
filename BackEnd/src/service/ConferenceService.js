@@ -42,9 +42,20 @@ const updateConference = async(req, res) => {
     }
 }
 
+const getSingleConfo = async(req,res, next, id) => {
+    try {
+        let result = await Conference.findById(id);
+        req.conference = result
+        next()
+    } catch (err) {
+        res.status(400).json({'Error': err})
+    }
+}
+
 module.exports = {
     addConference,
     viewPastConferences, 
     updateConference,
-    viewAllConferences
+    viewAllConferences,
+    getSingleConfo
 }

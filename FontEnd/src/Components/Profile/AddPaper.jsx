@@ -3,15 +3,11 @@ import ProfileLayout from './ProfileLayout'
 import { makeStyles } from '@material-ui/core/styles'
 import { Grid, TextField, Button } from '@material-ui/core'
 import './style.css'
-
+import { storageRef } from '../../util/firebase'
 
 const useStyles = makeStyles((theme) => ({
     formContainer: {
         marginTop: '20px',
-        // display: 'flex',
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        // flexDirection: 'column'
     },
     left: {
         marginRight: '20px'
@@ -73,7 +69,14 @@ const AddPaper = () => {
         thumbnail: '',
         title: ''
     })
+    const [loading, setLoading] = useState(false)
 
+
+    const isLoading = () => (
+        <div>
+            <p>Loading....</p>
+        </div>
+    )
 
     const validateTitle = () => {
         if(title=='') {
@@ -84,6 +87,9 @@ const AddPaper = () => {
                  paperErr.classList.add('hide')
              },2000)
             return false
+        }else {
+            setResearchPaper({...researchPaper, title: title})
+            return true    
         }
     }
 
@@ -97,6 +103,17 @@ const AddPaper = () => {
              },2000)
             return false
         }
+
+        if(paper.type!=='application/pdf') {
+            let paperErr = document.getElementById("paperErr")
+            paperErr.classList.remove('hide')
+            paperErr.innerHTML = 'Please Upload PDF'
+             setTimeout(() => {
+                 paperErr.classList.add('hide')
+             },2000)
+            return false
+        }
+
         return true
     }
 
@@ -122,19 +139,102 @@ const AddPaper = () => {
         )
     }
 
+    const uploadResearchPaper = () => {
+        return new Promise((resolve,reject) => {
+            try {
+                const upload = storageRef
+                .ref(`paperstemp/${paper.name}`)
+                .put(paper)
+
+                upload.on("stage_changed", (snapshot) => {},
+                    (err) => {
+                        console.log(err)
+                    },
+                    () => {
+                        storageRef
+                            .ref("paperstemp")
+                            .child(paper.name)
+                            .getDownloadURL()
+                            .then((url) => {
+                                console.log(url)
+                                resolve(url)
+                                setResearchPaper({...researchPaper, url: url})
+                            })
+                    })     
+            } catch (err) {
+                reject("Something went wrong")
+            }
+           
+
+        })
+    }
+
+    const uploadThumbnail = () => {
+        return new Promise((resolve,reject) => {
+            try {
+                const upload = storageRef
+                .ref(`imagestemp/${thumbnail.name}`)
+                .put(thumbnail);
+                
+                 upload.on("stage_changed", (snapshot) => {},
+                    (err) => {
+                        console.log(err)
+                        reject(err)
+                    },
+                    () => {
+                     storageRef
+                         .ref("imagestemp")
+                         .child(thumbnail.name)
+                         .getDownloadURL()
+                         .then((url) => {
+                             console.log(url)
+                             resolve(url)
+                             setResearchPaper({...researchPaper, thumbnail: url})
+                         })
+                 })
+            } catch (err) {
+                reject(err)
+            }
+          
+        })
+    }
+
+    
+
     const addPaper = (e) => {
+        setLoading(true)
         e.preventDefault()
         if(validateInputs()) {
-            console.log(thumbnail)
+            console.log('thumbnail: ',thumbnail)
+            uploadThumbnail().then(() => {
+                console.log('thumnail uploaded')
+                uploadResearchPaper().then(() => {
+                    setLoading(false)
+                    console.log('research paper uploaded')
+                }).catch((err) => {
+                    setLoading(false)
+                    alert(err)
+                })
+            }).catch(err=> {
+                setLoading(false)
+                alert(err)
+            })
+        }else {
+            setLoading(false)
         }
         
+    }
+
+    const postPaper = () => {
+
     }
 
     const onChangePaper = (e) => {
         let length = e.target.files.length
         console.log(e.target.files[0]);
+        let file = e.target.files[0]
         if(length>0) {
-            setPaper(e.target.files[0])
+            setPaper(file)
         }
     }
 
@@ -179,7 +279,11 @@ const AddPaper = () => {
                             </div>
         
                             <Button onClick={addPaper} color="primary" className={classes.button}>
-                                Upload Research Paper
+                                {!loading ? (
+                                    <div>Upload Research Paper</div>
+                                ): (
+                                    <div>Loading...</div>
+                                )}
                             </Button>
                         </Grid>
                     </Grid>

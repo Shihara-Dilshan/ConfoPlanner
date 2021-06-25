@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { findUserById } = require('../util/SecurityConfig')
 const { getAllUsers } = require("../service/UserService")
+const viewUserNotifications = require('../service/NotificationService');
 
 router.get("/", (req, res) => {
     res.send("sdsd");

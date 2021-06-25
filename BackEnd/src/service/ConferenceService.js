@@ -1,3 +1,4 @@
+const { findByIdAndUpdate } = require('../model/Conference');
 const Conference = require('../model/Conference');
 
 const addConference = async(req, res) => {
@@ -27,24 +28,41 @@ const viewPastConferences = async(req, res) => {
     }
 }
 
-const updateConference = async(req, res) => {
+const updateConferenceDates = async (req, res) => {
     if (req.body && req.params.id) {
-        const newConference = req.body;
-        Conference.findByIdAndUpdate(req.params.id, {
-            startDate: newConference.startDate,
-            endDate: newConference.endDate,
-            $addToSet: { researchPapers: { $each : [newConference.researchPapers]}},
-            $addToSet: { workshops: { $each : [newConference.workshops]}}
-        })
-        .then(() => {
-            res.status(200).json({ conference: newConference });
-        }).catch(err => res.status(400).json({ error: err }));
+        const { startDate, endDate } = req.body;
+        const updatedConference = await Conference.findByIdAndUpdate(
+            req.params.id,
+            { $set: { startDate, endDate } }
+        );
+        res.status(200).json({ updatedConference });
+    }
+}
+
+const updateConferenceSchedule = async(req, res) => {
+    if (req.body && req.params.id) {
+        const { researchPaper, workshop } = req.body;
+        let updatedConference;
+        if (researchPaper) {
+            updatedConference = await Conference.findByIdAndUpdate(
+                req.params.id,
+                { $addToSet: { researchPapers: researchPaper } }
+            );
+        }
+        if (workshop) {
+            updatedConference = await Conference.findByIdAndUpdate(
+                req.params.id,
+                { $addToSet: { workshops: workshop } }
+            );
+        }
+        res.status(200).json({ updatedConference });
     }
 }
 
 module.exports = {
     addConference,
-    viewPastConferences, 
-    updateConference,
+    viewPastConferences,
+    updateConferenceDates,
+    updateConferenceSchedule,
     viewAllConferences
 }

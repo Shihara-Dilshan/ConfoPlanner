@@ -1,4 +1,6 @@
 const Conference = require('../model/Conference');
+const ResearchPaper = require('../model/ResearchPaper');
+const Workshop = require('../model/Workshop');
 
 const addConference = async (req, res) => {
     if (req.body) {
@@ -23,8 +25,8 @@ const viewCurrentConference = async (req, res) => {
         try{
             const currentConference = 
             await Conference.findById(req.params.id)
-            .populate('researchPapers', 'title')
-            .populate('workshops', 'title');
+            .populate('researchPapers.paper', 'title')
+            .populate('workshops.workshop', 'title');            
             
             res.status(200).json({ conference: currentConference });
 
@@ -67,18 +69,28 @@ const updateConferenceDates = async (req, res) => {
 const updateConferenceSchedule = async (req, res) => {
     if (req.body && req.params.id) {
         try {
-            const { researchPaper, workshop } = req.body;
+            const { paper, workshop } = req.body;
             let updatedConference;
-            if (researchPaper) {
+            if (paper) {
+                let researchPaperObj = {
+                    startTime: req.body.startTime,
+                    endTime: req.body.endTime,
+                    paper
+                }
                 updatedConference = await Conference.findByIdAndUpdate(
                     req.params.id,
-                    { $addToSet: { researchPapers: researchPaper } }
+                    { $addToSet: { researchPapers: researchPaperObj } }
                 );
             }
             if (workshop) {
+                let workshopObj = {
+                    startTime: req.body.startTime,
+                    endTime: req.body.endTime,
+                    workshop
+                }
                 updatedConference = await Conference.findByIdAndUpdate(
                     req.params.id,
-                    { $addToSet: { workshops: workshop } }
+                    { $addToSet: { workshops: workshopObj } }
                 );
             }
             res.status(200).json({ updatedConference });

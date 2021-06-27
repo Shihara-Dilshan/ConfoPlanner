@@ -48,7 +48,7 @@ function SideDrawer() {
     ]
 
     return (
-        <Grid item xs="3" className={classes.sideBar}>
+        <Grid item xs="12" md="3" className={classes.sideBar}>
                 <Divider />
                 <div>
                     <List className={classes.root}>

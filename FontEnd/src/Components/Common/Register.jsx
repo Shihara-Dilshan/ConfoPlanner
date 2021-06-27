@@ -81,6 +81,8 @@ const Register = () => {
                     err.classList.add('hide')
                 },2000)
             })
+        }else {
+            setLoading(false)
         }
     }
 

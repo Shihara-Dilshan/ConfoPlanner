@@ -19,7 +19,7 @@ const ProfileLayout = (props) => {
         <Layout>
             <Grid container>
                 <SideDrawer />
-                <Grid item xs="8" className={classes.profileBody}>
+                <Grid item xs="10" md="8" className={classes.profileBody}>
                     {props.children}
                 </Grid>
             </Grid>

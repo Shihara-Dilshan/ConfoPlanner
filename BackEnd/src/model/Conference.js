@@ -9,20 +9,36 @@ const conferenceSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    researchPapers: [
-        {
+    researchPapers: [{
+        startTime: {
+            type: Date,
+            required: false
+        },
+        endTime: {
+            type: Date,
+            required: false
+        },
+        paper: {
             type: mongoose.Types.ObjectId,
             required: false,
             ref: 'Paper'
         }
-    ],
-    workshops: [
-        {
+    }],
+    workshops: [{
+        startTime: {
+            type: Date,
+            required: false
+        },
+        endTime: {
+            type: Date,
+            required: false
+        },
+        workshop: {
             type: mongoose.Types.ObjectId,
             required: false,
             ref: 'Workshop'
         }
-    ]
+    }]
 });
 
 const Conference = mongoose.model('Conference', conferenceSchema);

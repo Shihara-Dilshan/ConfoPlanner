@@ -1,6 +1,8 @@
 const Conference = require('../model/Conference');
+const ResearchPaper = require('../model/ResearchPaper');
+const Workshop = require('../model/Workshop');
 
-const addConference = async(req, res) => {
+const addConference = async (req, res) => {
     if (req.body) {
         const newConference = new Conference(req.body);
         newConference.save().then(data => {
@@ -11,34 +13,91 @@ const addConference = async(req, res) => {
     }
 }
 
-const viewAllConferences = async(req, res) => {
+const viewAllConferences = async (req, res) => {
     Conference.find().then(data => {
         res.status(200).json({ conferences: data })
         .catch(err => res.status(400).json({ err: error }));
     });
 }
 
-const viewPastConferences = async(req, res) => {
+const viewCurrentConference = async (req, res) => {
     if (req.params.id) {
-        let allConferences = await Conference.find();
-        const pastConferences = allConferences.filter(conference => conference._id != req.params.id);
-        console.log(req.params.id);
-        res.status(200).json({ conferences: pastConferences });
+        try{
+            const currentConference = 
+            await Conference.findById(req.params.id)
+            .populate('researchPapers.paper', 'title')
+            .populate('workshops.workshop', 'title');            
+            
+            res.status(200).json({ conference: currentConference });
+
+        } catch(err) {
+            res.status(400).json({ err });
+        }
+
     }
 }
 
-const updateConference = async(req, res) => {
+const viewPastConferences = async (req, res) => {
+    if (req.params.id) {
+        try{
+            let allConferences = await Conference.find();
+            const pastConferences = allConferences.filter(conference => conference._id != req.params.id);
+            console.log(req.params.id);
+            res.status(200).json({ conferences: pastConferences });
+
+        } catch(err) {
+            res.status(400).json({ err });
+        }
+    }
+}
+
+const updateConferenceDates = async (req, res) => {
     if (req.body && req.params.id) {
-        const newConference = req.body;
-        Conference.findByIdAndUpdate(req.params.id, {
-            startDate: newConference.startDate,
-            endDate: newConference.endDate,
-            $addToSet: { researchPapers: { $each : [newConference.researchPapers]}},
-            $addToSet: { workshops: { $each : [newConference.workshops]}}
-        })
-        .then(() => {
-            res.status(200).json({ conference: newConference });
-        }).catch(err => res.status(400).json({ error: err }));
+        try{
+            const { startDate, endDate } = req.body;
+            const updatedConference = await Conference.findByIdAndUpdate(
+                req.params.id,
+                { $set: { startDate, endDate } }
+            );
+            res.status(200).json({ updatedConference });
+        } catch(err) {
+            res.status(400).json({ err });
+        }
+    }
+}
+
+const updateConferenceSchedule = async (req, res) => {
+    if (req.body && req.params.id) {
+        try {
+            const { paper, workshop } = req.body;
+            let updatedConference;
+            if (paper) {
+                let researchPaperObj = {
+                    startTime: req.body.startTime,
+                    endTime: req.body.endTime,
+                    paper
+                }
+                updatedConference = await Conference.findByIdAndUpdate(
+                    req.params.id,
+                    { $addToSet: { researchPapers: researchPaperObj } }
+                );
+            }
+            if (workshop) {
+                let workshopObj = {
+                    startTime: req.body.startTime,
+                    endTime: req.body.endTime,
+                    workshop
+                }
+                updatedConference = await Conference.findByIdAndUpdate(
+                    req.params.id,
+                    { $addToSet: { workshops: workshopObj } }
+                );
+            }
+            res.status(200).json({ updatedConference });
+
+        } catch(err) {
+            res.status(400).json({ err });
+        }
     }
 }
 
@@ -54,8 +113,10 @@ const getSingleConfo = async(req,res, next, id) => {
 
 module.exports = {
     addConference,
-    viewPastConferences, 
-    updateConference,
+    viewCurrentConference,
+    viewPastConferences,
+    updateConferenceDates,
+    updateConferenceSchedule,
     viewAllConferences,
     getSingleConfo
 }

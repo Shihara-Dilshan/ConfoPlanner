@@ -5,6 +5,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../util/Auth'
 import './style.css'
+import jwt_decode from 'jwt-decode'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -101,6 +102,9 @@ const Login = (props) => {
             console.log('token_get',res)
             setLoading(false)
             localStorage.setItem('loginData', res)
+            let userData = decodeToken(res)
+            localStorage.setItem('userId', userData._id)
+            console.log('userData', userData)
             props.history.push("/")
           }).catch((err) => {
               console.log(err)
@@ -139,6 +143,10 @@ const Login = (props) => {
                 reject(err)
             })
         })
+    }
+
+    const decodeToken = (token) => {
+        return jwt_decode(token)
     }
 
     const classes = useStyles()

@@ -5,7 +5,7 @@ import ProfileLayout from './ProfileLayout'
 const ViewResearchPapers = () => {
     return (
         <ProfileLayout>
-            view all research papers
+            as
         </ProfileLayout>
     )
 }

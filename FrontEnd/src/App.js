@@ -17,6 +17,7 @@ import AddPaper from "./Components/Profile/AddPaper";
 import General from "./Components/Profile/General";
 import ViewSchedule from "./Components/Editor/ViewSchedule";
 import ViewResearchPapers from "./Components/Profile/ViewResearchPapers";
+import ReviewerRoute from "./Auth/SecureRoutes/ReviewerRoute";
 
 //import Dashboard from './Components/Admin/Dashboard'
 
@@ -39,7 +40,7 @@ const App = () => (
           <Route path="/addpaper" exact component={AddPaper} />
           <Route path="/editor" exact component={ViewSchedule} />
           {/* <Route path="/admin" exact component={Dashboard} /> */}
-          <Route path="/viewresearchpapers" exact component={ViewResearchPapers} />
+          <ReviewerRoute path="/viewresearchpapers" exact component={ViewResearchPapers} />
         </Switch>
       </main>
 

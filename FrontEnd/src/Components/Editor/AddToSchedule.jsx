@@ -4,6 +4,7 @@ import {TextField, Button} from '@material-ui/core';
 import Select from 'react-select';
 import { useRef } from 'react';
 import ViewSchedule from './ViewSchedule';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,6 +24,8 @@ export default function AddToSchedule() {
   const [editPaper, setEditPaper] = useState(false);
   const [selectedPaper, setSelectedPaper] = useState('');
   const [selectedWorkshop, setSelectedWorkshop] = useState('');
+  const [workshops, setWorkshops] = useState([]);
+  const [workshopList, setWorkshopList] = useState([]);
   const startTimeRef = useRef('');
   const endTimeRef = useRef('');
 
@@ -46,16 +49,27 @@ export default function AddToSchedule() {
   }
 
   useEffect(() => {
-    function getData() {
-        
-    }
-  }, [])
 
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ]
+    function getData() {
+        axios.get('http://localhost:5000/api/workshop/view/approved')
+        .then(res => {
+            setWorkshops(res.data.workshops);
+
+            let data = [];
+            res.data.workshops.map(workshop => {
+                let temp = {
+                    value: workshop._id,
+                    label: workshop.title
+                }
+                data.push(temp);
+            });
+            setWorkshopList(data);
+        })
+        .catch(err => console.log(err));
+    }
+    getData();
+    
+  }, [])
 
   return (
       <>
@@ -63,7 +77,7 @@ export default function AddToSchedule() {
                     
           <form className={classes.container} noValidate>
               <Select 
-              options={options}
+              options={workshopList}
               placeholder={editPaper ? "Select Paper" : "Select Workshop"} />
               <TextField
                   id="startTime"

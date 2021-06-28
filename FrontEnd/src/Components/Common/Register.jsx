@@ -46,7 +46,7 @@ const Register = (props) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [repassword, setRepassword] = useState('')
-    const [role, setRole] = useState('');
+    const [role, setRole] = useState('Attendee');
     const [loading, setLoading] = useState(false)
 
     const [userdata, setUserdata] = useState({
@@ -59,14 +59,14 @@ const Register = (props) => {
     const handleForm = (e) => {
         e.preventDefault()
         setLoading(true)
-        for (var i = 0, length = radios.length; i < length; i++) {
-            if (radios[i].checked) {
-              setRole(radios[i].value);
-              break;
-            }
-        }
     
         if(validateInputs()) {
+            for (var i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                  setRole(radios[i].value);
+                  break;
+                }
+            }
             let userData = {
                 name: name,
                 email: email,
@@ -101,6 +101,12 @@ const Register = (props) => {
             })
         }else {
             setLoading(false)
+            for (var i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                  setRole(radios[i].value);
+                  break;
+                }
+            }
         }
     }
 

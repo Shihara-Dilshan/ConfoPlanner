@@ -1,17 +1,17 @@
 import firebase from 'firebase/app'
 import "firebase/storage"
 
-const config = {
-    apiKey: "AIzaSyBmqm3N_QkqJ_wKI74UZvSQerOLdDtRvro",
-    authDomain: "confoplanner.firebaseapp.com",
-    projectId: "confoplanner",
-    storageBucket: "confoplanner.appspot.com",
-    messagingSenderId: "669190918257",
-    appId: "1:669190918257:web:b26f179ede36a3e36bcbd0",
-    measurementId: "G-XV4M5K0LTJ",
-}
+var firebaseConfig = {
+    apiKey: "AIzaSyA1oeRUhGaYsbsHgXnrbWJBV7GR8kupu0g",
+    authDomain: "confopla.firebaseapp.com",
+    projectId: "confopla",
+    storageBucket: "confopla.appspot.com",
+    messagingSenderId: "387182676068",
+    appId: "1:387182676068:web:9340518862e77595b7b771",
+    measurementId: "G-BEHM1BLYKG"
+};
 
-firebase.initializeApp(config)
+firebase.initializeApp(firebaseConfig);
 
 const storageRef = firebase.storage()
 

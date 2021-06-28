@@ -14,7 +14,8 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
+import Href from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -27,9 +28,9 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="">
+      <Href color="inherit" href="">
         REG_WD_10
-      </Link>{' '}
+      </Href>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -152,9 +153,11 @@ export default function Dashboard() {
               <NotificationsIcon />
             </Badge> 
           </IconButton>
-          <IconButton color="inherit">
+          <Link to ="profile">
+          <IconButton color="default">
               <AccountCircleIcon fontSize="large" />
           </IconButton>
+          </Link>
         </Toolbar>
       </AppBar>
       <Drawer

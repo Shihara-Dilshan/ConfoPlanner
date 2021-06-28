@@ -6,7 +6,7 @@ import Header from "./Components/Common/Header";
 import Footer from "./Components/Common/Footer";
 import Home from './Components/Home/Home'
 
-import {BrowserRouter as Router, Switch, Link, Route, withRouter} from 'react-router-dom'
+import {BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom'
 import { Container } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles'
 import Download from "./Components/Home/Download";
@@ -16,10 +16,14 @@ import Profile from "./Components/Profile/Profile";
 import AddPaper from "./Components/Profile/AddPaper";
 import General from "./Components/Profile/General";
 import ViewSchedule from "./Components/Editor/ViewSchedule";
+<<<<<<< HEAD
 import ViewResearchPapers from "./Components/Profile/ViewResearchPapers";
 import ReviewerRoute from "./Auth/SecureRoutes/ReviewerRoute";
 
 //import Dashboard from './Components/Admin/Dashboard'
+=======
+import AddWorkShop from "./Components/Profile/AddWorkShop";
+>>>>>>> 065ce859cf041dfeb2aedc69a3b32de2001cad03
 
 const useStyles = makeStyles((theme) => ({
 
@@ -41,6 +45,7 @@ const App = () => (
           <Route path="/editor" exact component={ViewSchedule} />
           {/* <Route path="/admin" exact component={Dashboard} /> */}
           <ReviewerRoute path="/viewresearchpapers" exact component={ViewResearchPapers} />
+          <Route path="/addworkshop" exact component={AddWorkShop} />
         </Switch>
       </main>
 

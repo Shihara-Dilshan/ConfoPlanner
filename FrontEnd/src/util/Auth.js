@@ -8,7 +8,6 @@ export const AuthProvider = ({children}) => {
 
     useEffect(() => {
         if(localStorage.getItem('loginData') !== null) {
-            console.log(localStorage.getItem('loginData'))
             let user = jwt_decode(localStorage.getItem('loginData')) 
             setCurrentUser(user)
         }else {

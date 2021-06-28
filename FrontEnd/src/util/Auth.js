@@ -1,14 +1,20 @@
 import React, {useState, useEffect} from 'react'
-//import app from './base'
+import jwt_decode from 'jwt-decode'
 
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({children}) => {
-    const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState({});
 
     useEffect(() => {
         //app.auth().onAuthStateChanged(setCurrentUser);
-        setCurrentUser(localStorage.getItem('logindata'))
+        if(localStorage.getItem('loginData')!==undefined) {
+            let user = jwt_decode(localStorage.getItem('loginData')) 
+            setCurrentUser(user)
+        }else {
+            setCurrentUser({})
+        }
+        
     },[])
 
     return (

@@ -18,6 +18,10 @@ router.get("/getall", async(req,res) => {
     }
 })
 
+router.get("/singleuser/:userId", (req,res) => {
+    res.json({'result': req.profile})
+})
+
 router.param('userId', findUserById)
 
 module.exports = router;

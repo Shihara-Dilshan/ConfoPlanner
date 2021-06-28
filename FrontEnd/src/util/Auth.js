@@ -7,8 +7,8 @@ export const AuthProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState({});
 
     useEffect(() => {
-        //app.auth().onAuthStateChanged(setCurrentUser);
-        if(localStorage.getItem('loginData')!==undefined) {
+        if(localStorage.getItem('loginData') !== null) {
+            console.log(localStorage.getItem('loginData'))
             let user = jwt_decode(localStorage.getItem('loginData')) 
             setCurrentUser(user)
         }else {

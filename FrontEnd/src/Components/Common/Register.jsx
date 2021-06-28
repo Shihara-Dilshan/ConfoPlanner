@@ -59,7 +59,8 @@ const Register = () => {
                 name: name,
                 email: email,
                 password: password,
-                role: 'attendee'
+                role: 'attendee',
+                profilePicture: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
             }
             console.log(userData)
             postData(userData).then(res=> {

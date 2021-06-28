@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { useTheme, makeStyles } from '@material-ui/core/styles'
 import ProfileLayout from './ProfileLayout'
 import { Grid, Paper, Avatar, Typography, Container, TextField } from '@material-ui/core'
+import { AuthContext } from '../../util/Auth'
 
 const useStyles = makeStyles((theme) => ({
     pageContent: {
@@ -34,6 +35,24 @@ const Profile = () => {
     const classes = useStyles()
     const theme = useTheme()
 
+    const [currentUser, setCurrentUser] = useContext(AuthContext) 
+    const [user, setUser] = useState({})
+
+    useEffect(() => {
+        fetchUser()
+    },[])
+
+
+    const fetchUser = () => {
+        fetch(`http://localhost:5000/api/user/singleuser/${currentUser._id}`)
+            .then((res)=> {return res.json()})
+            .then((res) => {
+                console.log(res)
+            }).catch((err) => {
+                console.log(err)
+            })
+    }
+
     return (
         <ProfileLayout>
            <div>
@@ -55,6 +74,7 @@ const Profile = () => {
                                     <TextField fullWidth  />
                                 </form>
                             </Container>
+                            {JSON.stringify(currentUser)}
                         </Grid>
                     </Grid>
                </div>

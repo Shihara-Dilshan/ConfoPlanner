@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {Grid, Drawer, List, ListItem, ListItemIcon, ListItemText, Divider} from '@material-ui/core'
 import {useTheme, makeStyles} from '@material-ui/core/styles'
 import {Link} from 'react-router-dom'
+import { isAthenticated, isResearcher, isReviewer } from '../../Auth'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,10 +35,6 @@ function SideDrawer() {
             path: "general"
         },
         {
-            name: "Add Research Paper",
-            path: "addpaper"
-        },
-        {
             name: "Add WorkShop",
             path: "addworkshop"
         },
@@ -59,6 +56,20 @@ function SideDrawer() {
                                 </ListItem>
                             </Link>
                             ))}
+                        {isReviewer() && (
+                            <Link to='/viewresearchpapers' className={classes.navLink}>
+                                <ListItem button>
+                                    <ListItemText primary='View Research Papers' />
+                                </ListItem>
+                            </Link>
+                        )}
+                         {isResearcher() && (
+                            <Link to='/addpaper' className={classes.navLink}>
+                                <ListItem button>
+                                    <ListItemText primary='Add Research Paper' />
+                                </ListItem>
+                            </Link>
+                        )}
                     </List>
                 </div>
             

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 import { Link, withRouter } from 'react-router-dom'
 
@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Button, IconButton, Toolbar, Typography } from '@material-ui/core'
 
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+
+import { isAthenticated } from '../../Auth';
 
 const useStyles = makeStyles((theme) => ({
     toolbar: {
@@ -29,9 +31,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
+
+
 const Header = ({history}) => {
 
     const classes = useStyles();
+
+    useEffect(() => {
+        console.log('auth',isAthenticated())
+    },[])
 
     const navItems = [
         {title:'Header', path:"/"},
@@ -39,7 +47,6 @@ const Header = ({history}) => {
         {title:'Rearch Papers', path:"/researchpaper"},
         {title:'Download', path:"/download"},
         {title:'Contact', path:"/contact"},
-        {title:'Profile', path:"/profile"}
     ]
 
     return (
@@ -76,6 +83,18 @@ const Header = ({history}) => {
                     {item.title}
                   </Link>
                 ))}
+                {isAthenticated() && (
+                   <Link
+                    color="inherit"
+                    noWrap
+                    key="profile"
+                    variant="body2"
+                    to='/profile'
+                    className={classes.toolbarLink}
+                    >
+                    Profile
+                    </Link>
+                )}
             </Toolbar>
         </React.Fragment>
     )

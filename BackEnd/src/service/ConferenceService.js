@@ -23,10 +23,19 @@ const viewAllConferences = async (req, res) => {
 const viewCurrentConference = async (req, res) => {
     if (req.params.id) {
         try{
-            const currentConference = 
-            await Conference.findById(req.params.id)
-            .populate('researchPapers.paper', 'title')
-            .populate('workshops.workshop', 'title');            
+            
+            const sortedPaperSchedule = await Conference.findById(req.params.id, { researchPapers: 1 })
+            .sort({"researchPapers.startTime": 1})
+            .populate('researchPapers.paper', 'title');  
+            
+            const sortedWorkshopSchedule = await Conference.findById(req.params.id, { workshops: 1 })
+            .sort({"workshops.startTime": 1})
+            .populate('workshops.workshop', 'title');   
+
+            const currentConference = {
+                sortedPaperSchedule,
+                sortedWorkshopSchedule
+            }
             
             res.status(200).json({ conference: currentConference });
 

@@ -49,9 +49,6 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-
-
-
 export default function Pending() {
   const classes = useStyles();
   return (

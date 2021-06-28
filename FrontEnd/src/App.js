@@ -5,7 +5,6 @@ import Nav from "./Nav";
 import Header from "./Components/Common/Header";
 import Footer from "./Components/Common/Footer";
 import Home from "./Components/Home/Home";
-import Admin from "./Components/Admin/Dashboard";
 
 import {
   BrowserRouter as Router,
@@ -14,6 +13,11 @@ import {
   Route,
   withRouter,
 } from "react-router-dom";
+import Admin from "./Components/Admin/Dashboard";
+import AllPendings from "./Components/Admin/AllPendings";
+import AllAprovings from "./Components/Admin/AllAproveds";
+import ManageUsers from "./Components/Admin/ManageUsers";
+import PaymentChk from "./Components/Admin/PaymentChecking";
 import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Download from "./Components/Home/Download";
@@ -32,6 +36,10 @@ const App = () => (
       <main>
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/admin/all-pendings" exact component={AllPendings} />
+          <Route path="/admin/all-approvings" exact component={AllAprovings} />
+          <Route path="/admin/manage-users" exact component={ManageUsers} />
+          <Route path="/admin/check-payments" exact component={PaymentChk} />
           <Route path="/admin" exact component={Admin} />
           <Route path="/download" exact component={Download} />
           <Route path="/login" exact component={Login} />

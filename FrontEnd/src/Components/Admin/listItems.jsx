@@ -11,45 +11,53 @@ import PaymentIcon from '@material-ui/icons/Payment';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import { Link } from 'react-router-dom';
 
 export const mainListItems = (
   <div>
+    <Link to ="/admin">
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
+    </Link>
+
+  <Link to ="/admin/manage-users">
     <ListItem button>
       <ListItemIcon>
       <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Manage User Roles" />
     </ListItem>
+    </Link>
+
+    <Link to = "/admin/all-pendings">
     <ListItem button>
       <ListItemIcon>
       <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Pending Shedules" />
     </ListItem>
+    </Link>
+
+  <Link to = "/admin/all-approvings">
     <ListItem button>
       <ListItemIcon>
         <AssignmentTurnedInIcon />
       </ListItemIcon>
       <ListItemText primary="Approved Shedules" />
     </ListItem>
+    </Link>
+   <Link to = "/admin/check-payments">
     <ListItem button>
       <ListItemIcon>
       <PaymentIcon />
       </ListItemIcon>
       <ListItemText primary="Payments" />
     </ListItem>
-    {/* <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Integrations" />
-    </ListItem> */}
+    </Link>
   </div>
 );
 

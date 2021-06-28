@@ -23,11 +23,9 @@ const userScheama = mongoose.Schema({
     },
     mobile: {
         type: String,
-        required: true
     },
     profilePicture: {
         type: String,
-        required: true,
         min: 4, 
         max: 1024
     },

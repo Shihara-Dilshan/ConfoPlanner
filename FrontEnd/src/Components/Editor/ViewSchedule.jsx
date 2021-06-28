@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
-import { DataGrid } from '@material-ui/data-grid';
 import { Table, TableBody, TableCell, TableRow, TableHead } from '@material-ui/core';
 
 export default class ViewSchedule extends React.Component {
@@ -17,8 +16,15 @@ export default class ViewSchedule extends React.Component {
     }
 
     sortData() {
-        let sortedSchedule = 
-        this.state.researchPapers.researchPapers.concat(this.state.workshops.workshops);
+        let sortedSchedule = [];
+
+        if (this.state.researchPapers == '' && this.state.workshops != '') {
+            sortedSchedule = this.state.workshops
+        } else if(this.state.researchPapers != '' && this.state.workshops == '') {
+            sortedSchedule = this.state.researchPapers
+        } else {
+            sortedSchedule = this.state.researchPapers.concat(this.state.workshops);
+        }
 
         sortedSchedule.sort((a, b) => {
             let c = new Date(a.startTime);
@@ -50,10 +56,28 @@ export default class ViewSchedule extends React.Component {
         .get('http://localhost:5000/api/conferences/60d76048aa132a4cf07b74dd')
         .then(res => {
             let conference = res.data.conference;
-            this.setState({ researchPapers: conference.sortedPaperSchedule });
-            this.setState({ workshops: conference.sortedWorkshopSchedule });          
+            let papersToBeApproved = []
+            let workshopsToBeApproved = []
+
+            if(conference.sortedPaperSchedule) {
+                papersToBeApproved = 
+                conference.sortedPaperSchedule.researchPapers.filter(
+                    paper => paper.isApproved == false
+                );
+            }
+
+            if(conference.sortedWorkshopSchedule) {
+                workshopsToBeApproved = 
+                conference.sortedWorkshopSchedule.workshops.filter(
+                    workshop => workshop.isApproved == false
+                );
+            }
+
+            this.setState({ researchPapers: papersToBeApproved });
+            this.setState({ workshops: workshopsToBeApproved });          
             this.sortData();
             this.loadData();
+
         }).catch(err => console.log(err));
     }
 

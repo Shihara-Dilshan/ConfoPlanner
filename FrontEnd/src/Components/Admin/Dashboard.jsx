@@ -18,8 +18,8 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { mainListItems, secondaryListItems } from './listItems';
-import Chart from './Chart';
 import Approved from './Approved';
 import Pending from './Pending';
 
@@ -145,12 +145,15 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+            Admin Dashboard
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
-            </Badge>
+            </Badge> 
+          </IconButton>
+          <IconButton color="inherit">
+              <AccountCircleIcon fontSize="large" />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -178,7 +181,8 @@ export default function Dashboard() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={0}>
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                {/* <Chart /> */}
+                <Approved />
               </Paper>
             </Grid>
             {/* Recent Deposits */}

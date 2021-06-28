@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import { green, purple } from '@material-ui/core/colors';
 import Title from './Title';
 
 // Generate Order Data
@@ -30,7 +31,26 @@ const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
+
+  rejectBtn:{
+    fontSize: '10px'
+  },
+  viewBtn:{
+    fontSize: '10px'
+  },
+  approveBtn:{
+    background: "#228B22",
+    '&:hover': {
+      background: "#006400",
+    },
+    color: 'white',
+    fontSize: '10px'
+  }
+  
 }));
+
+
+
 
 export default function Pending() {
   const classes = useStyles();
@@ -56,15 +76,16 @@ export default function Pending() {
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.shipTo}</TableCell>
               <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right"><Button variant="contained" size = "small" color="secondary">Reject</Button></TableCell>
-              <TableCell align="right"><Button variant="contained" size = "small" color="primary">Approve</Button></TableCell>
+              <TableCell align="right"><Button className={classes.rejectBtn} variant="contained" size = "small" color="secondary">Reject</Button></TableCell>
+              <TableCell align="right"><Button className={classes.viewBtn} variant="contained" size = "small"color="primary">View</Button></TableCell>
+              <TableCell align="right"><Button className={classes.approveBtn} variant="contained" size = "small" >Approve</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
       <div className={classes.seeMore}>
         <Link color="primary" href="#" onClick={preventDefault}>
-          See more orders
+          See All Pendings
         </Link>
       </div>
     </React.Fragment>

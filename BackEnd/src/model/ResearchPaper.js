@@ -6,8 +6,9 @@ const ReseachPaperSchema =  mongoose.Schema({
         required: true
     },
     ownerRef: {
-        type: String,
-        required: true
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'User'
     },
     title : {
         type: String,

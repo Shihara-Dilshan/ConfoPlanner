@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTheme, makeStyles } from '@material-ui/core/styles'
 import ProfileLayout from './ProfileLayout'
-import { Grid, Paper, Avatar, Typography } from '@material-ui/core'
+import { Grid, Paper, Avatar, Typography, Container, TextField } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     pageContent: {
@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     },
     profileCardBottum: {
         textAlign: 'center'
+    },
+    PageContainer: {
+        marginTop: '10px'
     }
 }))
 
@@ -37,7 +40,7 @@ const Profile = () => {
                <h2>My Profile</h2>
                <div className={classes.profileContainer}>
                     <Grid container>
-                        <Grid item xs="6">
+                        <Grid item md="6" xs="12">
                             <Paper className={classes.profileCard}>
                                 <Avatar alt="profile image" className={classes.avatar} src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
                                 <div className={classes.profileCardBottum}>
@@ -46,8 +49,12 @@ const Profile = () => {
                                 </div>
                             </Paper>
                         </Grid>
-                        <Grid item xs="6">
-                            
+                        <Grid item md="6" xs="12" className={classes.PageContainer}>
+                            <Container>
+                                <form>
+                                    <TextField fullWidth  />
+                                </form>
+                            </Container>
                         </Grid>
                     </Grid>
                </div>

@@ -1,0 +1,13 @@
+.hide {
+    display: none;
+}
+
+.err {
+    color: red;
+    font-size: 10px;
+}
+
+.success {
+    color: greenyellow;
+    font-size: 10px;
+}

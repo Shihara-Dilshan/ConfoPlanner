@@ -8,7 +8,7 @@ router.post("/signup", async (req, res) => {
   }else {
     try {
       await singup(req.body);
-      res.status(201).json({ message: "succesfully signed up" });
+      res.status(200).json({ message: "succesfully signed up" });
     } catch (err) {
       res.status(400).json({ error: "error while signup", details: err });
     }

@@ -15,6 +15,7 @@ import Register from "./Components/Common/Register"
 import Profile from "./Components/Profile/Profile";
 import AddPaper from "./Components/Profile/AddPaper";
 import General from "./Components/Profile/General";
+import ViewSchedule from "./Components/Editor/ViewSchedule";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/profile" exact component={Profile} />
           <Route path="/general" exact component={General} />
           <Route path="/addpaper" exact component={AddPaper} />
+          <Route path="/editor" exact component={ViewSchedule} />
         </Switch>
       </main>
 

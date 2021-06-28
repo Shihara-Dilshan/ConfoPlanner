@@ -33,7 +33,7 @@ app.use(Morgan())
 
 
 //route middle ware 
-app.use('/api/paper', paper_route)
+app.use('/api/paper/', paper_route)
 app.use("/api/user/", userRoutes);
 app.use("/api/auth/", authRoutes);
 app.use("/api/workshop/", workshopRoutes);

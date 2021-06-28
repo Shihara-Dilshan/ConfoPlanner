@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { useTheme, makeStyles } from '@material-ui/core/styles'
 import ProfileLayout from './ProfileLayout'
-import { Grid, Paper, Avatar, Typography, Container, TextField } from '@material-ui/core'
+import { Grid, Paper, Avatar, Typography, Container, TextField, CircularProgress } from '@material-ui/core'
+import { AuthContext } from '../../util/Auth'
 
 const useStyles = makeStyles((theme) => ({
     pageContent: {
@@ -34,6 +35,55 @@ const Profile = () => {
     const classes = useStyles()
     const theme = useTheme()
 
+    const [currentUser, setCurrentUser] = useContext(AuthContext) 
+    const [user, setUser] = useState({})
+
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        fetchUser().then(res=> {
+            waitForSetUserData(res).then(res=> {
+                setLoading(false)
+            }).catch(err=> {
+                setLoading(true)
+            })
+            //setUser(res.result)
+            //setLoading(false)
+        }).catch(err=> {
+            setLoading(true)
+            console.log(err)
+        })
+    },[])
+
+    const waitForSetUserData = (res) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                setUser(res.result)
+                resolve(res)
+            },1000)
+        })
+    }
+
+    const fetchUser = () => {
+        return new Promise((resolve,reject) => {
+            fetch(`http://localhost:5000/api/user/singleuser/${localStorage.getItem('userId')}`)
+            .then((res)=> {return res.json()})
+            .then((res) => {
+                console.log(res)
+                if(res.result!==undefined) {
+                    resolve(res)
+                }else {
+                    reject(res)
+                }
+            }).catch((err) => {
+                console.log(err)
+                reject(err)
+            })
+        })
+    }
+
+
     return (
         <ProfileLayout>
            <div>
@@ -41,20 +91,30 @@ const Profile = () => {
                <div className={classes.profileContainer}>
                     <Grid container>
                         <Grid item md="6" xs="12">
-                            <Paper className={classes.profileCard}>
-                                <Avatar alt="profile image" className={classes.avatar} src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
-                                <div className={classes.profileCardBottum}>
-                                    <h4>David Malan</h4>
-                                    <h5>Attendee</h5>
+                            {loading ? (
+                                <div>
+                                   <CircularProgress />
+                              </div>
+                            ): (
+                                <div>
+                                    <Paper className={classes.profileCard}>
+                                    <Avatar alt="profile image" className={classes.avatar} src={`${user.profilePicture}`} />
+                                    <div className={classes.profileCardBottum}>
+                                        <h4>{user.name}</h4>
+                                        <h5>{user.role}</h5>
+                                    </div>
+                                    </Paper>
                                 </div>
-                            </Paper>
+                            )}
                         </Grid>
+                        {/* {JSON.stringify(user)} */}
                         <Grid item md="6" xs="12" className={classes.PageContainer}>
                             <Container>
                                 <form>
                                     <TextField fullWidth  />
                                 </form>
                             </Container>
+                           
                         </Grid>
                     </Grid>
                </div>

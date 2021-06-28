@@ -3,6 +3,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import { Avatar, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, Paper, TextField, Typography } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Link } from 'react-router-dom';
+import Layout from '../Common/Layout'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -41,7 +42,8 @@ const Login = () => {
     const classes = useStyles()
 
     return (
-        <Container maxWidth="xs">
+        <Layout>        
+            <Container maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
@@ -96,6 +98,8 @@ const Login = () => {
                 </form>
             </div>
         </Container>
+        </Layout>
+
     )
 }
 

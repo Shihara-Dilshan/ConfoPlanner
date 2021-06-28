@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import { Avatar, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, Paper, TextField, Typography } from '@material-ui/core'
+import { Avatar, Button, Checkbox, Container,RadioGroup, CssBaseline, FormControlLabel, Grid, Paper, TextField, Typography } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Link } from 'react-router-dom';
 import './style.css'
+import Layout from '../Common/Layout'
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -37,12 +39,14 @@ const useStyles = makeStyles((theme) => ({
       }
 }))
 
-const Register = () => {
+const Register = (props) => {
+    const radios = document.getElementsByName('role');
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [repassword, setRepassword] = useState('')
+    const [role, setRole] = useState('');
     const [loading, setLoading] = useState(false)
 
     const [userdata, setUserdata] = useState({
@@ -51,15 +55,23 @@ const Register = () => {
         password: ''
     })
 
+    
     const handleForm = (e) => {
         e.preventDefault()
         setLoading(true)
+        for (var i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+              setRole(radios[i].value);
+              break;
+            }
+        }
+    
         if(validateInputs()) {
             let userData = {
                 name: name,
                 email: email,
                 password: password,
-                role: 'attendee'
+                role: role
             }
             console.log(userData)
             postData(userData).then(res=> {
@@ -70,6 +82,11 @@ const Register = () => {
                 success.innerHTML = 'sign up successfully!'
                 setTimeout(() => {
                     success.classList.add('hide')
+                    setName('');
+                    setEmail('');
+                    setPassword('');
+                    setRepassword('');
+                    handleNevigate();
                 },2000)
                
             }).catch(error=> {
@@ -83,6 +100,14 @@ const Register = () => {
             })
         }else {
             setLoading(false)
+        }
+    }
+
+    const handleNevigate = () => {
+        if(role === "Attendee"){
+            props.history.push("/login");
+        }else if(role === "Researcher"){
+            props.history.push("/addpaper");
         }
     }
 
@@ -195,6 +220,7 @@ const Register = () => {
     const classes = useStyles()
 
     return (
+        <Layout>
         <Container maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
@@ -216,6 +242,7 @@ const Register = () => {
                         label="Name"
                         id="name"
                         name="name"
+                        value={name}
                         autoComplete="name"
                         autoFocus
                         onChange={(e)=> {setName(e.target.value)}}
@@ -262,7 +289,15 @@ const Register = () => {
                         autoFocus
                         onChange={(e)=> {setRepassword(e.target.value)}}
                     />
+                    <br />
+                    <label htmlFor="sss">Choose your role</label><br />
                     <p id="repasswordErr" className="hide err"></p>
+                    <input type="radio" id="researcher" name="role" value="Researcher" />
+                    <label for="researcher">Researcher</label><br/>
+                    <input type="radio" id="wp" name="role" value="Workshop presenter" />
+                    <label for="wp">Workshop presenter</label><br/>
+                    <input type="radio" id="attendee" checked="checked" name="role" value="Attendee" />
+                    <label for="attendee">Attendee</label>
                     {/* <FormControlLabel control={<Checkbox value="remember" color="primary"/>}
                      label="Remember Me" /> */}
                      <Button 
@@ -283,6 +318,7 @@ const Register = () => {
                 </form>
             </div>
         </Container>
+        </Layout>
     )
 }
 

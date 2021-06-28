@@ -115,6 +115,8 @@ const Register = (props) => {
             props.history.push("/login");
         }else if(role === "Researcher"){
             props.history.push("/addpaper");
+        }else{
+            props.history.push("/addworkshop");
         }
     }
 

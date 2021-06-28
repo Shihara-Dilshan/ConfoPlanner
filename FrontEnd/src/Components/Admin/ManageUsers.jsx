@@ -20,8 +20,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { mainListItems, secondaryListItems } from './listItems';
-import Approved from './Approved';
-import Pending from './Pending';
+import ManageUser from './CompManageUsers';
+
 
 function Copyright() {
   return (
@@ -181,7 +181,7 @@ export default function Dashboard() {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Pending />
+                <ManageUser />
               </Paper>
             </Grid>
           </Grid>

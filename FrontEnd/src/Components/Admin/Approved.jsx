@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from '@material-ui/core/Link';
+import {Link} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
@@ -26,7 +26,7 @@ export default function Approved() {
         on 15 March, 2019
       </Typography>
       <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
+        <Link color="primary" to="/admin/all-approvings">
           View All
         </Link>
       </div>

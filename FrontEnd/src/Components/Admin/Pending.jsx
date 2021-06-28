@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from '@material-ui/core/Link';
+import {Link} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
@@ -81,7 +81,7 @@ export default function Pending() {
         </TableBody>
       </Table>
       <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
+        <Link  to="/admin/all-pendings" color="primary">
           See All Pendings
         </Link>
       </div>

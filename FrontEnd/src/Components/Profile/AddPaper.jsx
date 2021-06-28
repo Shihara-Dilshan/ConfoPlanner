@@ -3,7 +3,9 @@ import ProfileLayout from './ProfileLayout'
 import { makeStyles } from '@material-ui/core/styles'
 import { Grid, TextField, Button } from '@material-ui/core'
 import './style.css'
+import Layout from '../Common/Layout'
 import { storageRef } from '../../util/firebase'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     formContainer: {
@@ -63,12 +65,15 @@ const AddPaper = () => {
     const [paper, setPaper] = useState(null)
     const [thumbnailError, setThumbnailError] = useState('')
     const [title, setTitle] = useState('')
-    const [thumbPreview,setThumbPreview] = useState('')
+    const [thumbPreview,setThumbPreview] = useState('https://cdn1.iconfinder.com/data/icons/web-design-7/64/choose-image-picture-illustration-512.png')
     const [researchPaper, setResearchPaper] = useState({
         url: '',
         thumbnail: '',
         title: ''
     })
+    const [thumbnailUrl, setThumbnailUrl] = useState('');
+    const [researchPaperUrl, setResearchPaperUrl] = useState('')
+
     const [loading, setLoading] = useState(false)
 
 
@@ -205,20 +210,29 @@ const AddPaper = () => {
         setLoading(true)
         e.preventDefault()
         if(validateInputs()) {
-            console.log('thumbnail: ',thumbnail)
-            uploadThumbnail().then(() => {
-                console.log('thumnail uploaded')
-                uploadResearchPaper().then(() => {
-                    setLoading(false)
-                    console.log('research paper uploaded')
-                }).catch((err) => {
-                    setLoading(false)
-                    alert(err)
+            uploadThumbnail()
+            .then( (resUrl) => {
+                setThumbnailUrl(resUrl);
+                uploadResearchPaper()
+                .then(res => {
+                    setResearchPaperUrl(res);
+                    axios
+                        .post('http://localhost:5000/api/paper/create/60d974493bc02a28c097e237/60d974493bc02a28c097e237', {
+                            url: res,
+                            ownerRef: "60d974493bc02a28c097e237",
+                            title: "title",
+                            thumbnail: resUrl,
+                            status: "initial",
+                            conferenceRef: "60d974493bc02a28c097e237"
+                        })
+                        .then(res => alert("ok"))
+                        .catch(err => alert(err))
                 })
-            }).catch(err=> {
-                setLoading(false)
-                alert(err)
+                .catch(
+                    err => alert("something went wrong with uploading research paper")
+                )
             })
+            .catch(err => alert("something went wrong with uploading thumbnail"))
         }else {
             setLoading(false)
         }
@@ -249,16 +263,20 @@ const AddPaper = () => {
 
 
     return (
-        <ProfileLayout>
+        <Layout>
+            <div style={{display: 'flex', flexDirection: 'row', justifyContent: "space-between"}}>
+            <div><img width="90%" height="600px" src="https://media.slidesgo.com/storage/107183/responsive-images/0-research-project-proposal___media_library_original_1600_900.jpg" alt="" /></div>
+            <div>
             <h3>Add Research Paper</h3>
-            <div className={classes.formContainer}>
+            <div>
                 <form>
-                    <Grid container>
-                        <Grid item xs="6" className={classes.left}>
+                    <Grid >
+                        <Grid item >
                             <p>Add Thumbnail</p>
                             <div className={classes.thumbnailContainer}>
                                 <div>
                                     <img className={classes.thumbnail} src={thumbPreview} alt="thumbnail" />
+                                    <br />
                                     <input className={classes.upload} id="paper-upload-btn" onChange={onChangeThumbnail} multiple type="file" />
                                     <p id="thumbErr" style={{color: 'red', fontSize: '12px'}} className="hide"></p>
                                 </div>
@@ -289,7 +307,10 @@ const AddPaper = () => {
                     </Grid>
                 </form>
             </div>
-        </ProfileLayout>
+        
+            </div>
+            </div>
+        </Layout>
     )
 }
 

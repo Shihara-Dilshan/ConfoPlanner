@@ -6,15 +6,16 @@ const { creteResearchPaper, getAllResearchPaper, getSingleResearchPaper, deleteR
 const { findUserById, validateToken, isAuth, isResearcher, isAdmin, isAdminOrEditor } = require('../util/SecurityConfig')
 
 //create paper by user
-router.post("/create/:userId/:confoId", validateToken, isAuth, isResearcher, async(req,res) => {
+router.post("/create/:userId/:confoId", async(req,res) => {
     try{
         let paper = req.body;
-        paper.ownerRef = req.profile._id
-        paper.conferenceRef = req.conference._id
+        // paper.ownerRef = req.profile._id
+        // paper.conferenceRef = req.conference._id
         const result = await creteResearchPaper(paper)
         res.status(200).json({result})
 
     }catch(err) {
+        console.log(err)
         res.status(400).json({'eror': err})
     }
 });

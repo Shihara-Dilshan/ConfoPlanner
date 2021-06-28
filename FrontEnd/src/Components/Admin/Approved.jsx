@@ -18,16 +18,16 @@ export default function Approved() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Recent Deposits</Title>
+      <Title>Approved Shedules</Title>
       <Typography component="p" variant="h4">
-        $3,024.00
+       Test
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         on 15 March, 2019
       </Typography>
       <div>
         <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
+          View All
         </Link>
       </div>
     </React.Fragment>

@@ -46,9 +46,9 @@ export default function WorkshopCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-      <Button size="small" color="primary" onClick={() =>{  window.open(props.workshopData.presentationFileURL, '_blank').focus() }}>
+      <Button size="small" color="primary" onClick={() =>{ window.open(props.workshopData.presentationFileURL, '_blank').focus() }}>
           Download
-        </Button>
+      </Button>
       </CardActions>
     </Card>
   );

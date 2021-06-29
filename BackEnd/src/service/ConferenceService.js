@@ -30,11 +30,17 @@ const viewCurrentConference = async (req, res) => {
             
             const sortedWorkshopSchedule = await Conference.findById(req.params.id, { workshops: 1 })
             .sort({"workshops.startTime": 1})
-            .populate('workshops.workshop', 'title');   
+            .populate('workshops.workshop', 'title'); 
+            
+            const startDate = await Conference.findById(req.params.id)    
+            const endDate = await Conference.findById(req.params.id)    
+
 
             const currentConference = {
                 sortedPaperSchedule,
-                sortedWorkshopSchedule
+                sortedWorkshopSchedule,
+                startDate: startDate.startDate,
+                endDate: endDate.endDate,
             }
             
             res.status(200).json({ conference: currentConference });
@@ -82,6 +88,7 @@ const updateConferenceSchedule = async (req, res) => {
             let updatedConference;
             if (paper) {
                 let researchPaperObj = {
+                    isApproved: req.body.isApproved,
                     startTime: req.body.startTime,
                     endTime: req.body.endTime,
                     paper
@@ -93,6 +100,7 @@ const updateConferenceSchedule = async (req, res) => {
             }
             if (workshop) {
                 let workshopObj = {
+                    isApproved: req.body.isApproved,
                     startTime: req.body.startTime,
                     endTime: req.body.endTime,
                     workshop

@@ -8,8 +8,10 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Layout from '../Common/Layout'
-import ImgMediaCard from "./../Download/ResearchCard";
-import WorkshopCard from "./../Download/WorkshopCard";
+import ImgMediaCard from "./../Review/ResearchCard";
+import WorkshopCard from "./../Review/WorkshopCard";
+import ResearchReviewTable from "./ResearchReviewTable";
+import WorkshopContentReview from "./WorkshopContentReview";
 import axios from 'axios';
 
 
@@ -54,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Download = () => {
+const Review = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -95,8 +97,8 @@ const Download = () => {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Download Research Papers" {...a11yProps(0)} />
-          <Tab label="Download Workshop Presentations" {...a11yProps(1)} />
+          <Tab label="Research Papers" {...a11yProps(0)} />
+          <Tab label="Workshop Contents" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -105,20 +107,12 @@ const Download = () => {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <div style={{display: 'flex', justifyContent: 'left',flexDirection: 'row', alignContent: 'center', flexWrap: 'wrap'}}>
-          {researchPapers.map((research) =>
-                <ImgMediaCard researchData={research}/>
-          )}
-          </div>
+          <ResearchReviewTable data={researchPapers}/>
           
           
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-        <div style={{display: 'flex', justifyContent: 'left',flexDirection: 'row', alignContent: 'center', flexWrap: 'wrap'}}>
-          {workshopData.map((workshopData) =>
-                <WorkshopCard workshopData={workshopData}/>
-          )}
-          </div>
+        <WorkshopContentReview data={workshopData}/>
         </TabPanel>
       </SwipeableViews>
     </div>
@@ -126,4 +120,4 @@ const Download = () => {
   );
 }
 
-export default Download
+export default Review

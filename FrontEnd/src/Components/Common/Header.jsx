@@ -36,9 +36,9 @@ const Header = ({ history }) => {
   const classes = useStyles();
 
   const navItems = [
-    { title: "Header", path: "/" },
+    { title: "Home", path: "/" },
     { title: "Work Shops", path: "/workshops" },
-    { title: "Rearch Papers", path: "/researchpaper" },
+    { title: "Research Papers", path: "/researchpapers" },
     { title: "Download", path: "/download" },
     { title: "Contact", path: "/contact" },
   ];
@@ -49,10 +49,14 @@ const Header = ({ history }) => {
             return <Link to="/attendee">Account</Link>
           case "Researcher":
             return <Link to="/researcher">Account</Link>
+          case "Reviewer":
+            return <Link to="/review">Review</Link>
           case "WorkshopPresenter":
             return <Link to="/wp">Account</Link>
           case "Reviewer":
             return <Link to="/viewresearchpapers">Review</Link>
+          case "Admin":
+            return <Link to="/admin">Dashboard</Link> 
           default:
             return <Link to="/">Home</Link>
       }
@@ -61,7 +65,6 @@ const Header = ({ history }) => {
   const logout = () => {
     localStorage.clear()
     setIslLoggedIn({
-        ...islLoggedIn,
         status: false,
         role: undefined,
         id: undefined

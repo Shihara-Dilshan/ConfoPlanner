@@ -106,3 +106,14 @@ exports.updateResearchPaper = (paper, body) => {
 
     })
 }
+
+exports.viewApprovedPapers = async (req, res) => {
+    try {
+      const approvedPapers = await Paper.find({ status: "Approved" });
+    
+      res.status(200).json({ papers: approvedPapers });
+      
+    } catch (error) {
+      res.status(400).json({ err: error });
+    }
+  }

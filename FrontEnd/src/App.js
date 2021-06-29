@@ -33,8 +33,13 @@ import ReviewerRoute from "./Auth/SecureRoutes/ReviewerRoute";
 import AddWorkShop from "./Components/Profile/AddWorkShop";
 import SinglePaper from "./Components/Profile/ViewResearchPaper/SinglePaper";
 import ReviewPaper from "./Components/Profile/ViewResearchPaper/ReviewPaper";
+import AddToSchedule from "./Components/Editor/AddToSchedule";
 import { AuthProvider } from "./util/Auth";
 import { LoginProvider } from "./context/loginContext";
+import ResearchPapers from "./../src/Components/Common/ResearchPapers";
+import WorkshopContent from "./../src/Components/Common/WorkshopContent";
+import Review from "./../src/Components/Profile/Review";
+
 
 const useStyles = makeStyles((theme) => ({}));
 
@@ -63,6 +68,12 @@ const App = () => (
           <ReviewerRoute path="/singlepaper" exact component={SinglePaper} />
           <ReviewerRoute path="/reviewpaper" exact component={ReviewPaper} />
           <Route path="/addworkshop" exact component={AddWorkShop} />
+          <Route path="/add-schedule" exact component={AddToSchedule} />
+          <Route path="/researchpapers" exact component={ResearchPapers} />
+          <Route path="/workshops" exact component={WorkshopContent} />
+          <Route path="/review" exact component={Review} />
+
+          
         </Switch>
         </LoginProvider>
         </AuthProvider>

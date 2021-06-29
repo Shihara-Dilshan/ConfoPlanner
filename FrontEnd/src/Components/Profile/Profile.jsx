@@ -41,6 +41,7 @@ const Profile = () => {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
+        console.dir(currentUser)
         setLoading(true)
         fetchUser().then(res=> {
             waitForSetUserData(res).then(res=> {

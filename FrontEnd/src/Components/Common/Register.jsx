@@ -303,8 +303,8 @@ const Register = (props) => {
                     <p id="repasswordErr" className="hide err"></p>
                     <input type="radio" id="researcher" name="role" value="Researcher" />
                     <label for="researcher">Researcher</label><br/>
-                    <input type="radio" id="wp" name="role" value="Workshop presenter" />
-                    <label for="wp">Workshop presenter</label><br/>
+                    <input type="radio" id="WorkshopPresenter" name="role" value="WorkshopPresenter" />
+                    <label for="WorkshopPresenter">Workshop presenter</label><br/>
                     <input type="radio" id="attendee" checked="checked" name="role" value="Attendee" />
                     <label for="attendee">Attendee</label>
                     {/* <FormControlLabel control={<Checkbox value="remember" color="primary"/>}

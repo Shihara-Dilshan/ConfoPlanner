@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.grey[800],
         color: theme.palette.common.white,
         marginBottom: theme.spacing(4),
-        backgroundImage: `url(${background})`,
+        backgroundImage: `url('https://image.freepik.com/free-photo/rear-view-audience-listening-speakers-stage-conference-hall-seminar-meeting_41418-3371.jpg')`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
@@ -46,10 +46,10 @@ const Carousel = (props) => {
                     <Grid item md={6}>
                         <div className={classes.mainFeaturedPostContent}>
                             <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-                                Your Conference Management Tool
+                                ICAF
                             </Typography>
                             <Typography variant="h5" color="inherit" paragraph>
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta, possimus! Sapiente nobis delectus provident facilis nam! Ad commodi quam soluta error non atque tenetur et culpa adipisci, eaque in aperiam.
+                            ICAF is the powerful conference management software that supports you in the planning and implementation of your event with perfectly coordinated functions. Our software is particularly tried and tested in the organization of scientific conferences, but it also shows its strengths to the full at congresses and meetings from other areas. Always clear, user-friendly and completely web-based.
                             </Typography>
                         </div>
                     </Grid>

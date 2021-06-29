@@ -40,7 +40,6 @@ export default class ViewSchedule extends React.Component {
         this.state.schedule.map((item, index) => {
             let start = new Date(item.startTime);
             let end = new Date(item.endTime);
-            console.log(start);
             let tempObj = {
                 id: index,
                 date: `${start.getUTCDate()}/${start.getMonth() + 1}/${start.getUTCFullYear()}`,

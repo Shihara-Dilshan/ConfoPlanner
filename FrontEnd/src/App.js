@@ -33,6 +33,7 @@ import { LoginProvider } from "./context/loginContext";
 import ResearchPapers from "./../src/Components/Common/ResearchPapers";
 import WorkshopContent from "./../src/Components/Common/WorkshopContent";
 import Review from "./../src/Components/Profile/Review";
+import Editor from "./Components/Editor/Editor";
 
 
 const useStyles = makeStyles((theme) => ({}));
@@ -56,7 +57,7 @@ const App = () => (
           <Route path="/profile" exact component={Profile} />
           <Route path="/general" exact component={General} />
           <Route path="/addpaper" exact component={AddPaper} />
-          <Route path="/editor" exact component={ViewSchedule} />
+          <Route path="/editor" exact component={Editor} />
           <Route path="/addworkshop" exact component={AddWorkShop} />
           <Route path="/add-schedule" exact component={AddToSchedule} />
           <Route path="/researchpapers" exact component={ResearchPapers} />

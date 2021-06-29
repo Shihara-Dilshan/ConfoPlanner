@@ -4,7 +4,6 @@ import {TextField, Button, Paper, Grid} from '@material-ui/core';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import Select from 'react-select';
 import { useRef } from 'react';
-import ViewSchedule from './ViewSchedule';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -129,9 +128,6 @@ export default function AddToSchedule() {
   return (
     
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <ViewSchedule isEditor={true} />
-        </Grid>
         <Grid container item xs={12} spacing={2}>
           <Grid item xs={6}>
             <ToggleButton

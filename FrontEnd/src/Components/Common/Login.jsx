@@ -7,6 +7,7 @@ import Layout from '../Common/Layout'
 import { AuthContext } from '../../util/Auth'
 import './style.css'
 import jwt_decode from 'jwt-decode'
+import { LoginContext } from '../../context/loginContext';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = (props) => {
 
     const [currentUser, setCurrentUser] = useContext(AuthContext);
+    const [islLoggedIn, setIslLoggedIn] = useContext(LoginContext)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -100,9 +102,15 @@ const Login = (props) => {
               password: password
           }
           postLogin(loginData).then((res) => {
-            localStorage.setItem("token", res);
-            props.history.push("/")
-            window.location.reload();
+            localStorage.setItem("token", res)
+            localStorage.setItem("userId", decodeToken(res)._id)
+            setLoading(false)
+            setIslLoggedIn({
+                status: true,
+                role: decodeToken(res).role,
+                id: decodeToken(res)._id
+            })
+            props.history.push('/')
           }).catch((err) => {
               console.log(err)
               setLoading(false)

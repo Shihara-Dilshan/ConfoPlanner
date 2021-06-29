@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import {Grid, Drawer, List, ListItem, ListItemIcon, ListItemText, Divider} from '@material-ui/core'
 import {useTheme, makeStyles} from '@material-ui/core/styles'
 import {Link} from 'react-router-dom'
-import { isAthenticated, isResearcher, isReviewer } from '../../Auth'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,16 +26,12 @@ function SideDrawer() {
 
     const sideBarList = [
         {
-            name: "Profile",
-            path: "profile"
+            name: "Review Research Papers",
+            path: "viewresearchpapers"
         },
         {
-            name: "General",
-            path: "general"
-        },
-        {
-            name: "Settings",
-            path: "setting"
+            name: "Review Workshops",
+            path: "viewworkshops"
         },
     ]
 

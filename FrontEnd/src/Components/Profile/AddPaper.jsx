@@ -220,13 +220,19 @@ const AddPaper = () => {
                         .post('http://localhost:5000/api/paper/create/60d974493bc02a28c097e237/60d974493bc02a28c097e237', {
                             url: res,
                             ownerRef: "60d974493bc02a28c097e237",
-                            title: "title",
+                            title: title,
                             thumbnail: resUrl,
                             status: "initial",
                             conferenceRef: "60d974493bc02a28c097e237"
                         })
-                        .then(res => alert("ok"))
-                        .catch(err => alert(err))
+                        .then(res => {
+                            alert("ok")
+                            setLoading(false)
+                        })
+                        .catch(err => {
+                            alert(err)
+                            setLoading(false)
+                        })
                 })
                 .catch(
                     err => alert("something went wrong with uploading research paper")

@@ -106,8 +106,9 @@ const Login = (props) => {
             localStorage.setItem("userId", decodeToken(res)._id)
             setLoading(false)
             setIslLoggedIn({
-                ...islLoggedIn,
-                status: true
+                status: true,
+                role: decodeToken(res).role,
+                id: decodeToken(res)._id
             })
             props.history.push('/')
           }).catch((err) => {

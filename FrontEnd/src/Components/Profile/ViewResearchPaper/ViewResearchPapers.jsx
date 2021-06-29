@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import ProfileLayout from '../ProfileLayout'
 import { makeStyles } from '@material-ui/core/styles'
 import { TableBody, TableHead, TableCell, TableFooter, TableRow, Table, CircularProgress, Button } from '@material-ui/core'
 import { API } from '../../../config'
 import SinglePaper from './SinglePaper'
+import ReviewLayout from './ReviewLayout'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,7 +40,7 @@ const ViewResearchPapers = (props) => {
     },[])
 
     return (
-        <ProfileLayout>
+        <ReviewLayout>
             <h2>Review Research Papers</h2>
             <Table>
                 <TableHead>
@@ -59,7 +59,7 @@ const ViewResearchPapers = (props) => {
                      ))}
                 </TableBody>
             </Table>
-        </ProfileLayout>
+        </ReviewLayout>
     )
 }
 

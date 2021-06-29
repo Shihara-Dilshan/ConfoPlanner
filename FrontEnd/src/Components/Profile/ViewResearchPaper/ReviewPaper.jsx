@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import ProfileLayout from '../ProfileLayout'
 import { API } from '../../../config'
 import { getUserById } from '../../../Auth'
 import { Grid, Button, CircularProgress } from '@material-ui/core'
@@ -7,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import emailjs from 'emailjs-com'
+import ReviewLayout from './ReviewLayout'
 
 const useStyles = makeStyles((theme) => ({
     userData: {
@@ -124,7 +124,7 @@ const ReviewPaper = (props) => {
     },[])
 
     return (
-        <ProfileLayout>
+        <ReviewLayout>
             <h3>Approve Research Paper</h3>
             {loading ? (
                 <CircularProgress />
@@ -196,7 +196,7 @@ const ReviewPaper = (props) => {
             </form>
             )}
             
-        </ProfileLayout>
+        </ReviewLayout>
     )
 }
 

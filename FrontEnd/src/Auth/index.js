@@ -8,7 +8,7 @@ const decodeToken = (token) => {
 }
 
 export const isReviewer = () => {
-    if(isAthenticated()&&isAthenticated().role=='reviewer') {
+    if(isAthenticated()&&isAthenticated().role=='Reviewer') {
         return true
     }else {
         return false
@@ -16,7 +16,7 @@ export const isReviewer = () => {
 }
 
 export const isResearcher = () => {
-    if(isAthenticated()&&isAthenticated().role=='researcher') {
+    if(isAthenticated()&&isAthenticated().role=='Researcher') {
         return true
     }else {
         return false

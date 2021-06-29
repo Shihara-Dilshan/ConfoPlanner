@@ -1,6 +1,8 @@
 import React, {useContext} from 'react'
 import Layout from '../Common/Layout'
 import Carousel from './Carousel'
+import ConferenceData from './ConferenceData'
+import ConferenceImages from './ConferenceImages'
 import { AuthContext } from '../../util/Auth'
 
 const Home = () => {
@@ -13,7 +15,8 @@ const Home = () => {
     return (
         <Layout>
             <Carousel img={img} />
-            {JSON.stringify(currentUser)}
+            <ConferenceData />
+            <ConferenceImages />
         </Layout>
     )
 }

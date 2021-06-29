@@ -100,13 +100,7 @@ const Login = (props) => {
               password: password
           }
           postLogin(loginData).then((res) => {
-            console.log('token_get',res)
-            setLoading(false)
-            localStorage.setItem('loginData', res)
-            let userData = decodeToken(res)
-            localStorage.setItem('userId', userData._id)
-            console.log('userData', userData)
-            props.history.push("/")
+            localStorage.setItem("token", res)
           }).catch((err) => {
               console.log(err)
               setLoading(false)

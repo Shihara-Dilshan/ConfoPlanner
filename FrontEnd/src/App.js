@@ -17,6 +17,8 @@ import AddPaper from "./Components/Profile/AddPaper";
 import General from "./Components/Profile/General";
 import ViewSchedule from "./Components/Editor/ViewSchedule";
 import AddWorkShop from "./Components/Profile/AddWorkShop";
+import { AuthProvider } from "./util/Auth";
+import { LoginProvider } from "./context/loginContext";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -27,6 +29,8 @@ const App = () => (
     <Container maxWidth="lg">
 
       <main>
+        <AuthProvider >
+        <LoginProvider>
         <Switch>
           <Route path="/"  exact component={Home} />
           <Route path="/download" exact component={Download} />
@@ -38,6 +42,8 @@ const App = () => (
           <Route path="/editor" exact component={ViewSchedule} />
           <Route path="/addworkshop" exact component={AddWorkShop} />
         </Switch>
+        </LoginProvider>
+        </AuthProvider>
       </main>
 
     </Container>

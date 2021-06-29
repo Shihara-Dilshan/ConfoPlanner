@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {TextField, Button} from '@material-ui/core';
+import {TextField, Button, Paper, Grid} from '@material-ui/core';
 import Select from 'react-select';
 import { useRef } from 'react';
 import ViewSchedule from './ViewSchedule';
@@ -16,6 +16,14 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     width: 220,
   },
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }
 }));
 
 export default function AddToSchedule() {
@@ -117,8 +125,12 @@ export default function AddToSchedule() {
 
   return (
       <>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
           <ViewSchedule />
-                    
+        </Grid>
+      </Grid>
+                              
           <form className={classes.container} noValidate>
               <Select 
               options={workshopList}

@@ -100,7 +100,9 @@ const Login = (props) => {
               password: password
           }
           postLogin(loginData).then((res) => {
-            localStorage.setItem("token", res)
+            localStorage.setItem("token", res);
+            props.history.push("/")
+            window.location.reload();
           }).catch((err) => {
               console.log(err)
               setLoading(false)

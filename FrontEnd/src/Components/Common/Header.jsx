@@ -34,9 +34,9 @@ const Header = ({ history }) => {
   const classes = useStyles();
 
   const navItems = [
-    { title: "Header", path: "/" },
+    { title: "Home", path: "/" },
     { title: "Work Shops", path: "/workshops" },
-    { title: "Rearch Papers", path: "/researchpaper" },
+    { title: "Research Papers", path: "/researchpapers" },
     { title: "Download", path: "/download" },
     { title: "Contact", path: "/contact" },
     { title: "Profile", path: "/profile" },
@@ -50,9 +50,17 @@ const Header = ({ history }) => {
             return <Link to="/researcher">Account</Link>
           case "WorkshopPresenter":
             return <Link to="/wp">Account</Link>
+          case "Admin":
+            return <Link to="/admin">Dashboard</Link> 
           default:
             return <Link to="/">Home</Link>
       }
+  }
+
+  const logout = () => {
+      localStorage.clear();
+      history.push("/")
+      window.location.reload();
   }
 
   return (
@@ -77,8 +85,8 @@ const Header = ({ history }) => {
             <Button variant="outlined" size="small" style={{marginRight: 10}}>
               {nevigator(islLoggedIn.role)}
             </Button>
-            <Button variant="outlined" size="small">
-              <Link to="/login">Log out</Link>
+            <Button variant="outlined" size="small" onClick={logout}>
+             Log out
             </Button>
           </>
         ) : (

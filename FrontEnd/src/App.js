@@ -30,6 +30,9 @@ import AddWorkShop from "./Components/Profile/AddWorkShop";
 import AddToSchedule from "./Components/Editor/AddToSchedule";
 import { AuthProvider } from "./util/Auth";
 import { LoginProvider } from "./context/loginContext";
+import ResearchPapers from "./../src/Components/Common/ResearchPapers";
+import WorkshopContent from "./../src/Components/Common/WorkshopContent";
+
 
 const useStyles = makeStyles((theme) => ({}));
 
@@ -55,7 +58,10 @@ const App = () => (
           <Route path="/editor" exact component={ViewSchedule} />
           <Route path="/addworkshop" exact component={AddWorkShop} />
           <Route path="/add-schedule" exact component={AddToSchedule} />
+          <Route path="/researchpapers" exact component={ResearchPapers} />
+          <Route path="/workshops" exact component={WorkshopContent} />
 
+          
         </Switch>
         </LoginProvider>
         </AuthProvider>

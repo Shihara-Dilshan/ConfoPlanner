@@ -1,7 +1,7 @@
 'use strict'
 
 const Paper = require('../model/ResearchPaper')
-const { validatePaper } = require('../validations/researchPaperValidations')
+const { validatePaper } = require('../validations/researchPaperValidations');
 
 
 exports.creteResearchPaper = (paper_item) => {
@@ -107,7 +107,7 @@ exports.updateResearchPaper = (paper, body) => {
     })
 }
 
-exports.viewApprovedPapers = async (req, res) => {
+const viewApprovedPapers = async (req, res) => {
     try {
       const approvedPapers = await Paper.find({ status: "Approved" });
     
@@ -116,4 +116,6 @@ exports.viewApprovedPapers = async (req, res) => {
     } catch (error) {
       res.status(400).json({ err: error });
     }
-  }
+}
+
+module.exports.viewApprovedPapers = viewApprovedPapers;

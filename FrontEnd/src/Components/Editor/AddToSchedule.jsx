@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {TextField, Button, Paper, Grid} from '@material-ui/core';
+import ToggleButton from '@material-ui/lab/ToggleButton';
 import Select from 'react-select';
 import { useRef } from 'react';
-import ViewSchedule from './ViewSchedule';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddToSchedule() {
   const classes = useStyles();
 
-  const [editPaper, setEditPaper] = useState(false);
+  const [editPaper, setEditPaper] = useState(true);
   const [selectedPaper, setSelectedPaper] = useState('');
   const [selectedWorkshop, setSelectedWorkshop] = useState('');
   const [workshops, setWorkshops] = useState([]);
@@ -53,26 +53,28 @@ export default function AddToSchedule() {
   }
 
   const submitData = () => {
-    
+    let start = new Date(startTimeRef.current.value).toUTCString();
+    let end = new Date(endTimeRef.current.value).toUTCString();
     if(editPaper) {
       let paperToApprove = {
         isApproved: false,
-        startTime: startTimeRef.current.value,
-        endTime: endTimeRef.current.value,
+        startTime: start,
+        endTime: end,
         paper: selectedPaper
       }
       sendToDB(paperToApprove);
-      console.log(paperToApprove);
+      // console.log(paperToApprove);
     } else {
       let workshopToApprove = {
         isApproved: false,
-        startTime: startTimeRef.current.value,
-        endTime: endTimeRef.current.value,
+        startTime: start,
+        endTime: end,
         workshop: selectedWorkshop
       }
       sendToDB(workshopToApprove)
-      console.log(workshopToApprove);
+      // console.log(workshopToApprove);
     } 
+    window.location.reload(false);
   }
 
   const editWorkshop = () => {
@@ -87,7 +89,7 @@ export default function AddToSchedule() {
   useEffect(() => {
 
     function getData() {
-        axios.get('http://localhost:5000/api/paper/get/approved')
+        axios.get('http://localhost:5000/api/paper/get-approved')
         .then(res => {
             setResearchPapers(res.data.papers);
 
@@ -124,47 +126,67 @@ export default function AddToSchedule() {
   }, [])
 
   return (
-      <>
+    
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <ViewSchedule />
+        <Grid container item xs={12} spacing={2}>
+          <Grid item xs={6}>
+            <ToggleButton
+              value={editPaper}
+              selected={editPaper}
+              onChange={editWorkshop}>
+              Research Papers
+            </ToggleButton>
+            <ToggleButton
+              value={editPaper}
+              selected={!editPaper}
+              onChange={editWorkshop}>
+              Workshops
+            </ToggleButton>
+          </Grid>
         </Grid>
+      <Grid container item xs={12} spacing={2}>
+        <Grid item xs={6}>
+          <Select
+            options={editPaper ? paperList : workshopList }
+            onChange={onItemSelect}
+            placeholder={editPaper ? "Select Paper" : "Select Workshop"} >
+          </Select>
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            id="startTime"
+            label="Start Time"
+            type="datetime-local"
+            defaultValue="2021-07-01T10:30"
+            inputRef={startTimeRef}
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            id="endTime"
+            label="End Time"
+            type="datetime-local"
+            defaultValue="2021-07-01T10:30"
+            inputRef={endTimeRef}
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+        <Button variant="contained" color="primary"
+          onClick={submitData}>
+          Assign Time
+        </Button>
+        </Grid>
+      </Grid>  
       </Grid>
-                              
-          <form className={classes.container} noValidate>
-              <Select 
-              options={workshopList}
-              onChange={onItemSelect}
-              placeholder={editPaper ? "Select Paper" : "Select Workshop"} />
-              <TextField
-                  id="startTime"
-                  label="Start Time"
-                  type="datetime-local"
-                  defaultValue="2021-07-01T10:30"
-                  inputRef={startTimeRef}
-                  className={classes.textField}
-                  InputLabelProps={{
-                      shrink: true,
-                  }}
-              />
+    
 
-              <TextField
-                  id="endTime"
-                  label="End Time"
-                  type="datetime-local"
-                  defaultValue="2021-07-01T10:30"
-                  inputRef={endTimeRef}
-                  className={classes.textField}
-                  InputLabelProps={{
-                      shrink: true,
-                  }}
-              />
-
-              <Button variant="contained" color="primary"
-                  onClick={submitData}>
-                  Assign Time
-              </Button>
-          </form>
-      </>
   );
 }

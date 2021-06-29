@@ -32,6 +32,7 @@ import { AuthProvider } from "./util/Auth";
 import { LoginProvider } from "./context/loginContext";
 import ResearchPapers from "./../src/Components/Common/ResearchPapers";
 import WorkshopContent from "./../src/Components/Common/WorkshopContent";
+import Review from "./../src/Components/Profile/Review";
 
 
 const useStyles = makeStyles((theme) => ({}));
@@ -60,6 +61,7 @@ const App = () => (
           <Route path="/add-schedule" exact component={AddToSchedule} />
           <Route path="/researchpapers" exact component={ResearchPapers} />
           <Route path="/workshops" exact component={WorkshopContent} />
+          <Route path="/review" exact component={Review} />
 
           
         </Switch>

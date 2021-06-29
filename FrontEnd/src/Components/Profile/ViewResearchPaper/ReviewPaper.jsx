@@ -74,7 +74,7 @@ const ReviewPaper = (props) => {
         fetch(`${API}/paper/update/${getPaperId()}`, {
             headers: {
                 'Content-Type': 'application/json',
-                token: `${localStorage.getItem("loginData")}`
+                token: `${localStorage.getItem("token")}`
             },
             method: 'PUT',
             body: JSON.stringify({

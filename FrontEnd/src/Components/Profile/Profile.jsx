@@ -3,6 +3,7 @@ import { useTheme, makeStyles } from '@material-ui/core/styles'
 import ProfileLayout from './ProfileLayout'
 import { Grid, Paper, Avatar, Typography, Container, TextField, CircularProgress } from '@material-ui/core'
 import { AuthContext } from '../../util/Auth'
+import { LoginContext } from '../../context/loginContext'
 
 const useStyles = makeStyles((theme) => ({
     pageContent: {
@@ -37,6 +38,8 @@ const Profile = () => {
 
     const [currentUser, setCurrentUser] = useContext(AuthContext) 
     const [user, setUser] = useState({})
+
+    const [islLoggedIn, setIslLoggedIn] = useContext(LoginContext)
 
     const [loading, setLoading] = useState(false)
 

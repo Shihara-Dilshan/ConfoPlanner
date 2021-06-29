@@ -24,8 +24,8 @@ export const isResearcher = () => {
 }
 
 export const isAthenticated = () => {
-    if(localStorage.getItem("loginData")) {
-        let decode = decodeToken(localStorage.getItem('loginData')) 
+    if(localStorage.getItem("token")) {
+        let decode = decodeToken(localStorage.getItem('token')) 
         return decode
     }else {
         return false

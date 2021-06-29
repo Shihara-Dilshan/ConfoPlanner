@@ -41,7 +41,6 @@ const Header = ({ history }) => {
     { title: "Rearch Papers", path: "/researchpaper" },
     { title: "Download", path: "/download" },
     { title: "Contact", path: "/contact" },
-    { title: "Profile", path: "/profile" },
   ];
 
   const nevigator = (role) => {
@@ -55,6 +54,17 @@ const Header = ({ history }) => {
           default:
             return <Link to="/">Home</Link>
       }
+  }
+
+  const logout = () => {
+    localStorage.clear()
+    setIslLoggedIn({
+        ...islLoggedIn,
+        status: false,
+        role: undefined,
+        id: undefined
+    })
+    history.push('/login') 
   }
 
   return (
@@ -79,8 +89,8 @@ const Header = ({ history }) => {
             <Button variant="outlined" size="small" style={{marginRight: 10}}>
               {nevigator(islLoggedIn.role)}
             </Button>
-            <Button variant="outlined" size="small">
-              <Link to="/login">Log out</Link>
+            <Button variant="outlined" size="small" onClick={logout}>
+              Log Out
             </Button>
           </>
         ) : (
@@ -106,6 +116,17 @@ const Header = ({ history }) => {
             {item.title}
           </Link>
         ))}
+        {islLoggedIn.status&& (
+             <Link
+             color="inherit"
+             noWrap
+             variant="body2"
+             to='/profile'
+             className={classes.toolbarLink}
+           >
+             Profile
+           </Link>
+        )}
       </Toolbar>
     </React.Fragment>
   );
@@ -114,65 +135,3 @@ const Header = ({ history }) => {
 export default withRouter(Header);
 
 
-// useEffect(() => {
-//     console.log('auth',isAthenticated())
-// },[])
-
-// const navItems = [
-//     {title:'Header', path:"/"},
-//     {title:'Work Shops', path:"/workshops"},
-//     {title:'Rearch Papers', path:"/researchpaper"},
-//     {title:'Download', path:"/download"},
-//     {title:'Contact', path:"/contact"},
-// ]
-
-// return (
-//     <React.Fragment>
-//         <Toolbar className={classes.toolbar}>
-//             <IconButton>
-//                 <FavoriteBorderIcon fontSize="small" />
-//             </IconButton>
-            
-//             <Typography
-//             component="h2"
-//             variant="h5"
-//             color="inherit"
-//             align="center"
-//             noWrap
-//             className={classes.toolbarTitle}
-//             >
-//                 ConfoPlanner
-//             </Typography>
-//             <Button variant="outlined" size="small">
-//                 <Link to="/login">Sign In</Link>
-//             </Button>
-//         </Toolbar>
-//         <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
-//             {navItems.map((item) => (
-//                 <Link
-//                 color="inherit"
-//                 noWrap
-//                 key={item.title}
-//                 variant="body2"
-//                 to={item.path}
-//                 className={classes.toolbarLink}
-//               >
-//                 {item.title}
-//               </Link>
-//             ))}
-//             {isAthenticated() && (
-//                <Link
-//                 color="inherit"
-//                 noWrap
-//                 key="profile"
-//                 variant="body2"
-//                 to='/profile'
-//                 className={classes.toolbarLink}
-//                 >
-//                 Profile
-//                 </Link>
-//             )}
-//         </Toolbar>
-//     </React.Fragment>
-// )
-// }

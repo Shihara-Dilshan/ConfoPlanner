@@ -1,7 +1,8 @@
 const express = require('express');
 
 const router = express.Router();
-const { createWorkshop, viewAllWorkshops, viewSpecificUserWokshops, viewSpecificById, deleteById, updateById } = require('../service/WorkshopService')
+const { createWorkshop, viewAllWorkshops, viewSpecificUserWokshops, viewSpecificById, deleteById, updateById,
+viewApprovedWorkshops } = require('../service/WorkshopService')
 const { isAuth, validateToken, isAdmin, isAdminOrEditor, isEditor, isPresenter, isResearcher, isReviewer } = require('../util/SecurityConfig')
 
 router.post("/create/", async(req,res) => {
@@ -57,6 +58,8 @@ router.patch('/updatebyid/:id', async (req, res) => {
         res.status(400).json({'error': err});
     }
 });
+
+router.get('/view/approved', viewApprovedWorkshops);
 
 
 module.exports = router;

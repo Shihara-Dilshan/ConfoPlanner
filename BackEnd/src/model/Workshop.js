@@ -25,6 +25,10 @@ const WorkshopSchema = mongoose.Schema({
         min: 4,
         max: 1024
     },
+    status: {
+        type: String, 
+        required: true
+    },
     estimatedDuration: {
         type: Number,
         required: true

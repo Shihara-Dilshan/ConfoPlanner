@@ -28,6 +28,7 @@
     "react-dropzone": "^11.3.2",
     "react-loader-spinner": "^4.0.0",
     "react-router-dom": "^5.2.0",
+    "react-swipeable-views": "^0.14.0",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",

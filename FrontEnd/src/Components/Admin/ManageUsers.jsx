@@ -14,23 +14,23 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Href from '@material-ui/core/Link';
 import { Link } from 'react-router-dom';
+import Href from '@material-ui/core/Link';  
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { mainListItems, secondaryListItems } from './listItems';
-import Approved from './Approved';
-import Pending from './Pending';
+import ManageUser from './CompManageUsers';
+
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Href color="inherit" href="">
+      <Link color="inherit" href="">
         REG_WD_10
-      </Href>{' '}
+      </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -120,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function ManageUsers() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -146,14 +146,14 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Admin Dashboard
+            Admin Dashboard - <small>manage users</small>
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge> 
           </IconButton>
-          <Link to ="profile">
+          <Link to ="/profile">
           <IconButton color="default">
               <AccountCircleIcon fontSize="large" />
           </IconButton>
@@ -181,23 +181,10 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={5}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={0}>
-              <Paper className={fixedHeightPaper}>
-                {/* <Chart /> */}
-                <Approved />
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Approved />
-              </Paper>
-            </Grid>
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Pending />
+                <ManageUser />
               </Paper>
             </Grid>
           </Grid>

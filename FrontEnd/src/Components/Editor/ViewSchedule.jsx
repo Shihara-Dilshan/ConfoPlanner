@@ -44,8 +44,8 @@ export default class ViewSchedule extends React.Component {
             let tempObj = {
                 id: index,
                 date: `${start.getUTCDate()}/${start.getMonth() + 1}/${start.getUTCFullYear()}`,
-                startTime: `${start.getUTCHours()}:${start.getUTCMinutes()}`,
-                endTime: `${end.getUTCHours()}:${end.getUTCMinutes()}`,
+                startTime: `${start.getHours()}:${start.getMinutes()}`,
+                endTime: `${end.getHours()}:${end.getMinutes()}`,
                 title: item.paper ? item.paper.title : item.workshop.title
             }
             tempRows.push(tempObj);
@@ -103,6 +103,9 @@ export default class ViewSchedule extends React.Component {
                             <TableCell>{row.startTime}</TableCell>
                             <TableCell>{row.endTime}</TableCell>
                             <TableCell>{row.title}</TableCell>
+                            {!this.props.isEditor ? (
+                                <TableCell>Approve Button</TableCell>
+                            ) : ''}
                         </TableRow>
                     ))}
 

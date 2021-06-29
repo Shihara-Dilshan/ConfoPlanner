@@ -67,6 +67,17 @@ exports.isAdminOrEditor = (req,res,next) => {
     }
 }
 
+
+exports.isAdminOrEditorOrReviewerOrResearcher = (req,res,next) => {
+    if(req.user.role=='attendee') {
+        return res.status(403).json({
+            'error': 'Permission Denied'
+        })
+    }else {
+        next()
+    }
+}
+
 exports.isPresenter = (req,res,next) => {
     if(req.profile.role!=='presenter') {
         return res.status(403).json({

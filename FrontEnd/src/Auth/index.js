@@ -31,3 +31,21 @@ export const isAthenticated = () => {
         return false
     }
 }
+
+export const getUserById = (id) => {
+    return new Promise((resolve, reject) => {
+        fetch(`http://localhost:5000/api/user/singleuser/${id}`)
+        .then(res => {return res.json()})
+        .then(res => {
+            console.log(res)
+            if(res.result!==undefined) {
+                resolve(res)
+            }else {
+                reject(res)
+            }
+        }).catch((err) => {
+            console.log(err)
+            reject(err)
+        })
+    })
+}

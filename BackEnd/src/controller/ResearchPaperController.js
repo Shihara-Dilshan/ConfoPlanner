@@ -3,7 +3,7 @@ const { getSingleConfo } = require('../service/ConferenceService');
 
 const router = express.Router()
 const { creteResearchPaper, getAllResearchPaper, getSingleResearchPaper, deleteResearchPaper, updateResearchPaper, getSingleRearchPaperByOwnerId } = require('../service/ServiceResearchpaper')
-const { findUserById, validateToken, isAuth, isResearcher, isAdmin, isAdminOrEditor } = require('../util/SecurityConfig')
+const { findUserById, validateToken, isAuth, isResearcher, isAdmin, isAdminOrEditor, isAdminOrEditorOrReviewerOrResearcher } = require('../util/SecurityConfig')
 
 //create paper by user
 router.post("/create/:userId/:confoId", async(req,res) => {
@@ -69,7 +69,7 @@ router.delete("/delete/:paperId/:userId", validateToken, isAuth, isResearcher, a
 })
 
 //update paper admin or editor
-router.put("/update/:paperId", validateToken, isAdminOrEditor, async(req,res) => {
+router.put("/update/:paperId", validateToken, isAdminOrEditorOrReviewerOrResearcher, async(req,res) => {
     try {
         
         const result = await updateResearchPaper(req.paper, req.body)

@@ -27,6 +27,7 @@ import AddPaper from "./Components/Profile/AddPaper";
 import General from "./Components/Profile/General";
 import ViewSchedule from "./Components/Editor/ViewSchedule";
 import AddWorkShop from "./Components/Profile/AddWorkShop";
+import AddToSchedule from "./Components/Editor/AddToSchedule";
 import { AuthProvider } from "./util/Auth";
 import { LoginProvider } from "./context/loginContext";
 
@@ -53,6 +54,8 @@ const App = () => (
           <Route path="/addpaper" exact component={AddPaper} />
           <Route path="/editor" exact component={ViewSchedule} />
           <Route path="/addworkshop" exact component={AddWorkShop} />
+          <Route path="/add-schedule" exact component={AddToSchedule} />
+
         </Switch>
         </LoginProvider>
         </AuthProvider>

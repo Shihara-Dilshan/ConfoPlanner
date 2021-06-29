@@ -82,6 +82,7 @@ const updateConferenceSchedule = async (req, res) => {
             let updatedConference;
             if (paper) {
                 let researchPaperObj = {
+                    isApproved: req.body.isApproved,
                     startTime: req.body.startTime,
                     endTime: req.body.endTime,
                     paper
@@ -93,6 +94,7 @@ const updateConferenceSchedule = async (req, res) => {
             }
             if (workshop) {
                 let workshopObj = {
+                    isApproved: req.body.isApproved,
                     startTime: req.body.startTime,
                     endTime: req.body.endTime,
                     workshop

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
-import { DataGrid } from '@material-ui/data-grid';
 import { Table, TableBody, TableCell, TableRow, TableHead } from '@material-ui/core';
 
 export default class ViewSchedule extends React.Component {
@@ -17,8 +16,15 @@ export default class ViewSchedule extends React.Component {
     }
 
     sortData() {
-        let sortedSchedule = 
-        this.state.researchPapers.researchPapers.concat(this.state.workshops.workshops);
+        let sortedSchedule = [];
+
+        if (this.state.researchPapers == '' && this.state.workshops != '') {
+            sortedSchedule = this.state.workshops
+        } else if(this.state.researchPapers != '' && this.state.workshops == '') {
+            sortedSchedule = this.state.researchPapers
+        } else {
+            sortedSchedule = this.state.researchPapers.concat(this.state.workshops);
+        }
 
         sortedSchedule.sort((a, b) => {
             let c = new Date(a.startTime);
@@ -34,8 +40,10 @@ export default class ViewSchedule extends React.Component {
         this.state.schedule.map((item, index) => {
             let start = new Date(item.startTime);
             let end = new Date(item.endTime);
+            console.log(start);
             let tempObj = {
                 id: index,
+                date: `${start.getUTCDate()}/${start.getMonth() + 1}/${start.getUTCFullYear()}`,
                 startTime: `${start.getUTCHours()}:${start.getUTCMinutes()}`,
                 endTime: `${end.getUTCHours()}:${end.getUTCMinutes()}`,
                 title: item.paper ? item.paper.title : item.workshop.title
@@ -50,10 +58,28 @@ export default class ViewSchedule extends React.Component {
         .get('http://localhost:5000/api/conferences/60d76048aa132a4cf07b74dd')
         .then(res => {
             let conference = res.data.conference;
-            this.setState({ researchPapers: conference.sortedPaperSchedule });
-            this.setState({ workshops: conference.sortedWorkshopSchedule });          
+            let papersToBeApproved = []
+            let workshopsToBeApproved = []
+
+            if(conference.sortedPaperSchedule) {
+                papersToBeApproved = 
+                conference.sortedPaperSchedule.researchPapers.filter(
+                    paper => paper.isApproved == false
+                );
+            }
+
+            if(conference.sortedWorkshopSchedule) {
+                workshopsToBeApproved = 
+                conference.sortedWorkshopSchedule.workshops.filter(
+                    workshop => workshop.isApproved == false
+                );
+            }
+
+            this.setState({ researchPapers: papersToBeApproved });
+            this.setState({ workshops: workshopsToBeApproved });          
             this.sortData();
             this.loadData();
+
         }).catch(err => console.log(err));
     }
 
@@ -64,6 +90,7 @@ export default class ViewSchedule extends React.Component {
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
+                            <TableCell>Date</TableCell>                            
                             <TableCell>Start Time</TableCell>
                             <TableCell>End Time</TableCell>
                             <TableCell>Title</TableCell>                            
@@ -72,6 +99,7 @@ export default class ViewSchedule extends React.Component {
                     <TableBody>
                     {this.state.rows.map((row) => (
                         <TableRow key={row.id}>
+                            <TableCell>{row.date}</TableCell>
                             <TableCell>{row.startTime}</TableCell>
                             <TableCell>{row.endTime}</TableCell>
                             <TableCell>{row.title}</TableCell>

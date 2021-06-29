@@ -10,6 +10,10 @@ const conferenceSchema = new mongoose.Schema({
         required: true
     },
     researchPapers: [{
+        isApproved: {
+            type: Boolean,
+            required: true
+        },
         startTime: {
             type: Date,
             required: false
@@ -25,6 +29,10 @@ const conferenceSchema = new mongoose.Schema({
         }
     }],
     workshops: [{
+        isApproved: {
+            type: Boolean,
+            required: true
+        },
         startTime: {
             type: Date,
             required: false

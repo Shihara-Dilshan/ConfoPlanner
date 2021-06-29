@@ -31,6 +31,17 @@ const viewAllWorkshops = () => {
   });
 };
 
+const viewApprovedWorkshops = async (req, res) => {
+  try {
+    const approvedWorkshops = await Workshop.find({ status: "Approved" });
+  
+    res.status(200).json({ workshops: approvedWorkshops });
+    
+  } catch (error) {
+    res.status(400).json({ err: error });
+  }
+}
+
 const viewSpecificUserWokshops = (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -99,3 +110,4 @@ module.exports.viewSpecificUserWokshops = viewSpecificUserWokshops;
 module.exports.viewSpecificById = viewSpecificById;
 module.exports.deleteById = deleteById;
 module.exports.updateById = updateById;
+module.exports.viewApprovedWorkshops = viewApprovedWorkshops;

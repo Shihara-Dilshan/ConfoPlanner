@@ -25,32 +25,76 @@ export default function AddToSchedule() {
   const [selectedPaper, setSelectedPaper] = useState('');
   const [selectedWorkshop, setSelectedWorkshop] = useState('');
   const [workshops, setWorkshops] = useState([]);
+  const [researchPapers, setResearchPapers] = useState([]);
   const [workshopList, setWorkshopList] = useState([]);
+  const [paperList, setPaperList] = useState([]);
   const startTimeRef = useRef('');
   const endTimeRef = useRef('');
 
-  const submitData = () => {
-    // let paper = {
-    //     isApproved: false,
-    //     startTime: startTimeRef.current.value,
-    //     endTime: endTimeRef.current.value
-    // } 
-    console.log(selectedPaper);
 
+  const sendToDB = data => {
+    axios
+    .patch('http://localhost:5000/api/conferences/update-conference/60d76048aa132a4cf07b74dd', data)
+    .then(res => {
+      if(res.status == 200) {
+        alert('Updated');
+      }
+    })
+    .catch(err => console.log(err));    
+    
   }
 
-  const selectResearch = (e) => {
-    editPaper ? setSelectedPaper(e.target.value) :
-    setSelectedWorkshop(e.target.value);
+  const submitData = () => {
+    
+    if(editPaper) {
+      let paperToApprove = {
+        isApproved: false,
+        startTime: startTimeRef.current.value,
+        endTime: endTimeRef.current.value,
+        paper: selectedPaper
+      }
+      sendToDB(paperToApprove);
+      console.log(paperToApprove);
+    } else {
+      let workshopToApprove = {
+        isApproved: false,
+        startTime: startTimeRef.current.value,
+        endTime: endTimeRef.current.value,
+        workshop: selectedWorkshop
+      }
+      sendToDB(workshopToApprove)
+      console.log(workshopToApprove);
+    } 
   }
 
   const editWorkshop = () => {
       setEditPaper(!editPaper);
   }
 
+  function onItemSelect(e) {
+    editPaper ? setSelectedPaper(e ? e.value : '') :
+    setSelectedWorkshop(e ? e.value : '');
+  }
+
   useEffect(() => {
 
     function getData() {
+        axios.get('http://localhost:5000/api/paper/get/approved')
+        .then(res => {
+            setResearchPapers(res.data.papers);
+
+            let data = [];
+            res.data.papers.map(paper => {
+                let temp = {
+                    value: paper._id,
+                    label: paper.title
+                }
+                data.push(temp);
+            });
+            setPaperList(data);
+        })
+        .catch(err => console.log(err));
+
         axios.get('http://localhost:5000/api/workshop/view/approved')
         .then(res => {
             setWorkshops(res.data.workshops);
@@ -78,12 +122,13 @@ export default function AddToSchedule() {
           <form className={classes.container} noValidate>
               <Select 
               options={workshopList}
+              onChange={onItemSelect}
               placeholder={editPaper ? "Select Paper" : "Select Workshop"} />
               <TextField
                   id="startTime"
                   label="Start Time"
                   type="datetime-local"
-                  defaultValue="2021-01-01T10:30"
+                  defaultValue="2021-07-01T10:30"
                   inputRef={startTimeRef}
                   className={classes.textField}
                   InputLabelProps={{
@@ -95,7 +140,7 @@ export default function AddToSchedule() {
                   id="endTime"
                   label="End Time"
                   type="datetime-local"
-                  defaultValue="2021-01-01T10:30"
+                  defaultValue="2021-07-01T10:30"
                   inputRef={endTimeRef}
                   className={classes.textField}
                   InputLabelProps={{

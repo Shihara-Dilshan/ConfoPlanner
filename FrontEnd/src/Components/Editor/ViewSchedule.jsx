@@ -40,8 +40,10 @@ export default class ViewSchedule extends React.Component {
         this.state.schedule.map((item, index) => {
             let start = new Date(item.startTime);
             let end = new Date(item.endTime);
+            console.log(start);
             let tempObj = {
                 id: index,
+                date: `${start.getUTCDate()}/${start.getMonth() + 1}/${start.getUTCFullYear()}`,
                 startTime: `${start.getUTCHours()}:${start.getUTCMinutes()}`,
                 endTime: `${end.getUTCHours()}:${end.getUTCMinutes()}`,
                 title: item.paper ? item.paper.title : item.workshop.title
@@ -88,6 +90,7 @@ export default class ViewSchedule extends React.Component {
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
+                            <TableCell>Date</TableCell>                            
                             <TableCell>Start Time</TableCell>
                             <TableCell>End Time</TableCell>
                             <TableCell>Title</TableCell>                            
@@ -96,6 +99,7 @@ export default class ViewSchedule extends React.Component {
                     <TableBody>
                     {this.state.rows.map((row) => (
                         <TableRow key={row.id}>
+                            <TableCell>{row.date}</TableCell>
                             <TableCell>{row.startTime}</TableCell>
                             <TableCell>{row.endTime}</TableCell>
                             <TableCell>{row.title}</TableCell>

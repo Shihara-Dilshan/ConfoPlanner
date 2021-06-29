@@ -6,6 +6,7 @@ import { Grid, Button, CircularProgress } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import emailjs from 'emailjs-com'
 
 const useStyles = makeStyles((theme) => ({
     userData: {
@@ -30,6 +31,7 @@ const ReviewPaper = (props) => {
     const [paper, setPaper] = useState({})
     const [approving, setApproving] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [reviewer, setReviewr] = useState({})
 
     const fetchPaperDetails = (id) => {
         setLoading(true)
@@ -69,6 +71,19 @@ const ReviewPaper = (props) => {
         }
     }
 
+    const getReviewerDetails = async(id) => {
+        setLoading(true)
+        try {
+            let res = await getUserById(id)
+            console.log('reviewer user', res)
+            setReviewr(res.result)
+            setLoading(false)
+        } catch (err) {
+            setLoading(false)
+            console.log(err)
+        }
+    }
+
     const approvePaper = (approveStatus) => {
         setApproving(true)
         fetch(`${API}/paper/update/${getPaperId()}`, {
@@ -89,6 +104,11 @@ const ReviewPaper = (props) => {
             setApproving(false)
             console.log('updated',res)
             setPaper(res.result)
+            emailjs.send("service_onyqcs5","template_dua19hi", {
+                from_name: user.name,
+                to_name: reviewer.name,
+            })
+            
         }).catch(err => {
             setApproving(false)
             console.log(err)
@@ -100,7 +120,7 @@ const ReviewPaper = (props) => {
         fetchPaperDetails(id).then(res => {
             getUserDetails(res.ownerRef)
         })
-        
+        getReviewerDetails(localStorage.getItem("userId"))
     },[])
 
     return (

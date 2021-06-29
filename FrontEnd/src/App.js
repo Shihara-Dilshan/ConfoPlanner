@@ -26,7 +26,13 @@ import Profile from "./Components/Profile/Profile";
 import AddPaper from "./Components/Profile/AddPaper";
 import General from "./Components/Profile/General";
 import ViewSchedule from "./Components/Editor/ViewSchedule";
+import ViewResearchPapers from "./Components/Profile/ViewResearchPaper/ViewResearchPapers";
+import ReviewerRoute from "./Auth/SecureRoutes/ReviewerRoute";
+
+//import Dashboard from './Components/Admin/Dashboard'
 import AddWorkShop from "./Components/Profile/AddWorkShop";
+import SinglePaper from "./Components/Profile/ViewResearchPaper/SinglePaper";
+import ReviewPaper from "./Components/Profile/ViewResearchPaper/ReviewPaper";
 import AddToSchedule from "./Components/Editor/AddToSchedule";
 import { AuthProvider } from "./util/Auth";
 import { LoginProvider } from "./context/loginContext";
@@ -57,6 +63,10 @@ const App = () => (
           <Route path="/general" exact component={General} />
           <Route path="/addpaper" exact component={AddPaper} />
           <Route path="/editor" exact component={ViewSchedule} />
+          {/* <Route path="/admin" exact component={Dashboard} /> */}
+          <ReviewerRoute path="/viewresearchpapers" exact component={ViewResearchPapers} />
+          <ReviewerRoute path="/singlepaper" exact component={SinglePaper} />
+          <ReviewerRoute path="/reviewpaper" exact component={ReviewPaper} />
           <Route path="/addworkshop" exact component={AddWorkShop} />
           <Route path="/add-schedule" exact component={AddToSchedule} />
           <Route path="/researchpapers" exact component={ResearchPapers} />

@@ -7,6 +7,8 @@ import { Button, IconButton, Toolbar, Typography } from "@material-ui/core";
 import { LoginContext } from "./../../context/loginContext";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
+import { isAthenticated } from '../../Auth';
+
 const useStyles = makeStyles((theme) => ({
   toolbar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -39,7 +41,6 @@ const Header = ({ history }) => {
     { title: "Research Papers", path: "/researchpapers" },
     { title: "Download", path: "/download" },
     { title: "Contact", path: "/contact" },
-    { title: "Profile", path: "/profile" },
   ];
 
   const nevigator = (role) => {
@@ -52,6 +53,8 @@ const Header = ({ history }) => {
             return <Link to="/review">Review</Link>
           case "WorkshopPresenter":
             return <Link to="/wp">Account</Link>
+          case "Reviewer":
+            return <Link to="/viewresearchpapers">Review</Link>
           case "Admin":
             return <Link to="/admin">Dashboard</Link> 
           default:
@@ -60,9 +63,13 @@ const Header = ({ history }) => {
   }
 
   const logout = () => {
-      localStorage.clear();
-      history.push("/")
-      window.location.reload();
+    localStorage.clear()
+    setIslLoggedIn({
+        status: false,
+        role: undefined,
+        id: undefined
+    })
+    history.push('/login') 
   }
 
   return (
@@ -88,7 +95,7 @@ const Header = ({ history }) => {
               {nevigator(islLoggedIn.role)}
             </Button>
             <Button variant="outlined" size="small" onClick={logout}>
-             Log out
+              Log Out
             </Button>
           </>
         ) : (
@@ -114,9 +121,22 @@ const Header = ({ history }) => {
             {item.title}
           </Link>
         ))}
+        {islLoggedIn.status&& (
+             <Link
+             color="inherit"
+             noWrap
+             variant="body2"
+             to='/profile'
+             className={classes.toolbarLink}
+           >
+             Profile
+           </Link>
+        )}
       </Toolbar>
     </React.Fragment>
   );
 };
 
 export default withRouter(Header);
+
+

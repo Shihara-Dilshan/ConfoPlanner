@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ConferenceData() {
+    const LATEST_CONF_ID = '60c222945db06535f0f8edef';
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -31,8 +32,10 @@ export default function ConferenceData() {
   };
 
   useEffect( () => {
-    // axios
-    //     .get('http://localhost:5000/api/conferences/all-conferences')
+    axios
+        .get(`http://localhost:5000/api/conferences/${LATEST_CONF_ID}`)
+        .then(res =>  console.log(res.data.conference))
+        .catch(err => console.log(err))
   }, []);
 
   return (

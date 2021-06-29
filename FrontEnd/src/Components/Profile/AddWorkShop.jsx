@@ -58,13 +58,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const AddPaper = () => {
+const AddWorkShop = () => {
 
     const classes = useStyles()
     const [thumbnail, setThumbnail] = useState(null)
     const [paper, setPaper] = useState(null)
     const [thumbnailError, setThumbnailError] = useState('')
     const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [duration, setDuration] = useState(0)
     const [thumbPreview,setThumbPreview] = useState('https://cdn1.iconfinder.com/data/icons/web-design-7/64/choose-image-picture-illustration-512.png')
     const [researchPaper, setResearchPaper] = useState({
         url: '',
@@ -108,11 +110,11 @@ const AddPaper = () => {
              },2000)
             return false
         }
-
-        if(paper.type!=='application/pdf') {
+    
+        if(paper.type!=='application/x-zip-compressed') {
             let paperErr = document.getElementById("paperErr")
             paperErr.classList.remove('hide')
-            paperErr.innerHTML = 'Please Upload PDF'
+            paperErr.innerHTML = 'Please Upload your presentation as a zip file'
              setTimeout(() => {
                  paperErr.classList.add('hide')
              },2000)
@@ -122,25 +124,11 @@ const AddPaper = () => {
         return true
     }
 
-    const validateThumbnail = () => {
-        if(!thumbnail) {
-            let thumbErr = document.getElementById("thumbErr")
-            thumbErr.classList.remove("hide")
-            thumbErr.innerHTML = 'Please Upload Thumbnail'
-            setTimeout(() => {
-                thumbErr.classList.add("hide")
-            },2000)
-            return false
-        }
-        return true
-    }
-
     const validateInputs = () => {
         const isPaper = validatePaper()
-        const isThumb = validateThumbnail()
         const isTitle = validateTitle()
         return (
-            isPaper&&isThumb&&isTitle
+            isPaper&&isTitle
         )
     }
 
@@ -210,29 +198,21 @@ const AddPaper = () => {
         setLoading(true)
         e.preventDefault()
         if(validateInputs()) {
-            uploadThumbnail()
+            uploadResearchPaper()
             .then( (resUrl) => {
-                setThumbnailUrl(resUrl);
-                uploadResearchPaper()
-                .then(res => {
-                    setResearchPaperUrl(res);
-                    axios
-                        .post('http://localhost:5000/api/paper/create/60d974493bc02a28c097e237/60d974493bc02a28c097e237', {
-                            url: res,
-                            ownerRef: "60d974493bc02a28c097e237",
-                            title: "title",
-                            thumbnail: resUrl,
-                            status: "initial",
-                            conferenceRef: "60d974493bc02a28c097e237"
+                axios
+                        .post('http://localhost:5000/api/workshop/create', {
+                            title: title,
+                            description: description,
+                            presentationFileURL: resUrl,
+                            estimatedDuration: parseInt(duration),
+                            conferenceRef: "60d974493bc02a28c097e237",
+                            PresenterRef: "60d974493bc02a28c097e237"
                         })
                         .then(res => alert("ok"))
                         .catch(err => alert(err))
-                })
-                .catch(
-                    err => alert("something went wrong with uploading research paper")
-                )
             })
-            .catch(err => alert("something went wrong with uploading thumbnail"))
+            .catch(err => alert("something went wrong with uploading workshop presentation"))
         }else {
             setLoading(false)
         }
@@ -265,37 +245,41 @@ const AddPaper = () => {
     return (
         <Layout>
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: "space-between"}}>
-            <div><img width="90%" height="600px" src="https://media.slidesgo.com/storage/107183/responsive-images/0-research-project-proposal___media_library_original_1600_900.jpg" alt="" /></div>
+            <div><img width="90%" height="600px" src="https://previews.123rf.com/images/vmaster2012/vmaster20121602/vmaster2012160200039/53648133-workshop-concept-typographic-poster-workshop-concepts-for-web-and-printed-materials-.jpg" alt="" /></div>
             <div>
-            <h3>Add Research Paper</h3>
+            <h3>Add Workshop Details</h3>
             <div>
                 <form>
                     <Grid >
                         <Grid item >
-                            <p>Add Thumbnail</p>
-                            <div className={classes.thumbnailContainer}>
-                                <div>
-                                    <img className={classes.thumbnail} src={thumbPreview} alt="thumbnail" />
-                                    <br />
-                                    <input className={classes.upload} id="paper-upload-btn" onChange={onChangeThumbnail} multiple type="file" />
-                                    <p id="thumbErr" style={{color: 'red', fontSize: '12px'}} className="hide"></p>
-                                </div>
-                            </div>
-                            <p>Add Research Paper</p>
+                            <p>Add Presentation File</p>
                             <div className={classes.thumbnailContainer}>
                                 <div>
                                     <input className={classes.upload} id="paper-upload-btn" onChange={onChangePaper} multiple type="file" />
                                     <p id="paperErr" style={{color: 'red', fontSize: '12px'}} className="hide"></p>
                                 </div>
                             </div>
-                            <p>Enter Research Paper Title</p>
+                            <p>Enter Workshop Title</p>
                             <div className={classes.thumbnailContainer}>
                                 <div>
                                     <TextField onChange={(e) => {setTitle(e.target.value)}} id="standard-basic" label="Paper Title" fullWidth />
                                     <p id="titleErr" style={{color: 'red', fontSize: '12px'}} className="hide"></p>
                                 </div>
                             </div>
-        
+                            <p>Enter Estimatated Duration</p>
+                            <div className={classes.thumbnailContainer}>
+                                <div>
+                                <TextField onChange={(e) => {setDuration(e.target.value)}} id="standard-basic" label="Paper Title" fullWidth />
+                                    <p id="titleErr" style={{color: 'red', fontSize: '12px'}} className="hide"></p>
+                                </div>
+                            </div>
+                            <p>Enter Workshop Description</p>
+                            <div className={classes.thumbnailContainer}>
+                                <div>
+                                    <textarea style={{width: '100%', height: 100}} onChange={(e) => {setDescription(e.target.value)}} id="standard-basic" label="Paper Title" fullWidth />
+                                    <p id="titleErr" style={{color: 'red', fontSize: '12px'}} className="hide"></p>
+                                </div>
+                            </div>
                             <Button onClick={addPaper} color="primary" className={classes.button}>
                                 {!loading ? (
                                     <div>Upload Research Paper</div>
@@ -314,4 +298,4 @@ const AddPaper = () => {
     )
 }
 
-export default AddPaper
+export default AddWorkShop

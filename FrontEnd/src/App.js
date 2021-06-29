@@ -5,7 +5,6 @@ import Nav from "./Nav";
 import Header from "./Components/Common/Header";
 import Footer from "./Components/Common/Footer";
 import Home from "./Components/Home/Home";
-
 import {
   BrowserRouter as Router,
   Switch,
@@ -27,6 +26,7 @@ import Profile from "./Components/Profile/Profile";
 import AddPaper from "./Components/Profile/AddPaper";
 import General from "./Components/Profile/General";
 import ViewSchedule from "./Components/Editor/ViewSchedule";
+import AddWorkShop from "./Components/Profile/AddWorkShop";
 
 const useStyles = makeStyles((theme) => ({}));
 
@@ -48,6 +48,7 @@ const App = () => (
           <Route path="/general" exact component={General} />
           <Route path="/addpaper" exact component={AddPaper} />
           <Route path="/editor" exact component={ViewSchedule} />
+          <Route path="/addworkshop" exact component={AddWorkShop} />
         </Switch>
       </main>
     </Container>

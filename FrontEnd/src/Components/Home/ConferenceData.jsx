@@ -23,9 +23,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ConferenceData() {
-    const LATEST_CONF_ID = '60c222945db06535f0f8edef';
+  const LATEST_CONF_ID = '60c222945db06535f0f8edef';
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [startDate, setStartDate] = useState('Loading...');
+  const [endDate, setEndDate] = useState('Loading...')
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -34,7 +36,11 @@ export default function ConferenceData() {
   useEffect( () => {
     axios
         .get(`http://localhost:5000/api/conferences/${LATEST_CONF_ID}`)
-        .then(res =>  console.log(res.data.conference))
+        .then(res =>  {
+            console.log(res.data.conference);
+            setStartDate(res.data.conference.startDate.substring(0,10));
+            setEndDate(res.data.conference.endDate.substring(0,10));
+        })
         .catch(err => console.log(err))
   }, []);
 
@@ -47,12 +53,11 @@ export default function ConferenceData() {
           id="panel1bh-header"
         >
           <Typography className={classes.heading}>Venue </Typography>
-          <Typography className={classes.secondaryHeading}>I am an accordion</Typography>
+          <Typography className={classes.secondaryHeading}>SLIIT main hall</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget
-            maximus est, id dignissim quam.
+          SLIIT Main Auditorium, SLIIT malabe
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -64,15 +69,9 @@ export default function ConferenceData() {
         >
           <Typography className={classes.heading}>Start Date</Typography>
           <Typography className={classes.secondaryHeading}>
-            You are currently not an owner
+            {startDate}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus, varius pulvinar
-            diam eros in elit. Pellentesque convallis laoreet laoreet.
-          </Typography>
-        </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
         <AccordionSummary
@@ -82,31 +81,11 @@ export default function ConferenceData() {
         >
           <Typography className={classes.heading}>End Date</Typography>
           <Typography className={classes.secondaryHeading}>
-            Filtering has been entirely disabled for whole web server
+            {endDate}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros,
-            vitae egestas augue. Duis vel est augue.
-          </Typography>
-        </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel4bh-content"
-          id="panel4bh-header"
-        >
-          <Typography className={classes.heading}>Personal data</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros,
-            vitae egestas augue. Duis vel est augue.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
+     
     </div>
   );
 }

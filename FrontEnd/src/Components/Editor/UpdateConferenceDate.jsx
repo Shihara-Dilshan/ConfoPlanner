@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Grid, TextField, makeStyles, Button } from '@material-ui/core';
+import { Grid, TextField, makeStyles, Button, Typography } from '@material-ui/core';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,10 +15,10 @@ export default function UpdateConferenceDate() {
     const classes = useStyles();
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [formattedStart, setFormattedStart] = useState('');
-    const [formattedEnd, setFormattedEnd] = useState('2021-10-10');
     const startDateRef = useRef('');
     const endDateRef = useRef('');
+    const [formattedStart, setFormattedStart] = useState('');
+    const [formattedEnd, setFormattedEnd] = useState('');    
 
     useEffect(() => {
 
@@ -28,9 +28,10 @@ export default function UpdateConferenceDate() {
                 let start = new Date(res.data.conference.startDate);
                 let end = new Date(res.data.conference.endDate);
                 setStartDate(start);
-                setEndDate(end);
-                let sDate = formatDate(start);
-                let eDate = formatDate(end);
+                setEndDate(end);   
+                let sDate = formateDate(start);
+                let eDate = formateDate(end);  
+                console.log(sDate)           
                 setFormattedStart(sDate);
                 setFormattedEnd(eDate);
             })
@@ -39,17 +40,15 @@ export default function UpdateConferenceDate() {
         getData();
     }, []);
 
-    function formatDate(date) {
+    function formateDate(date) {
         let newDate = new Date(date);
-        let month, day = ''
-        if(newDate.getMonth() < 10) {
-            month = `0${(newDate.getMonth() + 1)}`;
-        }
-        if(newDate.getUTCDate() < 10) {
-            day = `0${newDate.getUTCDate()}`
-        }
-        newDate = `${newDate.getUTCFullYear()}-${month}-${day}`;
-        return newDate;
+        let day, month, year = ''
+        day = newDate.getUTCDate();
+        month = newDate.getUTCMonth()+1;
+        year = newDate.getFullYear();
+        if(day < 10) day = `0${day}` 
+        if(month < 10) month = `0${month}` 
+        return `${month}-${day}-${year}`
     }
 
     function updateDate() {
@@ -68,23 +67,26 @@ export default function UpdateConferenceDate() {
         }).catch(err => console.log(err));
     }
 
-    function handleChange(e){
-        setStartDate(e.target.value);
-    }
-
     return (
         <div>
-            {console.log(formattedStart)}
+            
             <Grid container item xs={12} spacing={2}>
+                <Grid item xs={12}>
+                <Typography variant="h6">
+                    Current Conference Start Date: {formattedStart}
+                </Typography>
+                <Typography variant="h6">
+                    Current Conference End Date: {formattedEnd}
+                </Typography>
+                </Grid>
                 <Grid item xs={12}>
                     <TextField
                         id="date"
                         label="Start Date"
                         type="date"
                         inputRef={startDateRef}
-                        defaultValue={formattedStart}
+                        defaultValue="2021-07-01"
                         className={classes.textField}
-                        onChange={e => handleChange(e)}
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -96,7 +98,7 @@ export default function UpdateConferenceDate() {
                         label="End Date"
                         type="date"
                         inputRef={endDateRef}
-                        defaultValue={formattedEnd}
+                        defaultValue="2021-07-01"
                         className={classes.textField}
                         InputLabelProps={{
                             shrink: true,

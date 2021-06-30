@@ -107,7 +107,7 @@ router.param("paperId", async(req,res,next,id) => {
     }
 })
 
-router.get('/get/approved', viewApprovedPapers);
+router.get('/get-approved', viewApprovedPapers);
 
 router.param("userId", findUserById)
 router.param("confoId", getSingleConfo)

@@ -95,8 +95,8 @@ const Download = () => {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Download Research Papers" {...a11yProps(0)} />
-          <Tab label="Download Workshop Presentations" {...a11yProps(1)} />
+          <Tab data-testid="researchlabel" label="Download Research Papers" {...a11yProps(0)} />
+          <Tab data-testid="workshoplabel" label="Download Workshop Presentations" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <SwipeableViews

@@ -47,7 +47,7 @@ export default function Editor() {
                 <Grid item xs={12}>
                     <Card className={classes.root} variant="outlined">
                         <CardContent>
-                            <Typography className={classes.title} style={{ fontSize: 20 }}>
+                            <Typography className={classes.title} style={{ fontSize: 25 }}>
                                 Schedule To Be Approved
                             </Typography>
                             <ViewSchedule isEditor={true} />
@@ -57,7 +57,7 @@ export default function Editor() {
                 <Grid item xs={12}>
                     <Card className={classes.root} variant="outlined">
                         <CardContent>
-                            <Typography className={classes.title} style={{ fontSize: 20 }}>
+                            <Typography className={classes.title} style={{ fontSize: 25 }}>
                                 Assign Timeslot
                             </Typography>
                             <AddToSchedule />
@@ -67,7 +67,7 @@ export default function Editor() {
                 <Grid item xs={12}>
                     <Card className={classes.root} variant="outlined">
                         <CardContent>
-                            <Typography className={classes.title} style={{ fontSize: 20 }}>
+                            <Typography className={classes.title} style={{ fontSize: 25 }}>
                                 Update Conference Date
                             </Typography>
                             <UpdateConferenceDate />

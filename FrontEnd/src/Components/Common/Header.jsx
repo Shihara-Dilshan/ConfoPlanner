@@ -49,8 +49,6 @@ const Header = ({ history }) => {
             return <Link to="/attendee">Account</Link>
           case "Researcher":
             return <Link to="/researcher">Account</Link>
-          case "Reviewer":
-            return <Link to="/review">Review</Link>
           case "WorkshopPresenter":
             return <Link to="/wp">Account</Link>
           case "Reviewer":

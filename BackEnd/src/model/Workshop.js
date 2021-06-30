@@ -35,7 +35,6 @@ const WorkshopSchema = mongoose.Schema({
     }, 
     conferenceRef: {
         type: mongoose.Types.ObjectId,
-        required: true,
         ref: 'Conference'
     }
 });

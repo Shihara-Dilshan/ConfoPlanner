@@ -1,54 +1,65 @@
-
-import React, {useContext, useEffect, useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Title from './Title';
-import axios from 'axios'
+import React, { useContext, useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Title from "./Title";
+import axios from "axios";
 
 function preventDefault(event) {
   event.preventDefault();
 }
 
 const useStyles = makeStyles((theme) => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
-
-  rejectBtn:{
-    fontSize: '10px'
-  },
-  viewBtn:{
-    fontSize: '10px'
-  },
-  approveBtn:{
+  approveBtn: {
     background: "#228B22",
-    '&:hover': {
+    "&:hover": {
       background: "#006400",
     },
-    color: 'white',
-    fontSize: '10px'
-  }
-  
+    color: "white",
+    fontSize: "10px",
+    left: "50px",
+  },
+  selector: {
+    border: "solid 2px",
+    borderRadius: "10px",
+    width: "90px",
+    height: "30px",
+  },
 }));
 
 export default function CompManageUsers() {
   const classes = useStyles();
   const [rows, setRows] = useState([]);
 
+  function updateRole(user) {
+    // console.log(user.id);
+    // console.log(user.role);
+    if (confirm("Are you sure?")) {
+      axios
+        .patch(`http://localhost:5000/api/user/${user.id}`, { role: user.role })
+        .then((res) => {
+          if (res.status == 200) {
+            alert("updated");
+          }else{
+            alert("Error Updating!")
+          }
+        });
+    }
+  }
+
   function setUserRows(array) {
     let tempRows = [];
-    array.map(user => {
+    array.map((user) => {
       let row = {
         id: user._id,
         name: user.name,
         role: user.role,
-        email: user.email
-      }
+        email: user.email,
+      };
       tempRows.push(row);
     });
     setRows(tempRows);
@@ -56,19 +67,17 @@ export default function CompManageUsers() {
 
   useEffect(() => {
     function getAllUsers() {
-      axios.get('http://localhost:5000/api/user/getall')
-      .then(res => {
-        console.log(res.data.result);
-        let attendees = res.data.result.filter(
-          user => user.role == 'Attendee'
-        );
-        setUserRows(attendees);
-      })
-      .catch(err => console.log(err));
+      axios
+        .get("http://localhost:5000/api/user/getall")
+        .then((res) => {
+          let attendees = res.data.result.filter(
+            (user) => user.role == "Attendee" || "Editor" || "Reviewer"
+          );
+          setUserRows(attendees);
+        })
+        .catch((err) => console.log(err));
     }
-  
     getAllUsers();
-    console.log(`Rwos: ${rows}`)
   }, []);
 
   return (
@@ -77,10 +86,20 @@ export default function CompManageUsers() {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Role</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell align="right"><TableCell>Change Role</TableCell></TableCell>
+            <TableCell>
+              <strong>Name</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Role</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Email</strong>
+            </TableCell>
+            <TableCell align="right">
+              <TableCell>
+                <strong>Change Role</strong>
+              </TableCell>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -89,8 +108,29 @@ export default function CompManageUsers() {
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.role}</TableCell>
               <TableCell>{row.email}</TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right"><Button className={classes.approveBtn} variant="contained" size = "small" >Approve</Button></TableCell>
+              <TableCell align="justify">
+                <select
+                  id="select"
+                  name="select"
+                  className={classes.selector}
+                  onChange={(e) => {
+                    row.role = e.target.value;
+                  }}
+                >
+                  <option value="Reviewer">Reviewer</option>
+                  <option value="Editor">Editor</option>
+                  <option value="Attendee">Attendee</option>
+                  <option selected>Select</option>
+                </select>
+                <Button
+                  onClick={(e) => updateRole(row)}
+                  className={classes.approveBtn}
+                  variant="contained"
+                  size="small"
+                >
+                  Approve
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

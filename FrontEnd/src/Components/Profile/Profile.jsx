@@ -1,9 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react'
 import { useTheme, makeStyles } from '@material-ui/core/styles'
 import ProfileLayout from './ProfileLayout'
-import { Grid, Paper, Avatar, Typography, Container, TextField, CircularProgress } from '@material-ui/core'
+import { Grid, Paper, Avatar, Typography, Container, TextField, CircularProgress, Button } from '@material-ui/core'
 import { AuthContext } from '../../util/Auth'
 import { LoginContext } from '../../context/loginContext'
+import { storageRef } from '../../util/firebase'
+import { API } from '../../config'
 
 const useStyles = makeStyles((theme) => ({
     pageContent: {
@@ -28,6 +30,17 @@ const useStyles = makeStyles((theme) => ({
     },
     PageContainer: {
         marginTop: '10px'
+    },
+    textContain: {
+        marginTop: '10px'
+    },
+    buttonContain: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        marginTop: '10px'
+    },
+    label: {
+        fontSize: '10px'
     }
 }))
 
@@ -39,7 +52,13 @@ const Profile = () => {
     const [currentUser, setCurrentUser] = useContext(AuthContext) 
     const [user, setUser] = useState({})
 
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [profilePic, setProfilePic] = useState(null)
+    const [profilePicUrl, setProfilePicUrl] = useState('')
+
     const [islLoggedIn, setIslLoggedIn] = useContext(LoginContext)
+
 
     const [loading, setLoading] = useState(false)
 
@@ -64,9 +83,78 @@ const Profile = () => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 setUser(res.result)
+                setName(res.result.name)
+                setEmail(res.result.email)
+                setProfilePicUrl(res.result.profilePicture)
                 resolve(res)
             },1000)
         })
+    }
+
+    const validateProfilePic = () => {
+
+    }
+
+    const updateProfile = (id) => {
+        fetch(`${API}/user/update/${id}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                profilePicture: profilePicUrl
+            })
+        })
+        .then(res => {return res.json()})
+        .then(res => {
+            setUser(res.result)
+        })
+    }
+
+    const uploadProfilePic = () => {
+        return new Promise((resolve, reject) => {
+            try {
+                
+                const upload = storageRef
+                .ref(`profilepic/${name}`)
+                .put(profilePic)
+            
+                upload.on("stage_changed", (snapshot) => {},
+                (err) => {
+                    console.log(err)
+                },
+                () => {
+                    storageRef
+                        .ref("paperstemp")
+                        .child(name)
+                        .getDownloadURL()
+                        .then((url) => {
+                            console.log(url)
+                            resolve(url)
+                            setProfilePicUrl(url)
+                        })
+                })    
+
+            } catch (err) {
+                reject("Something went wrong")
+            }
+           
+        })
+    }
+
+    const handleProfileUpdate = (e) => {
+        e.preventDefault()
+        uploadProfilePic().then(res => {
+            updateProfile(localStorage.getItem("userId"))
+        })
+    }
+
+    const onChangeProfilePic = (e) => {
+        if(e.target.files.length>0) {
+            setProfilePic(e.target.files[0])
+        }
     }
 
     const fetchUser = () => {
@@ -103,6 +191,7 @@ const Profile = () => {
                                 <div>
                                     <Paper className={classes.profileCard}>
                                     <Avatar alt="profile image" className={classes.avatar} src={`${user.profilePicture}`} />
+                                    <TextField type="file" onChange={onChangeProfilePic}  />
                                     <div className={classes.profileCardBottum}>
                                         <h4>{user.name}</h4>
                                         <h5>{user.role}</h5>
@@ -115,7 +204,18 @@ const Profile = () => {
                         <Grid item md="6" xs="12" className={classes.PageContainer}>
                             <Container>
                                 <form>
-                                    <TextField fullWidth  />
+                                    <p>My Personal Details</p>
+                                    <div className={classes.textContain}>
+                                        <p className={classes.label}>Name: </p><TextField fullWidth value={user.name} onChange={(e) => {setName(e.target.value)}}  />
+                                    </div>
+                                    <div className={classes.textContain}>
+                                        <p className={classes.label}>Email: </p><TextField fullWidth value={user.email} onChange={(e) => {setEmail(e.target.value)}} />
+                                    </div> 
+                                    <div className={classes.buttonContain}>
+                                        <Button variant="contained" onClick={handleProfileUpdate}>Save</Button>
+                                        <Button variant="outlined">Cancel</Button>
+                                    </div>
+                                    
                                 </form>
                             </Container>
                            

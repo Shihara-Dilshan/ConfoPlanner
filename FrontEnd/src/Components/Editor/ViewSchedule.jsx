@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Table, TableBody, TableCell, TableRow, TableHead } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableRow, TableHead, CircularProgress } from '@material-ui/core';
 
 export default class ViewSchedule extends React.Component {
     constructor(props) {
@@ -11,7 +11,8 @@ export default class ViewSchedule extends React.Component {
             researchPapers: '',
             workshops: '',
             rows: [],
-            schedule: []
+            schedule: [],
+            isLoading: true
         }
     }
 
@@ -78,8 +79,9 @@ export default class ViewSchedule extends React.Component {
             this.setState({ workshops: workshopsToBeApproved });          
             this.sortData();
             this.loadData();
-
-        }).catch(err => console.log(err));
+            this.setState({ isLoading: false });
+        })
+        .catch(err => console.log(err));
     }
 
 
@@ -96,7 +98,7 @@ export default class ViewSchedule extends React.Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {this.state.rows.map((row) => (
+                    {!this.state.isLoading ? this.state.rows.map((row) => (
                         <TableRow key={row.id}>
                             <TableCell>{row.date}</TableCell>
                             <TableCell>{row.startTime}</TableCell>
@@ -106,7 +108,9 @@ export default class ViewSchedule extends React.Component {
                                 <TableCell>Approve Button</TableCell>
                             ) : ''}
                         </TableRow>
-                    ))}
+                    )) : <TableRow>
+                            <TableCell colSpan={4} align="center"><CircularProgress /></TableCell>
+                        </TableRow>}
 
                     </TableBody>
                 </Table>

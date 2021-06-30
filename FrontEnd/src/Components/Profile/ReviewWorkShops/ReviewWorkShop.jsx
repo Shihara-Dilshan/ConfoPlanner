@@ -104,6 +104,12 @@ const ReviewWorkShop = () => {
             emailjs.send("service_onyqcs5","template_dua19hi", {
                 from_name: user.name,
                 to_name: reviewer.name,
+                message: 'Your Workshop has been approved',
+                user_email: user.email,
+            }, 'user_hTZQq5uFzSAnCR7Dthq5u').then(res => {
+                console.log(res.text)
+            }).catch(err => {
+                console.log(err.text)
             })
             
         }).catch(err => {

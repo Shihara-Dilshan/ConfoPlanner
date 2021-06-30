@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+
 const { findUserById } = require("../util/SecurityConfig");
-const { getAllUsers, updateRole } = require("../service/UserService");
+const { getAllUsers, updateRole,  updateProfile } = require("../service/UserService");
 const viewUserNotifications = require("../service/NotificationService");
 
 router.get("/", (req, res) => {
@@ -24,6 +25,19 @@ router.get("/singleuser/:userId", (req, res) => {
 
 router.param("userId", findUserById);
 
+
+router.put("/update/:id", async(req,res) => {
+    try {
+        let result = await updateProfile(req.params.id, req.body)
+        res.status(200).json({result})
+    } catch (err) {
+        res.status(400).json({'error': err})
+    }
+})
+
+router.param('userId', findUserById)
+
 router.patch("/:id", updateRole);
+
 
 module.exports = router;

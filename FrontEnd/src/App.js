@@ -39,10 +39,13 @@ import { LoginProvider } from "./context/loginContext";
 import ResearchPapers from "./../src/Components/Common/ResearchPapers";
 import WorkshopContent from "./../src/Components/Common/WorkshopContent";
 import Review from "./../src/Components/Profile/Review";
+
 import ReviewLayout from "./Components/Profile/ViewResearchPaper/ReviewLayout";
 import ViewWorkShops from "./Components/Profile/ReviewWorkShops/ViewWorkShops";
 import SingleWorkShop from "./Components/Profile/ReviewWorkShops/SingleWorkShop";
 import ReviewWorkShop from "./Components/Profile/ReviewWorkShops/ReviewWorkShop";
+
+import Editor from "./Components/Editor/Editor";
 
 
 const useStyles = makeStyles((theme) => ({}));
@@ -66,6 +69,7 @@ const App = () => (
           <Route path="/profile" exact component={Profile} />
           <Route path="/general" exact component={General} />
           <Route path="/addpaper" exact component={AddPaper} />
+          <Route path="/editor" exact component={Editor} />
           <Route path="/editor" exact component={ViewSchedule} />
           {/* <Route path="/admin" exact component={Dashboard} /> */}
           <ReviewerRoute path="/viewresearchpapers" exact component={ViewResearchPapers} />

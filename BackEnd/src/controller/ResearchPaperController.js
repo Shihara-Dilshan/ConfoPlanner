@@ -1,12 +1,14 @@
 const express = require('express');
 const { getSingleConfo } = require('../service/ConferenceService');
 
-const { creteResearchPaper, getAllResearchPaper, getSingleResearchPaper,
-     deleteResearchPaper, updateResearchPaper, getSingleRearchPaperByOwnerId,
+const { creteResearchPaper, getAllResearchPaper, getSingleResearchPaper,deleteResearchPaper, updateResearchPaper, getSingleRearchPaperByOwnerId,
     viewApprovedPapers } = require('../service/ServiceResearchpaper')
 const { findUserById, validateToken, isAuth, isResearcher, isAdmin, isAdminOrEditor, isAdminOrEditorOrReviewerOrResearcher } = require('../util/SecurityConfig')
 
 const router = express.Router()
+
+const { viewApprovedPapers } = require('../service/ServiceResearchpaper');
+
 
 //create paper by user
 router.post("/create/:userId/:confoId", async(req,res) => {
@@ -107,7 +109,7 @@ router.param("paperId", async(req,res,next,id) => {
     }
 })
 
-router.get('/get/approved', viewApprovedPapers);
+router.get('/get-approved', viewApprovedPapers);
 
 router.param("userId", findUserById)
 router.param("confoId", getSingleConfo)

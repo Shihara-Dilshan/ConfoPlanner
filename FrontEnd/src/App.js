@@ -39,6 +39,10 @@ import { LoginProvider } from "./context/loginContext";
 import ResearchPapers from "./../src/Components/Common/ResearchPapers";
 import WorkshopContent from "./../src/Components/Common/WorkshopContent";
 import Review from "./../src/Components/Profile/Review";
+import ReviewLayout from "./Components/Profile/ViewResearchPaper/ReviewLayout";
+import ViewWorkShops from "./Components/Profile/ReviewWorkShops/ViewWorkShops";
+import SingleWorkShop from "./Components/Profile/ReviewWorkShops/SingleWorkShop";
+import ReviewWorkShop from "./Components/Profile/ReviewWorkShops/ReviewWorkShop";
 import Editor from "./Components/Editor/Editor";
 
 
@@ -74,8 +78,8 @@ const App = () => (
           <Route path="/researchpapers" exact component={ResearchPapers} />
           <Route path="/workshops" exact component={WorkshopContent} />
           <Route path="/review" exact component={Review} />
-
-          
+          <ReviewerRoute path="/viewworkshops" exact component={ViewWorkShops} />
+          <ReviewerRoute path="/reviewworkshop" exact component={ReviewWorkShop} />
         </Switch>
         </LoginProvider>
         </AuthProvider>

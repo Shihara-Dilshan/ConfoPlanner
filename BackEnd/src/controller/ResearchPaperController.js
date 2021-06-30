@@ -8,6 +8,9 @@ const { findUserById, validateToken, isAuth, isResearcher, isAdmin, isAdminOrEdi
 
 const router = express.Router()
 
+const { viewApprovedPapers } = require('../service/ServiceResearchpaper');
+
+
 //create paper by user
 router.post("/create/:userId/:confoId", async(req,res) => {
     try{

@@ -92,7 +92,9 @@ const updateById = (id, workshopData) => {
               description: workshopData.description,
               presentationFileURL: workshopData.presentationFileURL,
               estimatedDuration: workshopData.estimatedDuration,
-              conferenceRef: workshopData.conferenceRef
+              conferenceRef: workshopData.conferenceRef,
+              status: workshopData.status,
+              PresenterRef: workshopData.PresenterRef
             },
           }
         );
@@ -104,6 +106,25 @@ const updateById = (id, workshopData) => {
   });
 };
 
+const updateWorkShopStatus = (id, workshopData) => {
+  return new Promise(async(resolve, reject) => {
+    try {
+      //await joiWorkshopSchema.validateAsync(workshopData);
+
+      let workshop = await Workshop.findById(id)
+
+      workshop.status = workshopData.status
+
+      const updated = await workshop.save()
+
+      resolve(updated)
+
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
 module.exports.createWorkshop = createWorkshop;
 module.exports.viewAllWorkshops = viewAllWorkshops;
 module.exports.viewSpecificUserWokshops = viewSpecificUserWokshops;
@@ -111,3 +132,4 @@ module.exports.viewSpecificById = viewSpecificById;
 module.exports.deleteById = deleteById;
 module.exports.updateById = updateById;
 module.exports.viewApprovedWorkshops = viewApprovedWorkshops;
+module.exports.updateWorkShopStatus = updateWorkShopStatus;

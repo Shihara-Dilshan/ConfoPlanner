@@ -1,0 +1,88 @@
+App
+├── ReviewerRoute
+├─┬ AllAprovings
+│ └─┬ AllApproveds
+│   └── Title
+├─┬ AllPendings
+│ └─┬ AllPendings
+│   └── Title
+├─┬ Dashboard
+│ └─┬ Approved
+│   └── Title
+├─┬ ManageUsers
+│ └─┬ ManageUser
+│   └── Title
+├─┬ PaymentChk
+│ └─┬ PaymentCheck
+│   └── Title
+├─┬ ResearchPapers
+│ ├─┬ Layout
+│ │ └── Footer
+│ └── ImgMediaCard
+├─┬ WorkshopContent
+│ ├─┬ Layout
+│ │ └── Footer
+│ └── WorkshopCard
+├── AddToSchedule
+├─┬ Editor
+│ ├── AddToSchedule
+│ ├── UpdateConferenceDate
+│ └── ViewSchedule
+├── ViewSchedule
+├─┬ Download
+│ ├─┬ Layout
+│ │ └── Footer
+│ ├── ImgMediaCard
+│ └── WorkshopCard
+├─┬ Home
+│ ├─┬ Layout
+│ │ └── Footer
+│ ├── Carousel
+│ ├── PiConferenceData
+│ └── ConferenceImages
+├─┬ AddPaper
+│ └─┬ Layout
+│   └── Footer
+├─┬ AddWorkShop
+│ └─┬ Layout
+│   └── Footer
+├─┬ General
+│ └─┬ ProfileLayout
+│   ├─┬ Layout
+│   │ └── Footer
+│   └── SideDrawer
+├─┬ Profile
+│ └─┬ ProfileLayout
+│   ├─┬ Layout
+│   │ └── Footer
+│   └── SideDrawer
+├─┬ Review
+│ ├─┬ Layout
+│ │ └── Footer
+│ ├── ResearchReviewTable
+│ └── WorkshopContentReview
+├─┬ ReviewWorkShop
+│ └─┬ ReviewLayout
+│   ├─┬ Layout
+│   │ └── Footer
+│   └── SideDrawer
+├─┬ ViewWorkShops
+│ ├── SingleWorkShop
+│ └─┬ ReviewLayout
+│   ├─┬ Layout
+│   │ └── Footer
+│   └──SideDrawer
+├─┬ ReviewPaper
+│ └─┬ ReviewLayout
+│   ├─┬ Layout
+│   │ └── Footer
+│   └── SideDrawer
+├── SinglePaper
+├─┬ ViewResearchPapers
+│ ├─┬ ReviewLayout
+│ │ ├─┬ Layout
+│ │ │ └── Footer
+│ │ └── SideDrawer
+│ └── SinglePaper
+├── LoginProvider
+└── AuthProvider

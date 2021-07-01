@@ -42,6 +42,7 @@ export default function CompShedule() {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const [response, setResponse] = useState({});
+  const [search, setSearch] = useState("");
   console.log(response);
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -78,13 +79,21 @@ export default function CompShedule() {
     }
   }
 
-
   return (
     <React.Fragment>
       <Table>
         <TableBody>
           <TableCell>
             <Title>Pending Schedules</Title>
+          </TableCell>
+          <TableCell>
+            <input
+              type="text"
+              placeholder="Search Time..."
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
           </TableCell>
           <TableCell>
             <div className={classes.seeMore}>
@@ -114,32 +123,46 @@ export default function CompShedule() {
               ...response.conference.sortedPaperSchedule.researchPapers.filter(
                 (data) => data.isApproved == false
               ),
-            ].map((row) => (
-              <TableRow key={row.id}>
-                <TableCell>{row.startTime}</TableCell>
-                <TableCell>{row.endTime}</TableCell>
-                {row.paper ? (
-                  <TableCell>
-                    {row.paper !== undefined
-                      ? row.paper.title
-                      : row.workshop.title}
-                     - Paper
-                  </TableCell>
-                ) : (
-                  <TableCell>
-                    {row.paper !== undefined
-                      ? row.paper.title
-                      : row.workshop.title}
-                     - Workshop
-                  </TableCell>
-                )}
+            ]
+              .filter((row) => {
+                if (search == "") {
+                  return row;
+                } else if (
+                  row.startTime.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return row;
+                } else if (
+                  row.endTime.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return row;
+                }
+              })
+              .map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.startTime}</TableCell>
+                  <TableCell>{row.endTime}</TableCell>
+                  {row.paper ? (
+                    <TableCell>
+                      {row.paper !== undefined
+                        ? row.paper.title
+                        : row.workshop.title}
+                      - Paper
+                    </TableCell>
+                  ) : (
+                    <TableCell>
+                      {row.paper !== undefined
+                        ? row.paper.title
+                        : row.workshop.title}
+                      - Workshop
+                    </TableCell>
+                  )}
 
-                {row.isApproved === false ? (
-                  <TableCell>Not Approved</TableCell>
-                ) : (
-                  <TableCell>Approved</TableCell>
-                )}
-                {/* <TableCell align="right">
+                  {row.isApproved === false ? (
+                    <TableCell>Not Approved</TableCell>
+                  ) : (
+                    <TableCell>Approved</TableCell>
+                  )}
+                  {/* <TableCell align="right">
                   <Button
                     className={classes.rejectBtn}
                     onClick={togglePopup}
@@ -177,28 +200,28 @@ export default function CompShedule() {
                     handleClose={togglePopup}
                   />
                 )} */}
-                <TableCell align="right">
-                  <Button
-                    className={classes.viewBtn}
-                    variant="contained"
-                    size="small"
-                    color="primary"
-                  >
-                    View
-                  </Button>
-                </TableCell>
-                <TableCell align="right">
-                  <Button
-                    onClick={(e) => approveSchdule(row)}
-                    className={classes.approveBtn}
-                    variant="contained"
-                    size="small"
-                  >
-                    Approve
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell align="right">
+                    <Button
+                      className={classes.viewBtn}
+                      variant="contained"
+                      size="small"
+                      color="primary"
+                    >
+                      View
+                    </Button>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Button
+                      onClick={(e) => approveSchdule(row)}
+                      className={classes.approveBtn}
+                      variant="contained"
+                      size="small"
+                    >
+                      Approve
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         )}
       </Table>

@@ -45,6 +45,7 @@ export default function CompShedule() {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const [response, setResponse] = useState({});
+  const [search, setSearch] = useState("");
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -89,6 +90,15 @@ export default function CompShedule() {
             <Title>Approved Schedules</Title>
           </TableCell>
           <TableCell>
+            <input
+              type="text"
+              placeholder="Search Time..."
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
+          </TableCell>
+          <TableCell>
             <div className={classes.seeMore}>
               <Link to="/admin/all-approvings" color="primary">
                 See All Approvings
@@ -116,60 +126,76 @@ export default function CompShedule() {
               ...response.conference.sortedPaperSchedule.researchPapers.filter(
                 (data) => data.isApproved == true
               ),
-            ].map((row) => (
-              <TableRow>
-                <TableCell className={classes.tableCell}>
-                  {row.startTime}
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  {row.endTime}
-                </TableCell>
-                {row.paper ? (
+            ]
+              .filter((row) => {
+                if (search == "") {
+                  return row;
+                } else if (
+                  row.startTime.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return row;
+                } else if (
+                  row.endTime.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return row;
+                }
+              })
+              .map((row) => (
+                <TableRow>
                   <TableCell className={classes.tableCell}>
-                    {row.paper !== undefined
-                      ? row.paper.title
-                      : row.workshop.title}
-                    - Paper
+                    {row.startTime}
                   </TableCell>
-                ) : (
                   <TableCell className={classes.tableCell}>
-                    {row.paper !== undefined
-                      ? row.paper.title
-                      : row.workshop.title}
-                    - Workshop
+                    {row.endTime}
                   </TableCell>
-                )}
+                  {row.paper ? (
+                    <TableCell className={classes.tableCell}>
+                      {row.paper !== undefined
+                        ? row.paper.title
+                        : row.workshop.title}
+                      - Paper
+                    </TableCell>
+                  ) : (
+                    <TableCell className={classes.tableCell}>
+                      {row.paper !== undefined
+                        ? row.paper.title
+                        : row.workshop.title}
+                      - Workshop
+                    </TableCell>
+                  )}
 
-                {row.isApproved === false ? (
-                  <TableCell className={classes.tableCell}>
-                    Not Approved
+                  {row.isApproved === false ? (
+                    <TableCell className={classes.tableCell}>
+                      Not Approved
+                    </TableCell>
+                  ) : (
+                    <TableCell className={classes.tableCell}>
+                      Approved
+                    </TableCell>
+                  )}
+                  <TableCell align="right">
+                    <Button
+                      className={classes.rejectBtn}
+                      onClick={(e) => rejectSchedule(row)}
+                      variant="contained"
+                      size="small"
+                      color="secondary"
+                    >
+                      Reject
+                    </Button>
                   </TableCell>
-                ) : (
-                  <TableCell className={classes.tableCell}>Approved</TableCell>
-                )}
-                <TableCell align="right">
-                  <Button
-                    className={classes.rejectBtn}
-                    onClick={(e) => rejectSchedule(row)}
-                    variant="contained"
-                    size="small"
-                    color="secondary"
-                  >
-                    Reject
-                  </Button>
-                </TableCell>
-                <TableCell align="right">
-                  <Button
-                    className={classes.viewBtn}
-                    variant="contained"
-                    size="small"
-                    color="primary"
-                  >
-                    View
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell align="right">
+                    <Button
+                      className={classes.viewBtn}
+                      variant="contained"
+                      size="small"
+                      color="primary"
+                    >
+                      View
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         )}
       </Table>

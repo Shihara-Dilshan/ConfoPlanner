@@ -188,6 +188,7 @@ const rejectSchedule = async (req, res) => {
       }
     }
   };
+  
 
 module.exports = {
   addConference,

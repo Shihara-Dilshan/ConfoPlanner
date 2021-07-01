@@ -145,7 +145,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Admin Dashboard - <small>all pending shedules</small>
+            Admin Dashboard - <small>all pending schedules</small>
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">

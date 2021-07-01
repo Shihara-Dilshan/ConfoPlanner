@@ -86,7 +86,7 @@ export default function CompShedule() {
       <Table>
         <TableBody>
           <TableCell>
-            <Title>Approved Shedules</Title>
+            <Title>Approved Schedules</Title>
           </TableCell>
           <TableCell>
             <div className={classes.seeMore}>

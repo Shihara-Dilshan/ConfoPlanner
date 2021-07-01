@@ -21,7 +21,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { mainListItems, secondaryListItems } from './listItems';
-import AllPendings from './CompAllPendingList'
+import AllPendings from './CompShedule'
 
 function Copyright() {
   return (

@@ -110,6 +110,10 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
+  approvedGrid:{
+    maxWidth:"75%",
+    marginRight:"40px"
+  },
   paper: {
     padding: theme.spacing(2),
     display: "flex",
@@ -193,23 +197,23 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={5}>
+             {/*Pending Shedules*/}
+             <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                {/* <Pending /> */}
+                <CompShedule />
+              </Paper>
+            </Grid>
             {/*Approved Shedules*/}
-            <Grid item xs={12} md={8} lg={0}>
+            <Grid className={classes.approvedGrid} item xs={12} md={8} lg={0}>
               <Paper className={fixedHeightPaper}>
                 <Approved />
               </Paper>
             </Grid>
             {/*Recent*/}
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid  className={classes.test} item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Approved />
-              </Paper>
-            </Grid>
-            {/*Pending Shedules*/}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                {/* <Pending /> */}
-                <CompShedule />
+
               </Paper>
             </Grid>
           </Grid>

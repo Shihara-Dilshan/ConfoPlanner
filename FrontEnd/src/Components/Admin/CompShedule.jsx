@@ -42,7 +42,7 @@ export default function CompShedule() {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const [response, setResponse] = useState({});
-
+  console.log(response);
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
@@ -57,9 +57,44 @@ export default function CompShedule() {
       .catch((err) => console.log(err));
   }, []);
 
+  function approveSchdule(Shedule) {
+    console.log(Shedule);
+    if (confirm("Are you sure?")) {
+      axios
+        .patch(
+          "http://localhost:5000/api/conferences/approve-schedule/60d76048aa132a4cf07b74dd",
+          Shedule
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            alert("updated");
+          } else {
+            alert("Error Updating!");
+          }
+        })
+        .then(() => {
+          window.location.reload(false);
+        });
+    }
+  }
+
+
   return (
     <React.Fragment>
-      <Title>Pending Shedules</Title>
+      <Table>
+        <TableBody>
+          <TableCell>
+            <Title>Pending Shedules</Title>
+          </TableCell>
+          <TableCell>
+            <div className={classes.seeMore}>
+              <Link to="/admin/all-pendings" color="primary">
+                See All Pendings
+              </Link>
+            </div>
+          </TableCell>
+        </TableBody>
+      </Table>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -80,7 +115,7 @@ export default function CompShedule() {
                 (data) => data.isApproved == false
               ),
             ].map((row) => (
-              <TableRow>
+              <TableRow key={row.id}>
                 <TableCell>{row.startTime}</TableCell>
                 <TableCell>{row.endTime}</TableCell>
                 {row.paper ? (
@@ -88,14 +123,14 @@ export default function CompShedule() {
                     {row.paper !== undefined
                       ? row.paper.title
                       : row.workshop.title}
-                    (Paper)
+                     - Paper
                   </TableCell>
                 ) : (
                   <TableCell>
                     {row.paper !== undefined
                       ? row.paper.title
                       : row.workshop.title}
-                    ( Workshop)
+                     - Workshop
                   </TableCell>
                 )}
 
@@ -104,7 +139,7 @@ export default function CompShedule() {
                 ) : (
                   <TableCell>Approved</TableCell>
                 )}
-                <TableCell align="right">
+                {/* <TableCell align="right">
                   <Button
                     className={classes.rejectBtn}
                     onClick={togglePopup}
@@ -141,7 +176,7 @@ export default function CompShedule() {
                     }
                     handleClose={togglePopup}
                   />
-                )}
+                )} */}
                 <TableCell align="right">
                   <Button
                     className={classes.viewBtn}
@@ -154,6 +189,7 @@ export default function CompShedule() {
                 </TableCell>
                 <TableCell align="right">
                   <Button
+                    onClick={(e) => approveSchdule(row)}
                     className={classes.approveBtn}
                     variant="contained"
                     size="small"
@@ -166,11 +202,6 @@ export default function CompShedule() {
           </TableBody>
         )}
       </Table>
-      <div className={classes.seeMore}>
-        <Link to="/admin/all-pendings" color="primary">
-          See All Pendings
-        </Link>
-      </div>
     </React.Fragment>
   );
 }

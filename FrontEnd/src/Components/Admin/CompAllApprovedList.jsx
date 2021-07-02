@@ -1,85 +1,193 @@
-
-import React from 'react';
-import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { green, purple } from '@material-ui/core/colors';
-import Title from './Title';
-
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(0, '16 Mar, 2019 - 08.00AM', 'Elvis Presley', 'pending', 'completed', 312.44),
-  createData(1, '16 Mar, 2019 - 10.00AM', 'Paul McCartney', 'pending', 'completed', 866.99),
-  createData(2, '16 Mar, 2019 - 01.00PM', 'Tom Scholz', 'pending', 'completed', 100.81),
-  createData(3, '16 Mar, 2019 - 03.00AM', 'Michael Jackson', 'pending', 'completed', 654.39),
-  createData(4, '15 Mar, 2019 - 05.00AM', 'Bruce Springsteen', 'pending', 'completed', 212.79),
-];
-
-function preventDefault(event) {
-  event.preventDefault();
-}
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TextField from "@material-ui/core/TextField";
+import Title from "./Title";
+import Popup from "./PopupInput";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
 
-  rejectBtn:{
-    fontSize: '10px'
+  rejectBtn: {
+    fontSize: "10px",
   },
-  viewBtn:{
-    fontSize: '10px'
+  rejectBtn2: {
+    fontSize: "10px",
+    top: "20px",
+    left: "190px",
   },
-  approveBtn:{
+  viewBtn: {
+    fontSize: "10px",
+  },
+  approveBtn: {
     background: "#228B22",
-    '&:hover': {
+    "&:hover": {
       background: "#006400",
     },
-    color: 'white',
-    fontSize: '10px'
-  }
-  
+    color: "white",
+    fontSize: "10px",
+  },
+  tableCell: {
+    fontSize: "11px",
+  },
 }));
 
-export default function CompAllApprovedList() {
+export default function CompShedule() {
   const classes = useStyles();
+  const [isOpen, setIsOpen] = useState(false);
+  const [response, setResponse] = useState({});
+  const [search, setSearch] = useState("");
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/conferences/60d76048aa132a4cf07b74dd")
+      .then((res) => {
+        setResponse(res.data);
+      })
+
+      .catch((err) => console.log(err));
+  }, []);
+
+  function rejectSchedule(Shedule) {
+    console.log(Shedule);
+    if (confirm("Are you sure?")) {
+      axios
+        .patch(
+          "http://localhost:5000/api/conferences/reject-schedule/60d76048aa132a4cf07b74dd",
+          Shedule
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            alert("updated");
+          } else {
+            alert("Error Updating!");
+          }
+        })
+        .then(() => {
+          window.location.reload(false);
+        });
+    }
+  }
+
   return (
     <React.Fragment>
-      <Title>All Approved Shedules</Title>
+      <Table>
+        <TableBody>
+          <TableCell>
+            <Title>Approved Schedules</Title>
+          </TableCell>
+          <TableCell>
+            <input
+              type="text"
+              placeholder="Search Time..."
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
+          </TableCell>
+          <TableCell>
+            <div className={classes.seeMore}>
+              <Link to="/download" color="primary">
+                See All Approvings
+              </Link>
+            </div>
+          </TableCell>
+        </TableBody>
+      </Table>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
+            <TableCell>Start Time</TableCell>
+            <TableCell>End Time</TableCell>
+            <TableCell>Title</TableCell>
             <TableCell>Status</TableCell>
-            <TableCell>Payment</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.id}</TableCell>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right"><Button className={classes.rejectBtn} variant="contained" size = "small" color="secondary">Reject</Button></TableCell>
-              <TableCell align="right"><Button className={classes.viewBtn} variant="contained" size = "small"color="primary">View</Button></TableCell>
-              <TableCell align="right"><Button className={classes.approveBtn} variant="contained" size = "small" >Approve</Button></TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        {response.conference === undefined ? null : (
+          <TableBody>
+            {[
+              ...response.conference.sortedWorkshopSchedule.workshops.filter(
+                (data) => data.isApproved == true
+              ),
+              ...response.conference.sortedPaperSchedule.researchPapers.filter(
+                (data) => data.isApproved == true
+              ),
+            ]
+              .filter((row) => {
+                if (search == "") {
+                  return row;
+                } else if (
+                  row.startTime.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return row;
+                } else if (
+                  row.endTime.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return row;
+                }
+              })
+              .map((row) => (
+                <TableRow>
+                  <TableCell className={classes.tableCell}>
+                    {row.startTime}
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {row.endTime}
+                  </TableCell>
+                  {row.paper ? (
+                    <TableCell className={classes.tableCell}>
+                      {row.paper !== undefined
+                        ? row.paper.title
+                        : row.workshop.title}
+                      - Paper
+                    </TableCell>
+                  ) : (
+                    <TableCell className={classes.tableCell}>
+                      {row.paper !== undefined
+                        ? row.paper.title
+                        : row.workshop.title}
+                      - Workshop
+                    </TableCell>
+                  )}
+
+                  {row.isApproved === false ? (
+                    <TableCell className={classes.tableCell}>
+                      Not Approved
+                    </TableCell>
+                  ) : (
+                    <TableCell className={classes.tableCell}>
+                      Approved
+                    </TableCell>
+                  )}
+                  <TableCell align="right">
+                    <Button
+                      className={classes.rejectBtn}
+                      onClick={(e) => rejectSchedule(row)}
+                      variant="contained"
+                      size="small"
+                      color="secondary"
+                    >
+                      Remove
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        )}
       </Table>
     </React.Fragment>
   );

@@ -20,8 +20,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { mainListItems, secondaryListItems } from './listItems';
-import AllPendings from './CompShedule'
+import { mainListItems } from './listItems';
+import ViewSchedules from './CompViewSchedules';
+
 
 function Copyright() {
   return (
@@ -145,7 +146,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Admin Dashboard - <small>all pending schedules</small>
+            Admin Dashboard - <small>view schedules</small>
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -174,19 +175,11 @@ export default function Dashboard() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-        {/* <List>{secondaryListItems}</List> */}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={5}>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <AllPendings />
-              </Paper>
-            </Grid>
-          </Grid>
+                <ViewSchedules/>
           <Box pt={4}>
             <Copyright />
           </Box>

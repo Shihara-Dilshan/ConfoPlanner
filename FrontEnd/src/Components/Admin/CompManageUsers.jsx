@@ -6,6 +6,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Title from "./Title";
 import axios from "axios";
 
@@ -34,6 +35,8 @@ const useStyles = makeStyles((theme) => ({
 export default function CompManageUsers() {
   const classes = useStyles();
   const [rows, setRows] = useState([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function updateRole(user) {
     // console.log(user.id);
@@ -44,8 +47,8 @@ export default function CompManageUsers() {
         .then((res) => {
           if (res.status == 200) {
             alert("updated");
-          }else{
-            alert("Error Updating!")
+          } else {
+            alert("Error Updating!");
           }
         });
     }
@@ -65,24 +68,33 @@ export default function CompManageUsers() {
     setRows(tempRows);
   }
 
-  useEffect(() => {
-    function getAllUsers() {
-      axios
-        .get("http://localhost:5000/api/user/getall")
-        .then((res) => {
-          let attendees = res.data.result.filter(
-            (user) => user.role == "Attendee" || "Editor" || "Reviewer"
-          );
-          setUserRows(attendees);
-        })
-        .catch((err) => console.log(err));
+  const getAllUsers = async () => {
+    try {
+      await axios.get("http://localhost:5000/api/user/getall").then((res) => {
+        let attendees = res.data.result.filter(
+          (user) => user.role == "Attendee" || user.role == "Editor" || user.role == "Reviewer"
+        );
+        setUserRows(attendees);
+      });
+    } catch (err) {
+      console.log(err);
     }
+  };
+
+  useEffect(() => {
     getAllUsers();
   }, []);
 
   return (
     <React.Fragment>
       <Title>Manage User Roles</Title>
+      <input
+        type="text"
+        placeholder="Search..."
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+      />
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -103,36 +115,50 @@ export default function CompManageUsers() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.role}</TableCell>
-              <TableCell>{row.email}</TableCell>
-              <TableCell align="justify">
-                <select
-                  id="select"
-                  name="select"
-                  className={classes.selector}
-                  onChange={(e) => {
-                    row.role = e.target.value;
-                  }}
-                >
-                  <option value="Reviewer">Reviewer</option>
-                  <option value="Editor">Editor</option>
-                  <option value="Attendee">Attendee</option>
-                  <option selected>Select</option>
-                </select>
-                <Button
-                  onClick={(e) => updateRole(row)}
-                  className={classes.approveBtn}
-                  variant="contained"
-                  size="small"
-                >
-                  Approve
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {rows
+            .filter((row) => {
+              if (search == "") {
+                return row;
+              } else if (
+                row.name.toLowerCase().includes(search.toLowerCase())
+              ) {
+                return row;
+              } else if (
+                row.role.toLowerCase().includes(search.toLowerCase())
+              ) {
+                return row;
+              }
+            })
+            .map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.role}</TableCell>
+                <TableCell>{row.email}</TableCell>
+                <TableCell align="justify">
+                  <select
+                    id="select"
+                    name="select"
+                    className={classes.selector}
+                    onChange={(e) => {
+                      row.role = e.target.value;
+                    }}
+                  >
+                    <option value="Reviewer">Reviewer</option>
+                    <option value="Editor">Editor</option>
+                    <option value="Attendee">Attendee</option>
+                    <option selected>Select</option>
+                  </select>
+                  <Button
+                    onClick={(e) => updateRole(row)}
+                    className={classes.approveBtn}
+                    variant="contained"
+                    size="small"
+                  >
+                    Approve
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </React.Fragment>

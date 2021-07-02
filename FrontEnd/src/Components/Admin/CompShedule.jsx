@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
@@ -42,7 +42,8 @@ export default function CompShedule() {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const [response, setResponse] = useState({});
-
+  const [search, setSearch] = useState("");
+  console.log(response);
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
@@ -57,9 +58,80 @@ export default function CompShedule() {
       .catch((err) => console.log(err));
   }, []);
 
+  function approveSchdule(Shedule) {
+    console.log(Shedule);
+    if (confirm("Are you sure?")) {
+      axios
+        .patch(
+          "http://localhost:5000/api/conferences/approve-schedule/60d76048aa132a4cf07b74dd",
+          Shedule
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            alert("Succeeded");
+          } else {
+            alert("Error Updating!");
+          }
+        })
+        .then(() => {
+          window.location.reload(false);
+        });
+    }
+  }
+
+  function approveSchdule(Shedule) {
+    console.log(Shedule);
+    if (confirm("Are you sure?")) {
+      axios
+        .patch(
+          "http://localhost:5000/api/conferences/approve-schedule/60d76048aa132a4cf07b74dd",
+          Shedule
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            alert("Succeeded");
+          } else {
+            alert("Error Updating!");
+          }
+        })
+        .then(() => {
+          window.location.reload(false);
+        });
+    }
+  }
+
+  const history = useHistory();
+
+  const routeChange = (schedule) => {
+    let path = `/admin/view-schedules/${schedule._id}`;
+    history.push(path);
+  };
+
   return (
     <React.Fragment>
-      <Title>Pending Shedules</Title>
+      <Table>
+        <TableBody>
+          <TableCell>
+            <Title>Pending Schedules</Title>
+          </TableCell>
+          <TableCell>
+            <input
+              type="text"
+              placeholder="Search Time..."
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
+          </TableCell>
+          <TableCell>
+            <div className={classes.seeMore}>
+              <Link to="/admin/all-pendings" color="primary">
+                See All Pendings
+              </Link>
+            </div>
+          </TableCell>
+        </TableBody>
+      </Table>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -79,98 +151,109 @@ export default function CompShedule() {
               ...response.conference.sortedPaperSchedule.researchPapers.filter(
                 (data) => data.isApproved == false
               ),
-            ].map((row) => (
-              <TableRow>
-                <TableCell>{row.startTime}</TableCell>
-                <TableCell>{row.endTime}</TableCell>
-                {row.paper ? (
-                  <TableCell>
-                    {row.paper !== undefined
-                      ? row.paper.title
-                      : row.workshop.title}
-                    (Paper)
-                  </TableCell>
-                ) : (
-                  <TableCell>
-                    {row.paper !== undefined
-                      ? row.paper.title
-                      : row.workshop.title}
-                    ( Workshop)
-                  </TableCell>
-                )}
+            ]
+              .filter((row) => {
+                if (search == "") {
+                  return row;
+                } else if (
+                  row.startTime.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return row;
+                } else if (
+                  row.endTime.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return row;
+                }
+              })
+              .map((row) => (
+                <TableRow key={row._id}>
+                  <TableCell>{row.startTime}</TableCell>
+                  <TableCell>{row.endTime}</TableCell>
+                  {row.paper ? (
+                    <TableCell>
+                      {row.paper !== undefined
+                        ? row.paper.title
+                        : row.workshop.title}
+                      - Paper
+                    </TableCell>
+                  ) : (
+                    <TableCell>
+                      {row.paper !== undefined
+                        ? row.paper.title
+                        : row.workshop.title}
+                      - Workshop
+                    </TableCell>
+                  )}
 
-                {row.isApproved === false ? (
-                  <TableCell>Not Approved</TableCell>
-                ) : (
-                  <TableCell>Approved</TableCell>
-                )}
-                <TableCell align="right">
-                  <Button
-                    className={classes.rejectBtn}
-                    onClick={togglePopup}
-                    variant="contained"
-                    size="small"
-                    color="secondary"
-                  >
-                    Reject
-                  </Button>
-                </TableCell>
-                {isOpen && (
-                  <Popup
-                    content={
-                      <>
-                        <form>
-                          <TextField
-                            id="filled-multiline-static"
-                            label="Reason"
-                            multiline
-                            rows={5}
-                            variant="filled"
-                          />
-                          <Button
-                            className={classes.rejectBtn2}
-                            onClick={togglePopup}
-                            variant="contained"
-                            size="medium"
-                            color="secondary"
-                          >
-                            Reject
-                          </Button>
-                        </form>
-                      </>
-                    }
-                    handleClose={togglePopup}
-                  />
-                )}
-                <TableCell align="right">
-                  <Button
-                    className={classes.viewBtn}
-                    variant="contained"
-                    size="small"
-                    color="primary"
-                  >
-                    View
-                  </Button>
-                </TableCell>
-                <TableCell align="right">
-                  <Button
-                    className={classes.approveBtn}
-                    variant="contained"
-                    size="small"
-                  >
-                    Approve
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+                  {row.isApproved === false ? (
+                    <TableCell>Not Approved</TableCell>
+                  ) : (
+                    <TableCell>Approved</TableCell>
+                  )}
+                  <TableCell align="right">
+                    <Button
+                      className={classes.rejectBtn}
+                      onClick={togglePopup}
+                      variant="contained"
+                      size="small"
+                      color="secondary"
+                    >
+                      Reject
+                    </Button>
+                  </TableCell>
+                  {isOpen && (
+                    <Popup
+                      content={
+                        <>
+                          <form>
+                            <TextField
+                              id="filled-multiline-static"
+                              label="Reason"
+                              multiline
+                              rows={5}
+                              variant="filled"
+                            />
+                            <Button
+                              className={classes.rejectBtn2}
+                              onClick={togglePopup}
+                              variant="contained"
+                              size="medium"
+                              color="secondary"
+                            >
+                              Reject
+                            </Button>
+                          </form>
+                        </>
+                      }
+                      handleClose={togglePopup}
+                    />
+                  )}
+                  <TableCell align="right">
+                    <Button
+                      className={classes.viewBtn}
+                      onClick={(e) => routeChange(row)}
+                      variant="contained"
+                      size="small"
+                      color="primary"
+                    >
+                      View
+                    </Button>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Button
+                      onClick={(e) => approveSchdule(row)}
+                      className={classes.approveBtn}
+                      variant="contained"
+                      size="small"
+                    >
+                      Approve
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         )}
       </Table>
-      <div className={classes.seeMore}>
-        <Link to="/admin/all-pendings" color="primary">
-          See All Pendings
-        </Link>
-      </div>
     </React.Fragment>
   );
 }

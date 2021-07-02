@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
@@ -78,6 +78,12 @@ export default function CompShedule() {
         });
     }
   }
+  const history = useHistory();
+
+  const routeChange = (schedule) => {
+    let path = `/admin/view-schedules/${schedule._id}`;
+    history.push(path);
+  };
 
   return (
     <React.Fragment>
@@ -162,46 +168,47 @@ export default function CompShedule() {
                   ) : (
                     <TableCell>Approved</TableCell>
                   )}
-                  {/* <TableCell align="right">
-                  <Button
-                    className={classes.rejectBtn}
-                    onClick={togglePopup}
-                    variant="contained"
-                    size="small"
-                    color="secondary"
-                  >
-                    Reject
-                  </Button>
-                </TableCell>
-                {isOpen && (
-                  <Popup
-                    content={
-                      <>
-                        <form>
-                          <TextField
-                            id="filled-multiline-static"
-                            label="Reason"
-                            multiline
-                            rows={5}
-                            variant="filled"
-                          />
-                          <Button
-                            className={classes.rejectBtn2}
-                            onClick={togglePopup}
-                            variant="contained"
-                            size="medium"
-                            color="secondary"
-                          >
-                            Reject
-                          </Button>
-                        </form>
-                      </>
-                    }
-                    handleClose={togglePopup}
-                  />
-                )} */}
                   <TableCell align="right">
                     <Button
+                      className={classes.rejectBtn}
+                      onClick={togglePopup}
+                      variant="contained"
+                      size="small"
+                      color="secondary"
+                    >
+                      Reject
+                    </Button>
+                  </TableCell>
+                  {isOpen && (
+                    <Popup
+                      content={
+                        <>
+                          <form>
+                            <TextField
+                              id="filled-multiline-static"
+                              label="Reason"
+                              multiline
+                              rows={5}
+                              variant="filled"
+                            />
+                            <Button
+                              className={classes.rejectBtn2}
+                              onClick={togglePopup}
+                              variant="contained"
+                              size="medium"
+                              color="secondary"
+                            >
+                              Reject
+                            </Button>
+                          </form>
+                        </>
+                      }
+                      handleClose={togglePopup}
+                    />
+                  )}
+                  <TableCell align="right">
+                    <Button
+                      onClick={(e) => routeChange(row)}
                       className={classes.viewBtn}
                       variant="contained"
                       size="small"

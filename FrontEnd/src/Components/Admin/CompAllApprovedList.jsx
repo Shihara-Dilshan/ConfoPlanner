@@ -100,7 +100,7 @@ export default function CompShedule() {
           </TableCell>
           <TableCell>
             <div className={classes.seeMore}>
-              <Link to="/admin/all-approvings" color="primary">
+              <Link to="/download" color="primary">
                 See All Approvings
               </Link>
             </div>
@@ -181,17 +181,7 @@ export default function CompShedule() {
                       size="small"
                       color="secondary"
                     >
-                      Reject
-                    </Button>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Button
-                      className={classes.viewBtn}
-                      variant="contained"
-                      size="small"
-                      color="primary"
-                    >
-                      View
+                      Remove
                     </Button>
                   </TableCell>
                 </TableRow>

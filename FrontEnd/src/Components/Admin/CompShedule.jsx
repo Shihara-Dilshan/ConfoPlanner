@@ -103,7 +103,7 @@ export default function CompShedule() {
   const history = useHistory();
 
   const routeChange = (schedule) => {
-    let path = (`/admin/view-schedules/${schedule._id}`);
+    let path = `/admin/view-schedules/${schedule._id}`;
     history.push(path);
   };
 
@@ -192,8 +192,46 @@ export default function CompShedule() {
                   )}
                   <TableCell align="right">
                     <Button
+                      className={classes.rejectBtn}
+                      onClick={togglePopup}
+                      variant="contained"
+                      size="small"
+                      color="secondary"
+                    >
+                      Reject
+                    </Button>
+                  </TableCell>
+                  {isOpen && (
+                    <Popup
+                      content={
+                        <>
+                          <form>
+                            <TextField
+                              id="filled-multiline-static"
+                              label="Reason"
+                              multiline
+                              rows={5}
+                              variant="filled"
+                            />
+                            <Button
+                              className={classes.rejectBtn2}
+                              onClick={togglePopup}
+                              variant="contained"
+                              size="medium"
+                              color="secondary"
+                            >
+                              Reject
+                            </Button>
+                          </form>
+                        </>
+                      }
+                      handleClose={togglePopup}
+                    />
+                  )}
+                  <TableCell align="right">
+                    <Button
                       className={classes.viewBtn}
-                      onClick={ (e) =>routeChange(row)}
+                      onClick={(e) => routeChange(row)}
                       variant="contained"
                       size="small"
                       color="primary"

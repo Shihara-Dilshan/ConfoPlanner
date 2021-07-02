@@ -33,7 +33,7 @@ const viewAllWorkshops = () => {
 
 const viewApprovedWorkshops = async (req, res) => {
   try {
-    const approvedWorkshops = await Workshop.find({ status: "Approved" });
+    const approvedWorkshops = await Workshop.find({ status: "reviewd" });
   
     res.status(200).json({ workshops: approvedWorkshops });
     

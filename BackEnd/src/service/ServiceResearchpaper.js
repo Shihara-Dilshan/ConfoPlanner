@@ -109,7 +109,7 @@ exports.updateResearchPaper = (paper, body) => {
 
 const viewApprovedPapers = async (req, res) => {
     try {
-      const approvedPapers = await Paper.find({ status: "Approved" });
+      const approvedPapers = await Paper.find({ status: "reviewd" });
     
       res.status(200).json({ papers: approvedPapers });
       

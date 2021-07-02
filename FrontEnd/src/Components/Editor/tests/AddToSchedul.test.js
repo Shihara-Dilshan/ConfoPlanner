@@ -1,27 +1,40 @@
-import React from 'react';
-import { getByTestId, render} from '@testing-library/react';
+import { screen, cleanup, render, act} from '@testing-library/react';
 import AddToSchedule from '../AddToSchedule';
 import Editor from '../Editor';
+import ViewSchedule from '../ViewSchedule';
+import UpdateConferenceDate from '../UpdateConferenceDate';
 
+afterEach(() => {
+    cleanup();
+})
 
-it('renders AddToSchedule without errors', () => {
-    const {container} = render(<AddToSchedule />);
-    const researchPaperTogglettonText = getByTestId(container, "load-papers");
-    
-    expect(researchPaperTogglettonText.textContent).toBe("Research Papers")
+it('renders AddToSchedule', () => {
+    act(() => {
+        render(<AddToSchedule/>);
+    });
+    const gridContainer = screen.getByTestId("addtoschedule-container");
+    expect(gridContainer).toBeInTheDocument();
 });
 
-it('renders ViewSchedule from Editor', () => {    
-    const {getByText} = render(<Editor />);
-    expect(getByText(/Research Papers/i)).toBeInTheDocument();
+it('renders UpdateConference componenet without errors', () => {
+    render(<UpdateConferenceDate/>);
+    const divConatainer = screen.getByTestId("updateconference-container");
+    expect(divConatainer).toBeInTheDocument();
 });
 
-it('renders AddToSchedule from Editor', () => {    
-    const {getByTestId} = render(<Editor />);
-    expect(getByTestId("load-papers")).toBeInTheDocument();
-});
+it('renders ViewComponent componenet without errors', () => {
+    render(<ViewSchedule/>);
+    const divConatainer = screen.getByTestId("viewschedule-container");
+    expect(divConatainer).toBeInTheDocument();
+})
 
-it('renders UpdateConferenceDate from Editor', () => {    
-    const {getByText} = render(<Editor />);
-    expect(getByText(/Current Conference Start Date:/i)).toBeInTheDocument();
+it('renders Editor component with all other child components', () => {
+    render(<Editor isEditor={true}/>);
+    const addtoscheduleContainer = screen.getByTestId("addtoschedule-container"); 
+    const updateConferenceConatainer = screen.getByTestId("updateconference-container"); 
+    const viewscheduleConatainer = screen.getByTestId("viewschedule-container");
+
+    expect(addtoscheduleContainer).toBeInTheDocument();
+    expect(updateConferenceConatainer).toBeInTheDocument();
+    expect(viewscheduleConatainer).toBeInTheDocument();
 });

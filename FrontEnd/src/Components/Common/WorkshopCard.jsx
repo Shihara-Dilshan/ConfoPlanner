@@ -42,7 +42,7 @@ export default function WorkshopCard(props) {
         <Typography variant="body2" component="p">
           {props.workshopData.description}
           <br />
-          {'"a benevolent smile"'}
+          
         </Typography>
       </CardContent>
     </Card>

@@ -132,12 +132,14 @@ export default function AddToSchedule() {
           <Grid item xs={6}>
             <ToggleButton
               value={editPaper}
+              data-testid="load-papers"
               selected={editPaper}
               onChange={editWorkshop}>
               Research Papers
             </ToggleButton>
             <ToggleButton
               value={editPaper}
+              data-testid="load-workshops"
               selected={!editPaper}
               onChange={editWorkshop}>
               Workshops

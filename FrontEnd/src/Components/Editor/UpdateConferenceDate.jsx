@@ -30,8 +30,7 @@ export default function UpdateConferenceDate() {
                 setStartDate(start);
                 setEndDate(end);   
                 let sDate = formateDate(start);
-                let eDate = formateDate(end);  
-                console.log(sDate)           
+                let eDate = formateDate(end);            
                 setFormattedStart(sDate);
                 setFormattedEnd(eDate);
             })

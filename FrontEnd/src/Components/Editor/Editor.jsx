@@ -9,6 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { Container, Grid } from '@material-ui/core';
 import ViewSchedule from './ViewSchedule';
 import UpdateConferenceDate from './UpdateConferenceDate';
+import ViewEditorNotifications from './ViewNotifications';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,7 +45,17 @@ export default function Editor() {
       </AppBar>
         <Container maxWidth="lg" className={classes.container}>
             <Grid container spacing={5}>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
+                  <Card className={classes.root} variant="outlined">
+                          <CardContent>
+                            <Typography className={classes.title} style={{ fontSize: 25 }}>
+                              Messages from Admin
+                            </Typography>
+                            <ViewEditorNotifications/>
+                          </CardContent>
+                  </Card>                  
+                </Grid>
+                <Grid item xs={6}>
                     <Card className={classes.root} variant="outlined">
                         <CardContent>
                             <Typography className={classes.title} style={{ fontSize: 25 }}>
@@ -74,6 +85,7 @@ export default function Editor() {
                         </CardContent>
                     </Card>
                 </Grid>
+                
             </Grid>
         </Container>
             

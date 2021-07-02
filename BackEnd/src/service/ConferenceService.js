@@ -188,6 +188,38 @@ const rejectSchedule = async (req, res) => {
       }
     }
   };
+
+  const viewCurrentConferenceForAdmin = async (req, res) => {
+    if (req.params.id) {
+      try {
+        const sortedPaperSchedule = await Conference.findById(req.params.id, {
+          researchPapers: 1,
+        })
+          .sort({ "researchPapers.startTime": 1 })
+          .populate("researchPapers.paper", "title url thumbnail conferenceRef createdAt updatedAt");
+  
+        const sortedWorkshopSchedule = await Conference.findById(req.params.id, {
+          workshops: 1,
+        })
+          .sort({ "workshops.startTime": 1 })
+          .populate("workshops.workshop", "title PresenterRef description presentationFileURL estimatedDuration");
+  
+        const startDate = await Conference.findById(req.params.id);
+        const endDate = await Conference.findById(req.params.id);
+  
+        const currentConference = {
+          sortedPaperSchedule,
+          sortedWorkshopSchedule,
+          startDate: startDate.startDate,
+          endDate: endDate.endDate,
+        };
+  
+        res.status(200).json({ conference: currentConference });
+      } catch (err) {
+        res.status(400).json({ err });
+      }
+    }
+  };
   
 
 module.exports = {
@@ -199,5 +231,6 @@ module.exports = {
   viewAllConferences,
   getSingleConfo,
   approveSchedule,
-  rejectSchedule
+  rejectSchedule,
+  viewCurrentConferenceForAdmin
 };

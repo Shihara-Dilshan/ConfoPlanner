@@ -72,7 +72,7 @@ export default function CompManageUsers() {
     try {
       await axios.get("http://localhost:5000/api/user/getall").then((res) => {
         let attendees = res.data.result.filter(
-          (user) => user.role === "Attendee" || "Editor" || "Reviewer"
+          (user) => user.role == "Attendee" || user.role == "Editor" || user.role == "Reviewer"
         );
         setUserRows(attendees);
       });

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
@@ -79,6 +79,34 @@ export default function CompShedule() {
     }
   }
 
+  function approveSchdule(Shedule) {
+    console.log(Shedule);
+    if (confirm("Are you sure?")) {
+      axios
+        .patch(
+          "http://localhost:5000/api/conferences/approve-schedule/60d76048aa132a4cf07b74dd",
+          Shedule
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            alert("Succeeded");
+          } else {
+            alert("Error Updating!");
+          }
+        })
+        .then(() => {
+          window.location.reload(false);
+        });
+    }
+  }
+
+  const history = useHistory();
+
+  const routeChange = (schedule) => {
+    let path = (`/admin/view-schedules/${schedule._id}`);
+    history.push(path);
+  };
+
   return (
     <React.Fragment>
       <Table>
@@ -138,7 +166,7 @@ export default function CompShedule() {
                 }
               })
               .map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row._id}>
                   <TableCell>{row.startTime}</TableCell>
                   <TableCell>{row.endTime}</TableCell>
                   {row.paper ? (
@@ -163,16 +191,15 @@ export default function CompShedule() {
                     <TableCell>Approved</TableCell>
                   )}
                   <TableCell align="right">
-                    <Link to="/admin/view-schedules">
-                      <Button
-                        className={classes.viewBtn}
-                        variant="contained"
-                        size="small"
-                        color="primary"
-                      >
-                        View
-                      </Button>
-                    </Link>
+                    <Button
+                      className={classes.viewBtn}
+                      onClick={ (e) =>routeChange(row)}
+                      variant="contained"
+                      size="small"
+                      color="primary"
+                    >
+                      View
+                    </Button>
                   </TableCell>
                   <TableCell align="right">
                     <Button
